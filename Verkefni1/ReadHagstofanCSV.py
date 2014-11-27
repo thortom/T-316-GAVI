@@ -31,7 +31,7 @@ class ReadHagstofanCSV:
                 for idx, month in enumerate(line):
                     if idx >= 12:                                               # Only need the 12 months the rest is repetition
                         break
-                    if month != '' and month != ' ':
+                    if self.isMonth(month):                                     # Used to filter empty values '' and ' '
                         self.months.append(month)
                         # print('appending -> ', month)
             # The rest should be the data, if the cells are not empty
@@ -101,5 +101,6 @@ class ReadHagstofanCSV:
 if __name__ == '__main__':
     test = ReadHagstofanCSV('Gistingar.csv')
     data = test.getData()
+    print(data)
     # TODO: do stuff with data...
     # The data manipulation should be done in another file
