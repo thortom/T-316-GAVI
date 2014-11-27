@@ -7,6 +7,7 @@ def getData(fileName):
 	# TODO: read this file
 	# stuff
 	# testing123
+	#Fuck you lárus
 	return title, data
 
 if __name__ == '__main__':
