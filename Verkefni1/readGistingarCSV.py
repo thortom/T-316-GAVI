@@ -1,5 +1,8 @@
 import csv
 
+# This one is not used...
+# use ReadHagstofanCSV.py instead
+
 def isNumber(s):
     try:
         float(s)

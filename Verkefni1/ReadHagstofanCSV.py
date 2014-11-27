@@ -1,5 +1,10 @@
 import csv
 
+# Example usage of ReadHagstofanCSV:
+#   test = ReadHagstofanCSV('Gistingar.csv')
+#   data = test.getData()
+#   # then do stuff with data...
+
 class ReadHagstofanCSV:
     validYears = range(1800,2100)
     validMonths = ['Janúar','Febrúar','Mars','Apríl','Maí','Júní','Júlí','Ágúst','September','Október','Nóvember']
