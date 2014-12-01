@@ -5,7 +5,9 @@ from matplotlib.ticker import FuncFormatter
 # import matplotlib.pyplot as plt
 
 class SlidePlot:
-    monthPlayed = {2009: 10-1, 2010: 10-1, 2011: 10-1, 2012: 10-1, 2013: 10-1}         # 'Oktober' == 10-1
+    monthPlayed = {1999: 10-1, 2000: 10-1, 2001: 10-1, 2002: 10-1, 2003: 10-1, 2004: 10-1,\
+                    2005: 10-1, 2006: 10-1, 2006: 10-1, 2007: 10-1, 2008: 10-1, 2009: 10-1,\
+                    2010: 10-1, 2011: 10-1, 2012: 10-1, 2013: 10-1}                     # 'Oktober' == 10-1
 
     def __init__(self, data, title):
         self.data = data
@@ -22,7 +24,6 @@ class SlidePlot:
         
         self.x = np.arange(len(self.data[self.yearDict[self.year0]]))
         barPlot = self.ax1.bar(self.x, self.data[self.yearDict[self.year0]])
-        # self.ax1.bar(10, self.data[self.yearDict[self.year0]][10], color='black')
         self.colorBar(self.ax1, self.year0)
         self.ax1.set_ybound(0, self.yMaxValue)
         plt.xticks(self.x + 0.5)
@@ -41,7 +42,7 @@ class SlidePlot:
         # print(slideYear.val)
         self.slideYear.val = int(round(self.slideYear.val))
         year = self.slideYear.val
-        self.ax1.cla()                                                               # Clear axis
+        self.ax1.cla()                                                                  # Clear axis
         barPlot = self.ax1.bar(self.x, self.data[self.yearDict[year]])
         self.ax1.set_ybound(0, self.yMaxValue)
         self.ax1.set_title(self.title + ", " + str(year))
