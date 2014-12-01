@@ -3,11 +3,15 @@ import numpy as np
 import pylab as plt
 from matplotlib.widgets import Slider
 from matplotlib.ticker import FuncFormatter
+from matplotlib.widgets import Button
 # import matplotlib.pyplot as plt
+
+
 
 import SlidePlot as plotter
 
 fileName = "GistingarAllt-MonthsVsYears.csv"    
+
 
 if __name__ == '__main__':
     reader = csvReader.ReadCSVRowHeader(fileName, 2, 2);
