@@ -1,5 +1,8 @@
 import csv
 
+# This one will not be used
+# use ReadCSVRowHeader.py instead
+
 # Example usage of ReadHagstofanCSV:
 #   test = ReadHagstofanCSV('Gistingar.csv')
 #   data = test.getData()
