@@ -8,67 +8,76 @@ import matplotlib.pyplot as plt
 monthPlayed = {1999: 10-1, 2000: 10-1, 2001: 10-1, 2002: 10-1, 2003: 10-1, 2004: 10-1,\
                 2005: 10-1, 2006: 10-1, 2006: 10-1, 2007: 10-1, 2008: 10-1, 2009: 10-1,\
                 2010: 10-1, 2011: 10-1, 2012: 11-1, 2013: 11-1, 2014: 11-1}                     # 'Oktober' == 10-1
-year0 =1999
 
-fileName = "SAM01103cm.csv" 
-Data = csvReader.ReadCSVRowHeader(fileName,3,2)
+FILENAME = "SAM01103cm.csv" 
 
-DfIsGesta, DfUtGesta, DfIsGisti, DfUtGisti = Data.getData()
+# Get The Data
+def get_Data():
+	Data = csvReader.ReadCSVRowHeader(FILENAME,3,2)
+	DfIsGesta, DfUtGesta, DfIsGisti, DfUtGisti = Data.getData()
+	GistiUt_AirW_With2014 = []
+	GistiIs_AirW_With2014 = []
+	Counter = 1
+	year_With2014 = []
+	for k,v in monthPlayed.items():
+		GistiIs_AirW_With2014.append(DfIsGisti[Counter][v])
+		GistiUt_AirW_With2014.append(DfUtGisti[Counter][v])
+		year_With2014.append(k)
+		Counter += 1
+	GistiIs_AirW = GistiIs_AirW_With2014[0:len(GistiIs_AirW_With2014)-1]
+	GistiUt_AirW = GistiUt_AirW_With2014[0:len(GistiIs_AirW_With2014)-1]
+	year = year_With2014[0:len(year_With2014)-1]
 
-GistiUt_AirW_With2014 = []
-GistiIs_AirW_With2014 = []
-Counter = 1
-year_With2014 = []
-
-for k,v in monthPlayed.items():
-	GistiIs_AirW_With2014.append(DfIsGisti[Counter][v])
-	GistiUt_AirW_With2014.append(DfUtGisti[Counter][v])
-	year_With2014.append(k)
-	Counter += 1
-
-GistiIs_AirW = GistiIs_AirW_With2014[0:len(GistiIs_AirW_With2014)-1]
-GistiUt_AirW = GistiUt_AirW_With2014[0:len(GistiIs_AirW_With2014)-1]
-year = year_With2014[0:len(year_With2014)-1]
+	return year, GistiUt_AirW, GistiIs_AirW
 
 # The Method of Least Sqaures
 
-A = np.vstack([year, np.ones(len(year))]).T
-w  = np.linalg.lstsq(A,GistiIs_AirW)[0] # Get Beta1 and Beta2 or y = a*x + b
-
-w2 = np.linalg.lstsq(A,GistiUt_AirW)[0]
-print(w)
-print(w2)
-
-year_np_array = np.array(year) 
-
-line = w[0]*year_np_array + w[1] # Cal the line 
-
-line2 = w2[0]*year_np_array + w2[1]
+def Least_Squares(year, GistiData):
+	A = np.vstack([year, np.ones(len(year))]).T
+	w  = np.linalg.lstsq(A,GistiData)[0] # Get Beta1 and Beta2 or y = a*x + b
+	year_np_array = np.array(year) 
+	line = w[0]*year_np_array + w[1] # Cal the line 
+	return line, w 
 
 
+def plot1(year, GistiData, line, title):
+	plt.figure(1)
+	plt.title('The Method of Least Squares: ' + title)
+	plt.plot(year,GistiData,'o', label = 'Original data', markersize = 5)
+	plt.plot(year, line, 'r', label = 'Fitted line')
+	plt.legend(loc = 2)
+	plt.show()
 
 
-plt.figure(1)
-plt.subplot(211)
-plt.title('The Method of Least Squares: Fyrir íslendinga')
-plt.plot(year,GistiIs_AirW,'o', label = 'Original data', markersize = 5)
-plt.plot(year, line, 'r', label = 'Fitted line')
-plt.legend(loc = 2)
+# Plot the Data together
+def plot2(year, GistiData1, GistiData2, line1, line2, title1, title2):
+	plt.figure(1)
+	plt.subplot(211)
+	plt.title('The Method of Least Squares: ' + title1)
+	plt.plot(year,GistiData1,'o', label = 'Original data', markersize = 5)
+	plt.plot(year, line1, 'r', label = 'Fitted line')
+	plt.legend(loc = 2)
 
-plt.subplot(212)
-plt.title('The Method of Least Squares: Fyrir útlendinga')
-plt.plot(year,GistiUt_AirW,'o', label = 'Original data', markersize = 5)
-plt.plot(year, line2, 'r', label = 'Fitted line')
-plt.legend(loc = 2)
-plt.show()
+	plt.subplot(212)
+	plt.title('The Method of Least Squares: ' + title2)
+	plt.plot(year,GistiData2,'o', label = 'Original data', markersize = 5)
+	plt.plot(year, line2, 'r', label = 'Fitted line')
+	plt.legend(loc = 2)
+	plt.show()
 
 # Correlation
+def Corre_Data(year, GistiData):
+	Corr = np.corrcoef(year,GistiData) # How good does the data fit the line
+	return Corr
 
-CorrIS = np.corrcoef(year,GistiIs_AirW) # How good does the data fit the line
-CorrUT = np.corrcoef(year,GistiUt_AirW) 
+year, GistiUt_AirW, GistiIs_AirW = get_Data()
+LineIs, wIS = Least_Squares(year, GistiIs_AirW)
+LineUt, wUt = Least_Squares(year, GistiUt_AirW)
 
-print(CorrIS[0][1]) 
-print(CorrUT[0][1])
+plot1(year, GistiIs_AirW, LineIs, 'Fyrir íslendinga')
+plot1(year, GistiUt_AirW, LineUt, 'Fyrir útlendinga')
 
-print(w[0]*2014+w[1])
-print(w2[0]*2014+w2[1])
+plot2(year, GistiIs_AirW, GistiUt_AirW,LineIs, LineUt, 'Fyrir íslendinga', 'Fyrir útlendinga' )
+
+
+
