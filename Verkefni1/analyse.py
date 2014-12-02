@@ -4,18 +4,19 @@ import pylab as plt
 from matplotlib.widgets import Slider
 from matplotlib.ticker import FuncFormatter
 from matplotlib.widgets import Button
-# import matplotlib.pyplot as plt
-
-
-
 import SlidePlot as plotter
+import pandas as pd
 
-fileName = "GistingarAllt-MonthsVsYears.csv"    
+fileName = "SAM01103cm.csv"                                                 # This is the Hagstofu file that we use
+                                                                            # All the data provided from Hagstofan is in the file
+                                                                            # The process was:
+                                                                            # TEXTASKRÁ -> Afmörkuð textaskrá án hauss -> Komma
 
 
 if __name__ == '__main__':
-    reader = csvReader.ReadCSVRowHeader(fileName, 2, 2);
-    dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti = reader.getData()
+    reader = csvReader.ReadCSVRowHeader(fileName, 3, 2);
+    dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti  = reader.getData()
+    self.dfAllsGesta, self.dfAllMonthsGesta, self.dfAllsGisti, self.dfAllMonthsGisti = reader.getSumData()
 
-    # plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
-    # plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
+    plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
+    plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
