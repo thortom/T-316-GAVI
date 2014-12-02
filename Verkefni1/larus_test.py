@@ -77,20 +77,22 @@ yMax *= 1.1
 
 
 sub1 = plt.subplot(2,1,1)
-plt.plot(array0,array1,'ro-',array0,array2,'go-')
+b1, = sub1.plot(array0,array1,'ro-')
+b2, = sub1.plot(array0,array2,'go-')
 plt.title('Gistinætur útlendinga í októbermánuði eftir árum')
 plt.ylabel('Gistinætur')
 plt.xlabel('Ár')
 sub1.set_ybound(0, yMax)
-sub1.legend("Rauntolur","Spá",ncol=1,fontsize='small')
+sub1.legend([b1,b2],['Rauntölur','Spá'],loc=4)
 
 sub2 = plt.subplot(2,1,2)
-plt.plot(array0,array3,'bo-',array0,array4,'ko-')
+b3, = sub2.plot(array0,array3,'ko-')
+b4, = sub2.plot(array0,array4,'bo-')
 plt.title('Gistinætur útlendinga í nóvembermánuði eftir árum')
 plt.ylabel('Gistinætur')
 plt.xlabel('Ár')
 sub2.set_ybound(0, yMax)
-sub2.legend('Rauntolur','Spá',ncol=1,fontsize='small')
+sub2.legend([b3,b4],['Rauntölur','Spá'],loc=4)
 
 plt.show()
 
