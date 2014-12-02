@@ -38,17 +38,22 @@ class SlidePlot:
         self.slideYear = Slider(axYear, 'Year', 1998, 2014, valinit=1998, valfmt='%0.0f')
 
         self.slideYear.on_changed(self.update)
+        b1 = self.ax1.bar([0,0,0],[0,0,0],color = "black", width = 0.4, label ="Bar 2", align = "center")
+        b2 = self.ax1.bar([0,0,0],[0,0,0],color = "blue", width = 0.4, label ="Bar 2", align = "center")
+        self.ax1.legend([b1,b2], [' Airwaves','!Airwaves'])
+
 
         self.axprev = plt.axes([0.4, 0.05, 0.1, 0.075])
         self.axnext = plt.axes([0.51, 0.05, 0.1, 0.075])
         self.bnext = Button(self.axnext, 'Next')
         self.bnext.on_clicked(self.next)
         self.bprev = Button(self.axprev, 'Previous')
+
         self.bprev.on_clicked(self.prev)
+        
         plt.show()
 
     def update(self, val):
-        # print(slideYear.val)
         self.slideYear.val = int(round(self.slideYear.val))
         year = self.slideYear.val
         self.ax1.cla()                                                                  # Clear axis
@@ -58,6 +63,9 @@ class SlidePlot:
         self.ax1.set_xticks(self.x + 0.5)
         self.ax1.set_xticklabels(['Jan','Feb','Mars','Apríl','Maí','Júní','Júlí','Ágúst','Sept','Okt','Nóv','Des'])
         self.colorBar(self.ax1, year)
+        b1 = self.ax1.bar([0,0,0],[0,0,0],color = "black", width = 0.4, label ="Bar 2", align = "center")
+        b2 = self.ax1.bar([0,0,0],[0,0,0],color = "blue", width = 0.4, label ="Bar 2", align = "center")
+        self.ax1.legend([b1,b2], [' Airwaves','!Airwaves'])
 
         self.ax1.set_ybound(0, self.yMaxValue)
 

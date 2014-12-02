@@ -17,5 +17,5 @@ if __name__ == '__main__':
     reader = csvReader.ReadCSVRowHeader(fileName, 2, 2);
     dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti = reader.getData()
 
-    # plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
-    # plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
+    plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
+    plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
