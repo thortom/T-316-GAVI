@@ -5,6 +5,7 @@ import numpy as np
 class ReadCSVRowHeader:
 
     def __init__(self, fileName, numbDataRow, numbDataCol):
+
         islendingar = []
         utlendingar = []
         alls        = []
@@ -25,11 +26,11 @@ class ReadCSVRowHeader:
 
         self.dfUtlendingarGesta, self.dfUtlendingarGisti = self.splitforCol(utlendingar, numbDataCol)
         self.dfIslendingarGesta, self.dfIslendingarGisti = self.splitforCol(islendingar, numbDataCol)
-        self.dfAllsGesta, self.dfAllsGisti               = self.splitforCol(alls, numbDataCol)
-        self.dfAllMonthsGesta, self.dfAllMonthsGisti     = self.splitforCol(allMonths, numbDataCol)
+        self.dfAllsGesta, self.dfAllsGisti = self.splitforCol(alls, numbDataCol)
+        self.dfAllMonthsGesta, self.dfAllMonthsGisti = self.splitforCol(allMonths, numbDataCol)
 
     # TODO: make it dependent on numbDataCol, not hard coded for Gesta and Gisti
-    # This function splits every other column for Gistinætur and Gestakomur
+    # Splits every other column for Gistinætur and Gestakomur
     def splitforCol(self, data, numbDataCol):
         gesta = []
         gisti = []
