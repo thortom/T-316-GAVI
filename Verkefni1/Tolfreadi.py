@@ -10,8 +10,8 @@ monthPlayed = {1999: 10-1, 2000: 10-1, 2001: 10-1, 2002: 10-1, 2003: 10-1, 2004:
                 2010: 10-1, 2011: 10-1, 2012: 11-1, 2013: 11-1, 2014: 11-1}                     # 'Oktober' == 10-1
 year0 =1999
 
-fileName = "GistingarAllt-MonthsVsYears.csv" 
-Data = csvReader.ReadCSVRowHeader(fileName,2,2)
+fileName = "SAM01103cm.csv" 
+Data = csvReader.ReadCSVRowHeader(fileName,3,2)
 
 DfIsGesta, DfUtGesta, DfIsGisti, DfUtGisti = Data.getData()
 
