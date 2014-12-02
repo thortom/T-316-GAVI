@@ -17,6 +17,7 @@ os.system('cls')
 #Get klarad 2014 likanid - profa seinna
 #Skoðum trend fyrir okt rauntölur vs okt septemberspá. eins fyrir nóv.
 #Til þess þarf ég array bara með októbertölum og annað bara með nóvembertölum, samtals 4 array
+#Prósentubundinn vöxtur á ári, gæti hermt með margliðu?
 i = 0
 okt = []
 okt_spa = []
@@ -55,10 +56,42 @@ pdarray2 = pd.DataFrame(array2,columns=['Október spá'],index=array0)
 pdarray3 = pd.DataFrame(array3,columns=['Nóvember rauntölur'],index=array0)
 pdarray4 = pd.DataFrame(array4,columns=['Nóvember spá'],index=array0)
 
-array4 = pd.concat([pdarray1,pdarray2,pdarray3,pdarray4],axis=1)
-print(array4)
+array5 = pd.concat([pdarray1,pdarray2,pdarray3,pdarray4],axis=1)
+print(array5)
 
-plt.plot(pdarray1)
+yMax1 = np.amax(array1)
+yMax2 = np.amax(array2)
+yMax3 = np.amax(array3)
+yMax4 = np.amax(array4)
+
+def max2(num1,num2):
+    if(num1 >= num2):
+        return num1
+    if(num2 > num1):
+        return num2
+
+yMaxf = max2(yMax1,yMax2)
+yMaxs = max2(yMax3,yMax4)
+yMax = max2(yMaxf,yMaxs)
+yMax *= 1.1
+
+
+sub1 = plt.subplot(2,1,1)
+plt.plot(array0,array1,'ro-',array0,array2,'go-')
+plt.title('Gistinætur útlendinga í októbermánuði eftir árum')
+plt.ylabel('Gistinætur')
+plt.xlabel('Ár')
+sub1.set_ybound(0, yMax)
+sub1.legend("Rauntolur","Spá",ncol=1,fontsize='small')
+
+sub2 = plt.subplot(2,1,2)
+plt.plot(array0,array3,'bo-',array0,array4,'ko-')
+plt.title('Gistinætur útlendinga í nóvembermánuði eftir árum')
+plt.ylabel('Gistinætur')
+plt.xlabel('Ár')
+sub2.set_ybound(0, yMax)
+sub2.legend('Rauntolur','Spá',ncol=1,fontsize='small')
+
 plt.show()
 
-#Er nuna kominn med arrayin sem mig vantar, naest er ad plotta thetta.
+#Þarf bara að fiffa legend og eitthvað smá núna
