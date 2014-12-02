@@ -15,17 +15,9 @@ fileName = "SAM01103cm.csv"                                                 # Th
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    reader = csvReader.ReadCSVRowHeader(fileName, 2, 2);
-    dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti = reader.getData()
-    stats = st.statistics(dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti)
-    # plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
-    # plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
-=======
     reader = csvReader.ReadCSVRowHeader(fileName, 3, 2);
     dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti  = reader.getData()
     self.dfAllsGesta, self.dfAllMonthsGesta, self.dfAllsGisti, self.dfAllMonthsGisti = reader.getSumData()
 
     plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
     plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
->>>>>>> 46859772e361528c72f52c0f34580b8e4b4e0674
