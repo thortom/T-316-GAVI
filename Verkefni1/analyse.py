@@ -8,6 +8,7 @@ from matplotlib.widgets import Button
 import SlidePlot as plotter
 import pandas as pd
 import Tolfreadi as Tol
+import Septspa as sp
 
 fileName = "SAM01103cm.csv"                                                 # This is the Hagstofu file that we use
                                                                             # All the data provided from Hagstofan is in the file
@@ -32,5 +33,6 @@ if __name__ == '__main__':
     #Least_Square_Is_Gisti.plot('Is best i Anus')
     #line, w = Least_Square_Is_Gisti.Least_Squares()
     #print(w)
+    #sp.septoktspa(dfUtlendingarGisti)
 
 
