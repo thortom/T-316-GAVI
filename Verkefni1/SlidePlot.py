@@ -83,7 +83,8 @@ class SlidePlot:
             self.slideYear.set_val(self.yearMin)
 
     def colorBar(self, ax, year):
-        month = self.monthPlayed.get(year, 11-1)                                    # Default is 'November' == 11-1
-        ax.bar(month, self.data[self.yearDict[year]][month], color='black')
+        month = self.monthPlayed.get(year, False)
+        if month:
+            ax.bar(month, self.data[self.yearDict[year]][month], color='black')
 
     
