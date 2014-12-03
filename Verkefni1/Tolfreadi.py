@@ -31,6 +31,7 @@ class Stats:
 		line = w[0]*year_np + w[1]
 		return line, w
 
+	# Plot
 
 	def plot(self, title):
 		plt.figure(1)
@@ -38,6 +39,8 @@ class Stats:
 		plt.plot(self.year_With2014, self.Data,'o', label = 'Original data', markersize = 5)
 		plt.plot(self.year_With2014, self.line,'r', label = 'Fitted line')
 		plt.legend(loc = 2)
+		plt.ylabel('Gistinætur')
+		plt.xlabel('Ár')
 		plt.show()
 
 	# Correlation

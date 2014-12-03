@@ -23,16 +23,20 @@ if __name__ == '__main__':
     dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti  = reader.getData()
     dfAllsGesta, dfAllMonthsGesta, dfAllsGisti, dfAllMonthsGisti = reader.getSumData()
 
-    # plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
-    # plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
+    plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
+    plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
 
-     #stats = st.statistics(dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti)
+    stats = st.statistics(dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti)
 
-     # Least Squares
+    # Least Squares
     Least_Square_Is_Gisti = Tol.Stats(dfIslendingarGisti,monthPlayed)
-    #Least_Square_Is_Gisti.plot('Is best i Anus')
-    #line, w = Least_Square_Is_Gisti.Least_Squares()
-    #print(w)
-    #sp.septoktspa(dfUtlendingarGisti)
+    Least_Square_Is_Gisti.plot('Íslendingar Gistinætur')
+    Least_Square_Ut_Gisti = Tol.Stats(dfUtlendingarGisti,monthPlayed)
+    Least_Square_Ut_Gisti.plot('Útlendingar Gistinætur')
+    line, w = Least_Square_Is_Gisti.Least_Squares()
+ 	
+    # 
+    sp.septoktspa(dfUtlendingarGisti)
+    sp.septoktspa(dfIslendingarGisti)
 
 
