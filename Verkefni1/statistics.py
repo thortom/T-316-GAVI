@@ -66,11 +66,11 @@ class statistics:
             pass
             #print(df.T[month][years])
 
-        fig = plt.figure('my plot')
+        plt.figure('my plot', figsize=(15, 9))
         for year in years:
             toPlot = df[year][months]
             toPlot.index=index
-            print(2013-year)
+            #print(2013-year)
             toPlot.plot()
 
         years.reverse()
