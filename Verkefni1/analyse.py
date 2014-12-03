@@ -17,6 +17,7 @@ fileName = "SAM01103cm.csv"                                                 # Th
 if __name__ == '__main__':
     reader = csvReader.ReadCSVRowHeader(fileName, 3, 2);
     dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti  = reader.getData()
+    
     dfAllsGesta, dfAllMonthsGesta, dfAllsGisti, dfAllMonthsGisti = reader.getSumData()
 
     # plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
