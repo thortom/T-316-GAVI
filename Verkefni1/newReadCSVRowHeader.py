@@ -30,7 +30,6 @@ class ReadCSVRowHeader:
         splitData = [[]]
         for i in range(numbDataCol-1):
             splitData.append([])
-        print(splitData)
 
         for i in range(len(data)):
             tempData = []
