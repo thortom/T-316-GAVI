@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 class statistics:
     def __init__(self, dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti):
@@ -69,5 +70,13 @@ class statistics:
         for year in years:
             toPlot = df[year][months]
             toPlot.index=index
+            print(2013-year)
             toPlot.plot()
+
+        years.reverse()
+        leg=np.asarray(years)
+        leg = 2013-leg
+        plt.legend(leg,loc='center left', bbox_to_anchor=(1, 0.5))
+        plt.xlabel('Mánuður')
+        plt.ylabel('Gistinætur')
         plt.show()
