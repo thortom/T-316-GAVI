@@ -2,17 +2,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 class statistics:
-    def __init__(self, dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti):
-        self.dfIGe = dfIslendingarGesta
-        self.dfUGe = dfUtlendingarGesta
-        self.dfIGi = dfIslendingarGisti
-        self.dfUGi = dfUtlendingarGisti
+    def __init__(self):
+        pass
 
-        #print(self.getAvIncr(self.dfUGi))
-        #print(self.getAvIncrMonth(self.dfUGi,3))
-        #print(self.dfUGi)
-        #self.plotLine(self.getMonth(self.dfUGi,9)) 
-        self.plotAll(self.dfUGi,months=[8,9,10,11])
     def getAvIncr(self,df):
         #Prints column 0, row 1
         #Prints year 1998, Februar
