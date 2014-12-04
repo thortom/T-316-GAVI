@@ -49,12 +49,16 @@ if __name__ == '__main__':
     line, w = Least_Square_Is_Gisti.Least_Squares()
     print('Spá fyrir gistnætum hjá íslendingum yfir Airwaves árið 2014')
     print(w[0]*2014+w[1])
+    print('y = %.5f * x + %.5f' %(w[0], w[1]))
+    print(w[0]*2014 + w[1])
 
     Least_Square_Ut_Gisti = Tol.Stats(dfUtlendingarGisti,monthPlayed)
     Least_Square_Ut_Gisti.plot('Úlendingar gistinætur')
     lineUt, wUt = Least_Square_Ut_Gisti.Least_Squares()
     print('Spá fyrir gistnætum hjá útlendingum yfir Airwaves árið 2014')
     print(wUt[0]*2014+wUt[1])
+    print(wUt[0]*2014 + wUt[1])
+    print('y = %.5f * x + %.5f' %(wUt[0], wUt[1]))
 
     # TODO: fix for hardcoded stuff
     sp.septoktspa(dfUtlendingarGisti,'október','nóvember','september')
