@@ -57,8 +57,8 @@ if __name__ == '__main__':
     print(wUt[0]*2014+wUt[1])
 
     # TODO: fix for hardcoded stuff
-    sp.septoktspa(dfUtlendingarGisti)
-    sp.septoktspa(dfIslendingarGisti)
+    sp.septoktspa(dfUtlendingarGisti,'október','nóvember','september')
+    sp.septoktspa(dfIslendingarGisti,'október','nóvember','september')
 
     stats = st.statistics(dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti)
     print(stats.getAvIncr(dfIslendingarGisti))
