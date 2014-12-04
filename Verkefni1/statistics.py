@@ -39,7 +39,7 @@ class statistics:
         plt.plot(df)
         plt.show()
 
-    def plotAll(self,df,months=None,years=None):
+    def plotAll(self,title,df,months=None,years=None):
         if months == None:
             months = list(range(len(df.index)))
         if years == None:
@@ -58,7 +58,8 @@ class statistics:
             pass
             #print(df.T[month][years])
 
-        plt.figure('my plot', figsize=(15, 9))
+        plt.figure(title, figsize=(15, 9))
+        plt.title(title)
         for year in years:
             toPlot = df[year][months]
             toPlot.index=index

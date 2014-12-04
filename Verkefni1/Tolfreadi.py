@@ -35,7 +35,7 @@ class Stats:
 
 	def plot(self, title):
 		plt.figure(1)
-		plt.title('The Method of least Sqaures ' + title)
+		plt.title('The Method of least Squares ' + title)
 		plt.plot(self.year_With2014, self.Data,'o', label = 'Original data', markersize = 5)
 		plt.plot(self.year_With2014, self.line,'r', label = 'Fitted line')
 		plt.legend(loc = 2)
