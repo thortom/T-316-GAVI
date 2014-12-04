@@ -62,8 +62,9 @@ if __name__ == '__main__':
     sp.septoktspa(dfUtlendingarGisti,'október','nóvember','september')
     sp.septoktspa(dfIslendingarGisti,'október','nóvember','september')
 
-    
+    print('\n\nÍslendingar gistinætur ')
     print(stats.getAvIncr(dfIslendingarGisti))
+    print('\n\nÚtlendingar gistinætur ')
     print(stats.getAvIncr(dfUtlendingarGisti))
 
     # Other file
@@ -72,6 +73,6 @@ if __name__ == '__main__':
 
     
     dfUtlendingarGisti = data[0][0]
+    print('\n\nÚtlendingar gistinætur ')
     print(stats.getAvIncr(dfUtlendingarGisti))
-    print(stats.getAvIncrMonth(dfUtlendingarGisti,3))
-    stats.plotAll('Útlendingar gistinætur',dfUtlendingarGisti, months = [8,9,10,11])
+    stats.plotAll('Útlendingar gistinætur ',dfUtlendingarGisti, months = [8,9,10,11])

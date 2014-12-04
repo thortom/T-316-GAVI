@@ -11,6 +11,7 @@ class statistics:
         #print(df[0][1])
 
         #Finds average increase for each month
+        print('Average increase per month from 1998-2013')
         averageIncrease = []
         for month in df.T:
             percentage = []
@@ -22,6 +23,12 @@ class statistics:
                         pass
             averageIncrease.append(round(sum(percentage)/len(percentage),1))
         dfAvIncr = pd.DataFrame(data = averageIncrease)
+        monthName={0:'Jan', 1:'Feb', 2:'Mars', 3:'April', 4:'May', 5:'Juni', 6:'July', 7:'Agust', 8:'September', 9:'Oktober', 10:'November', 11:'Desember'}
+        index=[]
+        for i in list(range(len(dfAvIncr.index))):
+            index.append(monthName[i])
+        dfAvIncr.index=index
+        dfAvIncr.column=['Average incr (%)']
         return(dfAvIncr)
 
     def getAvIncrMonth(self,df,month):
