@@ -50,6 +50,11 @@ class Application(tk.Frame):
         self.udead["command"] = self.slider2
         self.udead.pack(side="top")
 
+        self.funeral = tk.Button(self)
+        self.funeral["text"] = "Yfirlit fyrir gistinætur útlendinga 1998-2014"
+        self.funeral["command"] = self.linurit4
+        self.funeral.pack(side="top")
+
         self.QUIT = tk.Button(self, text="QUIT", fg="red", command=root.destroy)
         self.QUIT.pack(side="bottom")
 
@@ -144,6 +149,26 @@ class Application(tk.Frame):
         dfUtlendingarGesta, dfUtlendingarGisti = utlendingar[0], utlendingar[1]
         dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti = reader.getData()
         plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
+
+    def linurit4(self):
+        fileName2 = "SAM01601cm.csv"
+        sizeOfHeader2 = 2
+        numbDataInRow2 = 1
+        numbDataInCol2 = 2
+        reader = csvReader.ReadCSVRowHeader(fileName2, sizeOfHeader2, numbDataInRow2, numbDataInCol2)
+        data = reader.getDataArray()
+        alls = data[0]
+        islendingar = data[1]
+        utlendingar = data[2]
+        allMonths = data[3]
+        dfAllsGesta, dfAllsGisti = alls[0], alls[1]
+        dfIslendingarGesta, dfIslendingarGisti = islendingar[0], islendingar[1]
+        dfUtlendingarGesta, dfUtlendingarGisti = utlendingar[0], utlendingar[1]
+        dfAllMonthsGesta, dfAllMonthsGisti = allMonths[0], allMonths[1]
+        dfAllMonthsGesta, dfAllMonthsGisti = allMonths[0], allMonths[1] 
+        dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti = reader.getData()
+        plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
+
 
 root = tk.Tk()
 app = Application(master=root)
