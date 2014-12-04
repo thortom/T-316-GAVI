@@ -2,17 +2,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 class statistics:
-    def __init__(self, dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti):
-        self.dfIGe = dfIslendingarGesta
-        self.dfUGe = dfUtlendingarGesta
-        self.dfIGi = dfIslendingarGisti
-        self.dfUGi = dfUtlendingarGisti
+    def __init__(self):
+        pass
 
-        #print(self.getAvIncr(self.dfUGi))
-        #print(self.getAvIncrMonth(self.dfUGi,3))
-        #print(self.dfUGi)
-        #self.plotLine(self.getMonth(self.dfUGi,9)) 
-        self.plotAll(self.dfUGi,months=[8,9,10,11])
     def getAvIncr(self,df):
         #Prints column 0, row 1
         #Prints year 1998, Februar
@@ -47,7 +39,7 @@ class statistics:
         plt.plot(df)
         plt.show()
 
-    def plotAll(self,df,months=None,years=None):
+    def plotAll(self,title,df,months=None,years=None):
         if months == None:
             months = list(range(len(df.index)))
         if years == None:
@@ -66,7 +58,8 @@ class statistics:
             pass
             #print(df.T[month][years])
 
-        plt.figure('my plot', figsize=(15, 9))
+        plt.figure(title, figsize=(15, 9))
+        plt.title(title)
         for year in years:
             toPlot = df[year][months]
             toPlot.index=index
