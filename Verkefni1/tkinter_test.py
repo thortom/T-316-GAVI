@@ -16,6 +16,8 @@ import Septspa as sp
 monthPlayed = {1999: 10-1, 2000: 10-1, 2001: 10-1, 2002: 10-1, 2003: 10-1, 2004: 10-1,\
                 2005: 10-1, 2006: 10-1, 2006: 10-1, 2007: 10-1, 2008: 10-1, 2009: 10-1,\
                 2010: 10-1, 2011: 10-1, 2012: 11-1, 2013: 11-1, 2014: 11-1}
+fileName1 = "SAM01103cm.csv"
+fileName2 = "SAM01601cm.csv"
 
 class Application(tk.Frame):
     def __init__(self, parent=None):
@@ -24,9 +26,10 @@ class Application(tk.Frame):
         self.parent = parent
 
         self.parent.title("Airwaves")
-        self.setDataType1("SAM01103cm.csv")
-        self.setDataType2("SAM01601cm.csv")
+        self.setDataType1(fileName1)
+        self.setDataType2(fileName2)
         self.createWidgets()
+        self.var1.set(1)
 
     def createWidgets(self):
 
@@ -40,7 +43,7 @@ class Application(tk.Frame):
         self.fileType1 = tk.Entry(self, textvariable=self.fileVar1)
         self.fileType1.grid(row=0, column=2)
 
-        self.fileVar1.set("SAM01103cm.csv")
+        self.fileVar1.set(fileName1)
 
         self.var2 = tk.IntVar()
         self.dataType2 = tk.Checkbutton(self, text="Data Type 2", variable=self.var2)
@@ -51,8 +54,7 @@ class Application(tk.Frame):
         self.fileType2 = tk.Entry(self, textvariable=self.fileVar2)
         self.fileType2.grid(row=1, column=2)
 
-        self.fileVar2.set("SAM01601cm.csv")
-        # s = self.fileVar.get()
+        self.fileVar2.set(fileName2)
 
         self.uwotm8 = tk.Button(self)
         self.uwotm8["text"] = "Línurit fyrir gistinætur íslendinga"
@@ -65,27 +67,27 @@ class Application(tk.Frame):
         self.random.grid(row=1, column=0)
 
         self.dnolol = tk.Button(self)
-        self.dnolol["text"] = "Spá fyrir gistinætum hjá útlendingum yfir Airwaves árið 2014"
+        self.dnolol["text"] = "Spá fyrir gistinætum hjá útlendingum yfir Airwaves síðasta ár"
         self.dnolol["command"] = self.rit3
         self.dnolol.grid(row=2, column=0)
 
         self.immastabyou = tk.Button(self)
-        self.immastabyou["text"] = "Spá fyrir gistinætum hjá íslendingum yfir Airwaves árið 2014"
+        self.immastabyou["text"] = "Spá fyrir gistinætum hjá íslendingum yfir Airwaves síðasta ár"
         self.immastabyou["command"] = self.rit4
         self.immastabyou.grid(row=3, column=0)
 
         self.ubleednoob = tk.Button(self)
-        self.ubleednoob["text"] = "Sliderplot fyrir útlendingar gistikomur 1998-2014"
+        self.ubleednoob["text"] = "Sliderplot fyrir útlendingar gistikomur öll árin"
         self.ubleednoob["command"] = self.slider1
         self.ubleednoob.grid(row=4, column=0)
 
         self.udead = tk.Button(self)
-        self.udead["text"] = "Sliderplot fyrir útlendingar gestakomur 1998-2014"
+        self.udead["text"] = "Sliderplot fyrir útlendingar gestakomur öll árin"
         self.udead["command"] = self.slider2
         self.udead.grid(row=5, column=0)
 
         self.funeral = tk.Button(self)
-        self.funeral["text"] = "Yfirlit fyrir gistinætur útlendinga 1998-2014"
+        self.funeral["text"] = "Yfirlit fyrir gistinætur útlendinga öll árin"
         self.funeral["command"] = self.linurit4
         self.funeral.grid(row=6, column=0)
 
@@ -100,20 +102,23 @@ class Application(tk.Frame):
         fileName = self.fileVar1.get()
         self.setDataType1(fileName)
 
+        self.udead.grid()
+
     def changeDataType2(self):
         print('changeDataType2')
         self.var1.set(0)
         fileName = self.fileVar2.get()
-        self.setDataType1(fileName)
+        self.setDataType2(fileName)
+        # self.udead.pack_forget()
+        self.udead.grid_remove()
 
     def setDataType1(self, fileName):
-        fileName1 = "SAM01103cm.csv"
         sizeOfHeader1 = 2
         numbDataInRow1 = 3
         numbDataInCol1 = 2
-        reader = csvReader.ReadCSVRowHeader(fileName1, sizeOfHeader1, numbDataInRow1, numbDataInCol1)
+        reader = csvReader.ReadCSVRowHeader(fileName, sizeOfHeader1, numbDataInRow1, numbDataInCol1)
         data = reader.getDataArray()
-        
+
         self.alls = data[0]
         self.islendingar = data[1]
         self.utlendingar = data[2]
@@ -124,11 +129,10 @@ class Application(tk.Frame):
         self.dfUtlendingarGesta, self.dfUtlendingarGisti = self.utlendingar[0], self.utlendingar[1]
 
     def setDataType2(self, fileName):
-        fileName2 = "SAM01601cm.csv"
         sizeOfHeader2 = 2
         numbDataInRow2 = 1
         numbDataInCol2 = 2
-        reader = csvReader.ReadCSVRowHeader(fileName2, sizeOfHeader2, numbDataInRow2, numbDataInCol2)
+        reader = csvReader.ReadCSVRowHeader(fileName, sizeOfHeader2, numbDataInRow2, numbDataInCol2)
         data = reader.getDataArray()
 
         self.allMonths = data[1][0]
@@ -143,17 +147,14 @@ class Application(tk.Frame):
 
     def rit3(self):
         Least_Square_Ut_Gisti = Tol.Stats(self.dfUtlendingarGisti,monthPlayed)
+        Least_Square_Ut_Gisti.getPrediction()
         Least_Square_Ut_Gisti.plot('Úlendingar gistinætur')
-        lineUt, wUt = Least_Square_Ut_Gisti.Least_Squares()
-        print('Spá fyrir gistinætum hjá útlendingum yfir Airwaves árið 2014')
-        print(wUt[0]*2014+wUt[1])
 
     def rit4(self):
+        print(self.dfIslendingarGisti)
         Least_Square_Is_Gisti = Tol.Stats(self.dfIslendingarGisti,monthPlayed)
+        Least_Square_Is_Gisti.getPrediction()
         Least_Square_Is_Gisti.plot('Íslendingar gistinætur')
-        line, w = Least_Square_Is_Gisti.Least_Squares()
-        print('Spá fyrir gistinætum hjá íslendingum yfir Airwaves árið 2014')
-        print(w[0]*2014+w[1])
 
     def slider1(self):
         plotter.SlidePlot(self.dfUtlendingarGisti.T.values, "Útlendingar gistikomur")

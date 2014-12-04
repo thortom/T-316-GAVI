@@ -24,6 +24,7 @@ class ReadCSVRowHeader:
 
         for i in range(numbDataRow):
             self.data[i] = self.splitforCol(self.data[i], numbDataCol)
+        csvFile.close()
 
     # Splits every other column for Gistinætur and Gestakomur
     def splitforCol(self, data, numbDataCol):
