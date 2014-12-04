@@ -38,9 +38,11 @@ if __name__ == '__main__':
     dfIslendingarGesta, dfIslendingarGisti = islendingar[0], islendingar[1]
     dfUtlendingarGesta, dfUtlendingarGisti = utlendingar[0], utlendingar[1]
     dfAllMonthsGesta, dfAllMonthsGisti = allMonths[0], allMonths[1]
+    stats = st.statistics()
+
 
     # Plot data with slider plotter
-    plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
+    plotter.SlidePlot(dfUtlendingarGisti.T.values, "Útlendingar gistinætur")
     plotter.SlidePlot(dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
 
     # Least Squares
@@ -64,16 +66,17 @@ if __name__ == '__main__':
     sp.septoktspa(dfUtlendingarGisti,'október','nóvember','september')
     sp.septoktspa(dfIslendingarGisti,'október','nóvember','september')
 
-    stats = st.statistics(dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti)
+    print('\n\nÍslendingar gistinætur ')
     print(stats.getAvIncr(dfIslendingarGisti))
+    print('\n\nÚtlendingar gistinætur ')
     print(stats.getAvIncr(dfUtlendingarGisti))
 
     # Other file
     reader = csvReader.ReadCSVRowHeader(fileName2, sizeOfHeader2, numbDataInRow2, numbDataInCol2)
     data = reader.getDataArray()
 
-    stats = st.statistics(dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti)
+    
     dfUtlendingarGisti = data[0][0]
+    print('\n\nÚtlendingar gistinætur ')
     print(stats.getAvIncr(dfUtlendingarGisti))
-    print(stats.getAvIncrMonth(dfUtlendingarGisti,3))
-    stats.plotAll(dfUtlendingarGisti, months = [8,9,10,11])
+    stats.plotAll('Útlendingar gistinætur ',dfUtlendingarGisti, months = [8,9,10,11])

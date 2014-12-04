@@ -2,23 +2,16 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 class statistics:
-    def __init__(self, dfIslendingarGesta, dfUtlendingarGesta, dfIslendingarGisti, dfUtlendingarGisti):
-        self.dfIGe = dfIslendingarGesta
-        self.dfUGe = dfUtlendingarGesta
-        self.dfIGi = dfIslendingarGisti
-        self.dfUGi = dfUtlendingarGisti
+    def __init__(self):
+        pass
 
-        #print(self.getAvIncr(self.dfUGi))
-        #print(self.getAvIncrMonth(self.dfUGi,3))
-        #print(self.dfUGi)
-        #self.plotLine(self.getMonth(self.dfUGi,9)) 
-        self.plotAll(self.dfUGi,months=[8,9,10,11])
     def getAvIncr(self,df):
         #Prints column 0, row 1
         #Prints year 1998, Februar
         #print(df[0][1])
 
         #Finds average increase for each month
+        print('Average increase per month from 1998-2013')
         averageIncrease = []
         for month in df.T:
             percentage = []
@@ -30,6 +23,12 @@ class statistics:
                         pass
             averageIncrease.append(round(sum(percentage)/len(percentage),1))
         dfAvIncr = pd.DataFrame(data = averageIncrease)
+        monthName={0:'Jan', 1:'Feb', 2:'Mars', 3:'April', 4:'May', 5:'Juni', 6:'July', 7:'Agust', 8:'September', 9:'Oktober', 10:'November', 11:'Desember'}
+        index=[]
+        for i in list(range(len(dfAvIncr.index))):
+            index.append(monthName[i])
+        dfAvIncr.index=index
+        dfAvIncr.column=['Average incr (%)']
         return(dfAvIncr)
 
     def getAvIncrMonth(self,df,month):
@@ -47,7 +46,7 @@ class statistics:
         plt.plot(df)
         plt.show()
 
-    def plotAll(self,df,months=None,years=None):
+    def plotAll(self,title,df,months=None,years=None):
         if months == None:
             months = list(range(len(df.index)))
         if years == None:
@@ -66,7 +65,8 @@ class statistics:
             pass
             #print(df.T[month][years])
 
-        plt.figure('my plot', figsize=(15, 9))
+        plt.figure(title, figsize=(15, 9))
+        plt.title(title)
         for year in years:
             toPlot = df[year][months]
             toPlot.index=index
