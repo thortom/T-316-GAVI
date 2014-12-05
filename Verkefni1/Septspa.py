@@ -19,10 +19,13 @@ os.system('cls')
 #Til þess þarf ég array bara með októbertölum og annað bara með nóvembertölum, samtals 4 array
 class septoktspa:
     def __init__(self,dF,manudur1,manudur2,spa_manudur):
+        print('dF', dF)
         self.dF = dF
         self.manudur1 = manudur1
         self.manudur2 = manudur2
         self.spa_manudur = spa_manudur
+        self.monthName={'janúar':0,'febrúar':1,'mars':2,'apríl':3,'maí':4,'júní':5,'júlí':6,'ágúst':7,'september':8,'október':9,'nóvember': 10,'desember':11}
+        
         self.test(dF,manudur1,manudur2,spa_manudur)
 
     def test(self,dF,manudur1,manudur2,spa_manudur):
@@ -84,37 +87,20 @@ class septoktspa:
         ar = 1998
         arlisti = []
         def manudur_i_tolu(manudur):
-            if manudur == 'janúar':
-                return 0
-            if manudur == 'febrúar':
-                return 1
-            if manudur == 'mars':
-                return 2
-            if manudur == 'apríl':
-                return 3
-            if manudur == 'maí':
-                return 4
-            if manudur == 'júní':
-                return 5
-            if manudur == 'júlí':
-                return 6
-            if manudur == 'ágúst':
-                return 7
-            if manudur == 'september':
-                return 8
-            if manudur == 'október':
-                return 9
-            if manudur == 'nóvember':
-                return 10
-            if manudur == 'desember':
-                return 11
-            print('Skrifaðu mánuðinn á íslensku í lágstöfum')
-            return 0   
+            manudurValue = self.monthName.get(manudur, -1)
+            if manudurValue != -1:
+                return manudurValue
+            else:
+                print('Skrifaðu mánuðinn á íslensku í lágstöfum')
+                return 0   
         man1tala = manudur_i_tolu(manudur1)
         man2tala = manudur_i_tolu(manudur2)
         spamantala = manudur_i_tolu(spa_manudur)
         dftest = dF.copy()
-        for num in range(0,16):
+        print('len(dftest)',len(dftest))
+        print('len(dftest.T)',len(dftest.T))
+        numbOfYears = len(dftest.T) - 1 
+        for num in range(numbOfYears):
             num2 = num+1
             hlutfall = dftest[num2][spamantala] / dftest[num][spamantala]
             dftest[num2][man1tala] = hlutfall * dftest[num][man1tala]
