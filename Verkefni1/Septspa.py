@@ -19,6 +19,7 @@ os.system('cls')
 #Til þess þarf ég array bara með októbertölum og annað bara með nóvembertölum, samtals 4 array
 class septoktspa:
     def __init__(self,dF,manudur1,manudur2,spa_manudur):
+        print('dF', dF)
         self.dF = dF
         self.manudur1 = manudur1
         self.manudur2 = manudur2
@@ -96,7 +97,10 @@ class septoktspa:
         man2tala = manudur_i_tolu(manudur2)
         spamantala = manudur_i_tolu(spa_manudur)
         dftest = dF.copy()
-        for num in range(0,16):
+        print('len(dftest)',len(dftest))
+        print('len(dftest.T)',len(dftest.T))
+        numbOfYears = len(dftest.T) - 1 
+        for num in range(numbOfYears):
             num2 = num+1
             hlutfall = dftest[num2][spamantala] / dftest[num][spamantala]
             dftest[num2][man1tala] = hlutfall * dftest[num][man1tala]

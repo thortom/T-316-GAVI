@@ -13,10 +13,12 @@ class statistics:
         #Finds average increase for each month
         print('Average increase per month from 1998-2013')
         averageIncrease = []
+        self.yearMin = 1998
+        self.yearMax = self.yearMin + len(df.T)-1
         for month in df.T:
             percentage = []
             for year in df:
-                if year!=15:
+                if year!= (self.yearMax-self.yearMin):   #15
                     try:
                         percentage.append(int(100*df[year+1][month]/df[year][month])-100)
                     except:
@@ -28,17 +30,16 @@ class statistics:
         for i in list(range(len(dfAvIncr.index))):
             index.append(monthName[i])
         dfAvIncr.index=index
-        dfAvIncr.column=['Average incr (%)']
+        dfAvIncr.columns=['Average incr (%)']
         return(dfAvIncr)
 
     def getAvIncrMonth(self,df,month):
         dfAvIncr = self.getAvIncr(df)
-        return(dfAvIncr[0][month])
+        return(dfAvIncr['Average incr (%)'][month])
 
     def getMonth(self,df,month,years = None):
         if years == None:
             years = list(range(len(df.columns)))
-            #print(years)
         return(df[years][month])
 
     def plotLine(self,df):
@@ -75,7 +76,7 @@ class statistics:
 
         years.reverse()
         leg=np.asarray(years)
-        leg = 2013-leg
+        leg = (self.yearMax-1)-leg                                      # Skip the last year missing last months of data
         plt.legend(leg,loc='center left', bbox_to_anchor=(1, 0.5))
         plt.xlabel('Mánuður')
         plt.ylabel('Gistinætur')

@@ -9,17 +9,33 @@ import matplotlib.pyplot as plt
 
 class Stats:
 
-    def __init__(self, DfData, Month):
+    def __init__(self, DfData, monthPlayed):
         self.Data = []
         self.Counter = 1
         self.year_With2014 = []
-        for k,v in Month.items():
-            self.Data.append(DfData[self.Counter][v])
-            self.year_With2014.append(k)
-            self.Counter += 1
-        if self.Data[len(self.Data)-1] == 0:
-            self.Data = self.Data[0:len(self.Data)-1]
-            self.year_With2014 = self.year_With2014[0:len(self.year_With2014)-1]
+        self.yearMin = 1998
+
+        yearCounter = self.yearMin
+        for item in DfData.T.iterrows():
+            yearCounter += 1
+            month = monthPlayed.get(yearCounter, False)
+            item = list(item[1])
+            if month and item[month] != 0:
+                self.Data.append(item[month])
+                self.year_With2014.append(yearCounter)
+
+        # for k,v in monthPlayed.items():
+        #     # print('v',v)
+        #     self.Data.append(DfData[self.Counter][v])
+        #     self.year_With2014.append(k)
+        #     self.Counter += 1
+        # if self.Data[len(self.Data)-1] == 0:
+        #     self.Data = self.Data[0:len(self.Data)-1]
+        #     self.year_With2014 = self.year_With2014[0:len(self.year_With2014)-1]
+
+        # print('years', self.year_With2014)
+        # print('Data', self.Data)
+
         self.line, self.w = self.Least_Squares()
 
     # The Method of Least Sqaures

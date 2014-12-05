@@ -5,19 +5,18 @@ from matplotlib.ticker import FuncFormatter
 # import matplotlib.pyplot as plt
 
 
-#TODO Make a legend for information
-
 class SlidePlot:
-    monthPlayed = {1999: 10-1, 2000: 10-1, 2001: 10-1, 2002: 10-1, 2003: 10-1, 2004: 10-1,\
-                    2005: 10-1, 2006: 10-1, 2006: 10-1, 2007: 10-1, 2008: 10-1, 2009: 10-1,\
-                    2010: 10-1, 2011: 10-1, 2012: 11-1, 2013: 11-1, 2014: 11-1}                     # 'Oktober' == 10-1
     xticklabels = ['Jan','Feb','Mars','Apríl','Maí','Júní','Júlí','Ágúst','Sept','Okt','Nóv','Des']
 
-    def __init__(self, data, title):
+    def __init__(self, data, title, monthPlayed):
         self.data = data
         self.title = title
+        self.monthPlayed = monthPlayed
         self.yearMin = 1998
-        self.yearMax = 2014
+        self.yearMax = self.yearMin
+        for i in self.data:
+            self.yearMax += 1
+        self.yearMax = self.yearMax-1                                               # The for loop does one to many
 
         self.yearDict = dict(zip(range(self.yearMin, self.yearMax+1), range(0, (self.yearMax+1) - self.yearMin)))
         self.yMaxValue = np.amax(self.data) + np.amax(self.data)*0.1
@@ -32,7 +31,7 @@ class SlidePlot:
         # Create the slider bar
         axcolor = 'lightgoldenrodyellow'
         yearAxis = plt.axes([0.18, 0.2, 0.65, 0.03], axisbg=axcolor)
-        self.slideYear = Slider(yearAxis, 'Year', 1998, 2014, valinit=1998, valfmt='%0.0f')
+        self.slideYear = Slider(yearAxis, 'Year', self.yearMin, self.yearMax, valinit=self.yearMin, valfmt='%0.0f')
 
         self.slideYear.on_changed(self.update)                                      # on_changed() method checks for changes in the slider
 
@@ -72,13 +71,13 @@ class SlidePlot:
 
     def next(self, val):
         if self.slideYear.val < self.yearMax:
-            self.slideYear.set_val(self.slideYear.val + 1)                          # .set_val calls the update() function for the 
+            self.slideYear.set_val(self.slideYear.val + 1)                          # .set_val calls() the update() function for the slider
         else:
             self.slideYear.set_val(self.yearMax)
 
     def prev(self,val):
         if self.slideYear.val > self.yearMin:
-            self.slideYear.set_val(self.slideYear.val - 1)                          # .set_val calls the update() function for the slider
+            self.slideYear.set_val(self.slideYear.val - 1)                          # .set_val calls() the update() function for the slider
         else:
             self.slideYear.set_val(self.yearMin)
 
