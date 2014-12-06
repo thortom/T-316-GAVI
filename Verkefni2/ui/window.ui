@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>480</height>
+    <width>632</width>
+    <height>521</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,37 +17,325 @@
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>30</y>
-      <width>256</width>
-      <height>192</height>
+      <x>240</x>
+      <y>60</y>
+      <width>291</width>
+      <height>381</height>
      </rect>
     </property>
    </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>40</x>
       <y>60</y>
-      <width>160</width>
+      <width>161</width>
       <height>103</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0">
-      <widget class="QComboBox" name="comboBox_2"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QComboBox" name="comboBox_3"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QComboBox" name="comboBox_1"/>
-     </item>
-     <item row="4" column="0">
+     <item row="5" column="0">
       <widget class="QPushButton" name="genTop10">
        <property name="text">
         <string>Generate top 10 list</string>
        </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QComboBox" name="comboBox_2">
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Action</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Adventure</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Animation</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Children's</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Comedy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Crime</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Documentary</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Drama</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Fantasy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Film-Noir</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Horror</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Musical</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Mystery</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Romance</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Sci-fi</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Thriller</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>War</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Western</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QComboBox" name="comboBox_1">
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Action</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Adventure</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Animation</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Children's</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Comedy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Crime</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Documentary</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Drama</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Fantasy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Film-Noir</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Horror</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Musical</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Mystery</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Romance</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Sci-fi</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Thriller</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>War</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Western</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QComboBox" name="comboBox_3">
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Action</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Adventure</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Animation</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Children's</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Comedy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Crime</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Documentary</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Drama</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Fantasy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Film-Noir</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Horror</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Musical</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Mystery</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Romance</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Sci-fi</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Thriller</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>War</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Western</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -58,7 +346,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>640</width>
+     <width>632</width>
      <height>21</height>
     </rect>
    </property>
