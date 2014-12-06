@@ -17,8 +17,8 @@
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>60</y>
+      <x>320</x>
+      <y>40</y>
       <width>291</width>
       <height>381</height>
      </rect>
@@ -28,24 +28,17 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>60</y>
-      <width>161</width>
-      <height>103</height>
+      <y>70</y>
+      <width>201</width>
+      <height>129</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="5" column="0">
-      <widget class="QPushButton" name="genTop10">
-       <property name="text">
-        <string>Generate top 10 list</string>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="0">
       <widget class="QComboBox" name="comboBox_2">
        <item>
         <property name="text">
-         <string/>
+         <string>Pick a genre</string>
         </property>
        </item>
        <item>
@@ -144,7 +137,7 @@
       <widget class="QComboBox" name="comboBox_1">
        <item>
         <property name="text">
-         <string/>
+         <string>Pick a genre</string>
         </property>
        </item>
        <item>
@@ -243,7 +236,7 @@
       <widget class="QComboBox" name="comboBox_3">
        <item>
         <property name="text">
-         <string/>
+         <string>Pick a genre</string>
         </property>
        </item>
        <item>
@@ -338,7 +331,192 @@
        </item>
       </widget>
      </item>
+     <item row="6" column="0">
+      <widget class="QPushButton" name="genTop10">
+       <property name="text">
+        <string>Generate list</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QComboBox" name="comboBox_4">
+       <item>
+        <property name="text">
+         <string>Top 10</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top 20</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top 30</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top 50</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top 75</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top 100</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top 150</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top 200</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Top 250</string>
+        </property>
+       </item>
+      </widget>
+     </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>30</y>
+      <width>131</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Top list generator</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>270</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Please enter a UserID</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>300</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Please write the title or ID of your movie</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>390</y>
+      <width>201</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Generate rating prediction</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>360</y>
+      <width>201</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Generate random UserID and MovieID</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>330</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>MovieID</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_2">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>330</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Movie title</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>30</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout"/>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>240</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Rating prediction</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
