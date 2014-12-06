@@ -24,6 +24,7 @@ class import_data():
         if file == "movies.dat":
             df = pd.read_csv('data/'+file,delimiter='::', header=None,engine='python')
             #print(df)
-        return df
+            return df
+        return None
 
 
