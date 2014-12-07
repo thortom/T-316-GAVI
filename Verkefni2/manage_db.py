@@ -4,6 +4,7 @@ from import_data import import_data
 import pandas as pd
 import sqlalchemy as sqlc 
 from pandas.io import sql
+import random
 
 class manage_db():
     def __init__(self,host,database, user, password):
@@ -37,7 +38,10 @@ class manage_db():
         # print(cur.fetchall())
         engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
         Title = pd.read_sql_table('tafla', engine, columns = ['Title'])
-        print(type(Title))
+        row,col = Title.shape
+        rand = random.randint(0,row)
+        return Title.at[rand,'Title']
+        #print(Title)
 
 
     def insertTable(self):
