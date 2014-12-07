@@ -15,9 +15,9 @@ class manage_db():
             return con
 
         except psycopg2.DatabaseError as e:
-            if con:
-                con.rollback()
-                print("Roll back")
+            # if con:                                                               # We either use autocommit or commit and rollback
+            #     con.rollback()
+            #     print("Roll back")
             print('Error %s' % e)
             sys.exit(1)
         except:
