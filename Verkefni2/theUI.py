@@ -17,6 +17,7 @@ class Main(QtGui.QMainWindow):
         self.ui.genTop10.clicked.connect(self.genTop10_Clicked)
         self.ui.Gen_rating_btn.clicked.connect(self.Gen_rating_btn_Clicked)
         self.ui.Gen_ran_btn.clicked.connect(self.Gen_ran_btn_Clicked)
+        self.ui.Gen_Random_Movie_btn.clicked.connect(self.Gen_Random_Movie_btn_Clicked)
         self.mydb = mydb
 
     def genTop10_Clicked(self):
@@ -62,5 +63,8 @@ class Main(QtGui.QMainWindow):
     def Gen_ran_btn_Clicked(self):
         self.ui.User_Line.setText('Arnar Ingi')
         self.ui.Movie_line.setText('Backdoor sluts 9 ')
+
+    def Gen_Random_Movie_btn_Clicked(self):
+        print('He')
 
     #def loadCatagories(self,listOfCatagories):

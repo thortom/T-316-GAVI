@@ -69,6 +69,9 @@ class import_data():
         else:
             print('Error: .dat file {} found but not read'.format(fileName))
 
+    def ReturnMovieData():
+    	return self.moviesData
+
 
 if __name__ == '__main__':
     import_data()
