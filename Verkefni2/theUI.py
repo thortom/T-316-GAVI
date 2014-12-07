@@ -15,6 +15,8 @@ class Main(QtGui.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.genTop10.clicked.connect(self.genTop10_Clicked)
+        self.ui.Gen_rating_btn.clicked.connect(self.Gen_rating_btn_Clicked)
+        self.ui.Gen_ran_btn.clicked.connect(self.Gen_ran_btn_Clicked)
         self.mydb = mydb
 
     def genTop10_Clicked(self):
@@ -52,5 +54,13 @@ class Main(QtGui.QMainWindow):
             self.ui.textBrowser.append("Here's your general "+toplist+" list:")
         if num >= 1:
             self.ui.textBrowser.append("\nHere's your "+toplist+" list:")
+
+    def Gen_rating_btn_Clicked(self):
+        UserID = self.ui.User_Line.text()
+        Movie = self.ui.Movie_line.text()
+        self.ui.textBrowser.append("Looks like "+UserID+" Will rate "+Movie+"10/10 !")
+    def Gen_ran_btn_Clicked(self):
+        self.ui.User_Line.setText('Arnar Ingi')
+        self.ui.Movie_line.setText('Backdoor sluts 9 ')
 
     #def loadCatagories(self,listOfCatagories):
