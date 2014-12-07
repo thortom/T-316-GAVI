@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>632</width>
-    <height>521</height>
+    <width>638</width>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="3" column="0">
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="Genre_2_dropdown">
        <item>
         <property name="text">
          <string>Pick a genre</string>
@@ -134,7 +134,7 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QComboBox" name="comboBox_1">
+      <widget class="QComboBox" name="Genre_1_dropdown">
        <item>
         <property name="text">
          <string>Pick a genre</string>
@@ -233,7 +233,7 @@
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QComboBox" name="comboBox_3">
+      <widget class="QComboBox" name="Genre_3_dropdown">
        <item>
         <property name="text">
          <string>Pick a genre</string>
@@ -339,7 +339,7 @@
       </widget>
      </item>
      <item row="5" column="0">
-      <widget class="QComboBox" name="comboBox_4">
+      <widget class="QComboBox" name="Top_x_dropdown">
        <item>
         <property name="text">
          <string>Top 10</string>
@@ -409,7 +409,7 @@
      <string>Top list generator</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="User_Line">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -422,7 +422,7 @@
      <string>Please enter a UserID</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="Movie_line">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -435,7 +435,7 @@
      <string>Please write the title or ID of your movie</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Gen_rating_btn">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -448,7 +448,7 @@
      <string>Generate rating prediction</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="Gen_ran_btn">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -461,7 +461,7 @@
      <string>Generate random UserID and MovieID</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="MovieID_checkbox">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -473,11 +473,17 @@
     <property name="text">
      <string>MovieID</string>
     </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+    <property name="autoExclusive">
+     <bool>false</bool>
+    </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_2">
+   <widget class="QCheckBox" name="MovieTitle_checkbox">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>120</x>
       <y>330</y>
       <width>70</width>
       <height>17</height>
@@ -524,7 +530,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>632</width>
+     <width>638</width>
      <height>21</height>
     </rect>
    </property>
@@ -532,5 +538,38 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>MovieID_checkbox</sender>
+   <signal>clicked()</signal>
+   <receiver>MovieTitle_checkbox</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>358</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>168</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MovieTitle_checkbox</sender>
+   <signal>clicked()</signal>
+   <receiver>MovieID_checkbox</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>354</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>60</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
