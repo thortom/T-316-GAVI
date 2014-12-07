@@ -2,20 +2,14 @@ import tkinter as tk
 import ttk as ttk
 import newReadCSVRowHeader as csvReader
 import statistics as st
-import numpy as np
-import pylab as plt
-from matplotlib.widgets import Slider
-from matplotlib.ticker import FuncFormatter
-from matplotlib.widgets import Button
-import SlidePlot as plotter
-import pandas as pd
 import Tolfreadi as Tol
 import Septspa as sp
+import SlidePlot as plotter
 
 # TODO: read this from file, test for default
 monthPlayed = {1999: 10-1, 2000: 10-1, 2001: 10-1, 2002: 10-1, 2003: 10-1, 2004: 10-1,\
-                2005: 10-1, 2006: 10-1, 2006: 10-1, 2007: 10-1, 2008: 10-1, 2009: 10-1,\
-                2010: 10-1, 2011: 10-1, 2012: 11-1, 2013: 11-1, 2014: 11-1}
+                    2005: 10-1, 2006: 10-1, 2006: 10-1, 2007: 10-1, 2008: 10-1, 2009: 10-1,\
+                    2010: 10-1, 2011: 10-1, 2012: 11-1, 2013: 11-1, 2014: 11-1}                     # 'Oktober' == 10-1
 fileName1 = "SAM01103cm.csv"
 fileName2 = "SAM01601cm.csv"
 
@@ -27,13 +21,10 @@ class Application(tk.Frame):
 
         self.parent.title("Airwaves")
         self.setDataType1(fileName1)
-        self.setDataType2(fileName2)
         self.createWidgets()
         self.var1.set(1)
 
     def createWidgets(self):
-
-        # TODO: Fix layout http://zetcode.com/gui/tkinter/layout/
         self.var1 = tk.IntVar()
         self.dataType1 = tk.Checkbutton(self, text="Data Type 1", variable=self.var1)
         self.dataType1["command"] = self.changeDataType1
@@ -77,10 +68,11 @@ class Application(tk.Frame):
         self.immastabyou.grid(row=3, column=0)
 
         self.ubleednoob = tk.Button(self)
-        self.ubleednoob["text"] = "Sliderplot fyrir útlendingar gistikomur öll árin"
+        self.ubleednoob["text"] = "Sliderplot fyrir útlendingar gistinætur öll árin"
         self.ubleednoob["command"] = self.slider1
         self.ubleednoob.grid(row=4, column=0)
 
+        # This option is only for data type 1
         self.udead = tk.Button(self)
         self.udead["text"] = "Sliderplot fyrir útlendingar gestakomur öll árin"
         self.udead["command"] = self.slider2
@@ -97,20 +89,18 @@ class Application(tk.Frame):
         self.pack()
 
     def changeDataType1(self):
-        print('changeDataType1')
         self.var2.set(0)
         fileName = self.fileVar1.get()
         self.setDataType1(fileName)
-
         self.udead.grid()
+        print('\nUsing the data from file:\n\t', fileName)
 
     def changeDataType2(self):
-        print('changeDataType2')
         self.var1.set(0)
         fileName = self.fileVar2.get()
         self.setDataType2(fileName)
-        # self.udead.pack_forget()
         self.udead.grid_remove()
+        print('\nUsing the data from file:\n\t', fileName)
 
     def setDataType1(self, fileName):
         sizeOfHeader1 = 2
@@ -136,8 +126,8 @@ class Application(tk.Frame):
         data = reader.getDataArray()
 
         self.allMonths = data[1][0]
-        self.dfUtlendingar = data[0][0]
-        self.dfIslendingar = data[1][0]
+        self.dfUtlendingarGisti = data[0][0]
+        self.dfIslendingarGisti = data[0][1]
 
     def linurit1(self):
         sp.septoktspa(self.dfIslendingarGisti,'október','nóvember','september')
@@ -146,27 +136,26 @@ class Application(tk.Frame):
         sp.septoktspa(self.dfUtlendingarGisti,'október','nóvember','september')
 
     def rit3(self):
-        Least_Square_Ut_Gisti = Tol.Stats(self.dfUtlendingarGisti,monthPlayed)
+        Least_Square_Ut_Gisti = Tol.Stats(self.dfUtlendingarGisti, monthPlayed)
         Least_Square_Ut_Gisti.getPrediction()
         Least_Square_Ut_Gisti.plot('Úlendingar gistinætur')
 
     def rit4(self):
-        print(self.dfIslendingarGisti)
-        Least_Square_Is_Gisti = Tol.Stats(self.dfIslendingarGisti,monthPlayed)
+        Least_Square_Is_Gisti = Tol.Stats(self.dfIslendingarGisti, monthPlayed)
         Least_Square_Is_Gisti.getPrediction()
         Least_Square_Is_Gisti.plot('Íslendingar gistinætur')
 
     def slider1(self):
-        plotter.SlidePlot(self.dfUtlendingarGisti.T.values, "Útlendingar gistikomur")
+        plotter.SlidePlot(self.dfUtlendingarGisti.T.values, "Útlendingar gistinætur", monthPlayed)
 
     def slider2(self):
-        plotter.SlidePlot(self.dfUtlendingarGesta.T.values, "Útlendingar gestakomur")
+        plotter.SlidePlot(self.dfUtlendingarGesta.T.values, "Útlendingar gestakomur", monthPlayed)
 
     def linurit4(self):
         stats = st.statistics()
-        print(stats.getAvIncr(self.dfUtlendingar))
-        print(stats.getAvIncrMonth(self.dfUtlendingar,3))
-        stats.plotAll('Útlendingar gistinætur',self.dfUtlendingar, months = [8,9,10,11])
+        print(stats.getAvIncr(self.dfUtlendingarGisti))
+        print(stats.getAvIncrMonth(self.dfUtlendingarGisti,3))
+        stats.plotAll('Útlendingar gistinætur',self.dfUtlendingarGisti, months = [8,9,10,11])
 
 
 def main():
