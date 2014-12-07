@@ -11,6 +11,7 @@ class manage_db():
         try:
             con = psycopg2.connect(host = host, database=database, user=user, password=password)
             print('Connection established')
+            con.autocommit = True                                                   # This is done to skip #con.commit()
             return con
 
         except psycopg2.DatabaseError as e:
