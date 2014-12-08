@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import psycopg2
 import sys
 from import_data import import_data
@@ -51,21 +52,56 @@ class manage_db():
         return cur.fetchall()
 
     def getRandomMovie(self):
-        # engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
-        # Title = pd.read_sql_table('tafla', engine, columns = ['Title'])
-        # row,col = Title.shape
-        # rand = random.randint(0,row)
-        # return Title.at[rand,'Title']
-        # #print(Title)
+        engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
+        Title = pd.read_sql_table('tafla', engine, columns = ['Title'])
+        row,col = Title.shape
+        
+        cur = self.connection.cursor()
+        print(pd.read_sql_query('Select title From tepppi', engine))
+        cur.execute("SELECT Title From tepppi Where Year >= 2007")
+        row = cur.fetchall()
+        print(pd.DataFrame(row))
+        print(len(row))
+        rand = random.randint(0,len(row))
+        # print(row[rand])
+        return row[rand][0]
+        #print(Title)
 
         # TODO:
         pass
 
 
-    def insertTables(self, data):
-        cur = self.connection.cursor()
+
+    def insertTable(self, data):
+        engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
+
         con = self.connection
-        
+
+        cur = self.connection.cursor()
+        Importin = import_data()
+        Data = Importin.moviesData
+        cur.execute('DROP TABLE "tepppi"')
+        Data.to_sql('tepppi', engine)
+
+
+
+# -       print(pd.read_sql_table('tafla', engine))
+# -       cur.execute("SELECT * FROM Tafla", engine)
+# -       cur.fetchone()
+# -       print(pd.read_sql_query('SELECT * FROM Tafla', engine))
+# -       MovieID = pd.read_sql_table('tafla', engine, columns = ['MovieID'])
+# -       sql.execute('SELECT Year FROM tafla', engine)
+#         print(MovieID)
+
+
+
+
+
+
+
+        # cur = self.connection.cursor()
+        # con = self.connection
+
         print('doing -> insertTables()')
         # cur.execute("DROP TABLE IF EXISTS users")
         # cur.execute("CREATE TABLE users(userid INTEGER PRIMARY KEY, gender TEXT, age INT, occupation INT, zipcode INT)")

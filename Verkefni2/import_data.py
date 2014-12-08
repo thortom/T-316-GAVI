@@ -31,7 +31,7 @@ class import_data():
 
     def readMoviesData(self, data):
         data.columns = ['movieid', 'titleyear','genres']
-        # data.set_index('MovieID', inplace=True)
+        data.set_index('movieid', inplace=True)
 
         thetitle_year = [i for i in data.titleyear]
         thetitle = [i.rsplit('(',1)[0].strip() for i in thetitle_year]
