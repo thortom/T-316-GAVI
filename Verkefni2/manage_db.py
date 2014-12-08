@@ -39,10 +39,11 @@ class manage_db():
 
     def missingData(self):
         #Remember to add for the other files
-        print('tables', self.getTables())
         try:
             if 'users' in list(self.getTables()[:][0]):
                 print('tafla already in database')
+            if len([item for item in self.getTables() if 'ratings' or 'users' or 'movies' or 'tags' in item]) == 4:
+                print('tables already in database')
                 return False
         except:
             return True
@@ -78,10 +79,10 @@ class manage_db():
 
 
     def insertTables(self, data):
-        
 
         # con = self.connection
         # cur = self.connection.cursor()
+
 
         # #cur.execute('DROP TABLE tags')        
         # #Data.to_sql('tepppi', engine)
