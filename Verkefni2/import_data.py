@@ -14,7 +14,7 @@ class import_data():
         dataFiles = self.findData()
         self.readFiles(dataFiles)
         # print(self.moviesData.head())
-        # print(self.tagsData.head())
+        #print(self.tagsData.head())
         # print(self.usersData.head())
         # print(self.ratingsData.head())
 
@@ -68,15 +68,26 @@ class import_data():
 
     def readData(self, fileName):
         print('reading',fileName)
-        data = pd.read_csv(fileName, delimiter='::', header=None, engine='python')
+        
+
         if ('movies.dat' in fileName):
+            chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
+            data = pd.concat(chunk for chunk in chunks)
             self.readMoviesData(data)
         elif ('tags.dat' in fileName):
+            chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
+            data = pd.concat(chunk for chunk in chunks)
             self.readTagsData(data)
         elif ('users.dat' in fileName):
+            chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
+            data = pd.concat(chunk for chunk in chunks)
             self.readUsersData(data)
         elif ('ratings.dat' in fileName):
-            self.readRatingsData(data)
+            #Takes very long to load
+            #chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
+            #data = pd.concat(chunk for chunk in chunks)
+            #self.readRatingsData(data)
+            print('ratings not loaded // Remember to uncomment')
         else:
             print('Error: .dat file {} found but not read'.format(fileName))
 
