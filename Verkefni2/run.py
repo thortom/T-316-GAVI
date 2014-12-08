@@ -8,14 +8,14 @@ from import_data import import_data
 if __name__ == '__main__':
     mydb = manage_db('localhost','verkefni2', 'postgres', 'postgres')
     if mydb.missingData():
-    	data = import_data()
-    	mydb.insertTable(data)
+        data = import_data()
+        mydb.insertTables(data)
 
     ##########################
     # Testing
     con = mydb.getConnection()
     cur = con.cursor()
-    cur.execute("SELECT tag FROM tags")
+    cur.execute("SELECT * FROM ratings")
     count = 0
     while True:
         row = cur.fetchone()
@@ -26,4 +26,4 @@ if __name__ == '__main__':
         count += 1
     ##########################
 
-    window = theUI.loadUI(mydb)
+    # window = theUI.loadUI(mydb)

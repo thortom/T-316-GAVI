@@ -35,7 +35,7 @@ class import_data():
 
     def readMoviesData(self, data):
         data.columns = ['MovieID', 'TitleYear','Genres']
-        data.set_index('MovieID', inplace=True)
+        # data.set_index('MovieID', inplace=True)
 
         thetitle_year = [i for i in data.TitleYear]
         thetitle = [i.rsplit('(',1)[0].strip() for i in thetitle_year]
@@ -55,7 +55,7 @@ class import_data():
 
     def readUsersData(self, data):
         data.columns = ['UserID', 'Gender', 'Age', 'Occupation', 'ZipCode']
-        data.set_index('UserID', inplace=True)
+        # data.set_index('UserID', inplace=True)
         self.usersData = data
 
     def readRatingsData(self, data):
