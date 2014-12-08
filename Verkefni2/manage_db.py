@@ -72,7 +72,7 @@ class manage_db():
 
 
 
-    def insertTable(self, data):
+    def insertTables(self, data):
         engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
 
         con = self.connection
@@ -80,7 +80,7 @@ class manage_db():
         cur = self.connection.cursor()
         Importin = import_data()
         Data = Importin.moviesData
-        cur.execute('DROP TABLE "tepppi"')
+        cur.execute('DROP TABLE "teppi"')
         Data.to_sql('tepppi', engine)
 
 
