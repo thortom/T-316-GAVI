@@ -66,10 +66,13 @@ class manage_db():
         cur.execute("CREATE TABLE tags(Index INTEGER PRIMARY KEY, UserID INT, MovieID INT, Tag TEXT, Timestamp INT)")
         for idx, row in data.tagsData.iterrows():
             cur.execute("INSERT INTO tags VALUES(%s, %s, %s, '%s', %s)" %(idx, row['UserID'], row['MovieID'], str(row['Tag']).replace("'","''"), row['Timestamp']))
+            print('idx',idx)
+            if idx == 11:
+                break
 
-        # ['UserID', 'Gender', 'Age', 'Occupation', 'ZipCode']
-        cur.execute("DROP TABLE IF EXISTS users")
-        cur.execute("CREATE TABLE users(UserID INTEGER PRIMARY KEY, Gender INT, Age INT, Occupation TEXT, Timestamp INT)")
-        for idx, row in data.tagsData.iterrows():
-            cur.execute("INSERT INTO users VALUES(%s, %s, %s, '%s', %s)" %(row['UserID'], row['Gender'], row['Age'], row['Occupation'], row['ZipCode']))
+        # # ['UserID', 'Gender', 'Age', 'Occupation', 'ZipCode']
+        # cur.execute("DROP TABLE IF EXISTS users")
+        # cur.execute("CREATE TABLE users(UserID INTEGER PRIMARY KEY, Gender INT, Age INT, Occupation TEXT, Timestamp INT)")
+        # for idx, row in data.tagsData.iterrows():
+        #     cur.execute("INSERT INTO users VALUES(%s, %s, %s, '%s', %s)" %(row['UserID'], row['Gender'], row['Age'], row['Occupation'], row['ZipCode']))
 

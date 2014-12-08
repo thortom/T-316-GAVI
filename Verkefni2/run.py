@@ -15,7 +15,7 @@ if __name__ == '__main__':
     # Testing
     con = mydb.getConnection()
     cur = con.cursor()
-    cur.execute("SELECT tag FROM Test")
+    cur.execute("SELECT tag FROM tags")
     count = 0
     while True:
         row = cur.fetchone()

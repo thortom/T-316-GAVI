@@ -14,6 +14,7 @@ class import_data():
         print("Looking for data")
         self.findData()
         print("Got the data")
+
         # print(self.moviesData.head())
         # print(self.tagsData.head())
         # print(self.usersData.head())
@@ -21,11 +22,16 @@ class import_data():
 
     def findData(self):
         #Finds .dat files in the folder /data
+        dataFiles=[]
         path = os.getcwd()+"\data"
         for file in os.listdir(path):
             if file.endswith(".dat"):
                 self.readData(path+'\\'+file)
-        pass
+
+    def readFiles(self, dataFiles):
+        path = os.getcwd()+"\data"
+        for file in dataFiles:
+            self.readData(path+'\\'+file)
 
     def readMoviesData(self, data):
         data.columns = ['MovieID', 'TitleYear','Genres']
@@ -59,15 +65,26 @@ class import_data():
         self.ratingsData = data
 
     def readData(self, fileName):
-        data = pd.read_csv(fileName, delimiter='::', header=None, engine='python')
+        # print('reading',fileName)
+
         if ('movies.dat' in fileName):
+            chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
+            data = pd.concat(chunk for chunk in chunks)
             self.readMoviesData(data)
         elif ('tags.dat' in fileName):
+            chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
+            data = pd.concat(chunk for chunk in chunks)
             self.readTagsData(data)
         elif ('users.dat' in fileName):
+            chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
+            data = pd.concat(chunk for chunk in chunks)
             self.readUsersData(data)
         elif ('ratings.dat' in fileName):
+            #Takes very long to load
+            chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
+            data = pd.concat(chunk for chunk in chunks)
             self.readRatingsData(data)
+            # print('ratings not loaded // Remember to uncomment')
         else:
             print('Error: .dat file {} found but not read'.format(fileName))
 
