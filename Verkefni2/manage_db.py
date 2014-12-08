@@ -34,6 +34,7 @@ class manage_db():
 
     def missingData(self):
         #Remember to add for the other files
+        print('tables', self.getTables())
         if 'ratings' in list(self.getTables()[0]):
             print('tafla already in database')
             return False
