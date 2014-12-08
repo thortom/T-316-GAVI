@@ -14,7 +14,7 @@ class import_data():
         dataFiles = self.findData()
         self.readFiles(dataFiles)
         # print(self.moviesData.head())
-        #print(self.tagsData.head())
+        # print(self.tagsData.head())
         # print(self.usersData.head())
         # print(self.ratingsData.head())
 
@@ -25,10 +25,7 @@ class import_data():
         path = os.getcwd()+"\data"
         for file in os.listdir(path):
             if file.endswith(".dat"):
-                #print(file)
                 dataFiles.append(file)
-                #self.readData(path+'\\'+file)
-        #print(dataFiles)
         return dataFiles
     def readFiles(self, dataFiles):
         path = os.getcwd()+"\data"
