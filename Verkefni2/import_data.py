@@ -4,35 +4,36 @@ import numpy as np
 import pandas as pd
 
 class import_data():
-    def __init__(self,mydb):
+    def __init__(self):
         # Empty initialization
         self.moviesData = pd.DataFrame()
         self.tagsData = pd.DataFrame()
         self.usersData = pd.DataFrame()
         self.ratingsData = pd.DataFrame()
 
-        #self.findData()
+        dataFiles = self.findData()
+        self.readFiles(dataFiles)
         # print(self.moviesData.head())
         # print(self.tagsData.head())
         # print(self.usersData.head())
         # print(self.ratingsData.head())
 
-        if not self.dbInPlace(mydb):
-            print('Tables not in place\nImporting data')
-            self.findData()
-        else:
-            print('Tables found')
-
-    def dbInPlace(self,mydb):
-        print(mydb.getTables())
-        return False
+        
     def findData(self):
         #Finds .dat files in the folder /data
+        dataFiles=[]
         path = os.getcwd()+"\data"
         for file in os.listdir(path):
             if file.endswith(".dat"):
-                self.readData(path+'\\'+file)
-        pass
+                #print(file)
+                dataFiles.append(file)
+                #self.readData(path+'\\'+file)
+        #print(dataFiles)
+        return dataFiles
+    def readFiles(self, dataFiles):
+        path = os.getcwd()+"\data"
+        for file in dataFiles:
+            self.readData(path+'\\'+file)
 
     def readMoviesData(self, data):
         data.columns = ['MovieID', 'TitleYear','Genres']
@@ -66,6 +67,7 @@ class import_data():
         self.ratingsData = data
 
     def readData(self, fileName):
+        print('reading',fileName)
         data = pd.read_csv(fileName, delimiter='::', header=None, engine='python')
         if ('movies.dat' in fileName):
             self.readMoviesData(data)
