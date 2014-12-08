@@ -11,23 +11,24 @@ class import_data():
         self.usersData = pd.DataFrame()
         self.ratingsData = pd.DataFrame()
 
-        dataFiles = self.findData()
-        self.readFiles(dataFiles)
-        
+
+        print("Looking for data")
+        self.findData()
+        print("Got the data")
+
         # print(self.moviesData.head())
         # print(self.tagsData.head())
         # print(self.usersData.head())
         # print(self.ratingsData.head())
 
-        
     def findData(self):
         #Finds .dat files in the folder /data
         dataFiles=[]
         path = os.getcwd()+"\data"
         for file in os.listdir(path):
             if file.endswith(".dat"):
-                dataFiles.append(file)
-        return dataFiles
+                self.readData(path+'\\'+file)
+
     def readFiles(self, dataFiles):
         path = os.getcwd()+"\data"
         for file in dataFiles:
@@ -65,8 +66,7 @@ class import_data():
         self.ratingsData = data
 
     def readData(self, fileName):
-        print('reading',fileName)
-        
+        # print('reading',fileName)
 
         if ('movies.dat' in fileName):
             chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
@@ -82,10 +82,10 @@ class import_data():
             self.readUsersData(data)
         elif ('ratings.dat' in fileName):
             #Takes very long to load
-            #chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
-            #data = pd.concat(chunk for chunk in chunks)
-            #self.readRatingsData(data)
-            print('ratings not loaded // Remember to uncomment')
+            chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
+            data = pd.concat(chunk for chunk in chunks)
+            self.readRatingsData(data)
+            # print('ratings not loaded // Remember to uncomment')
         else:
             print('Error: .dat file {} found but not read'.format(fileName))
 
