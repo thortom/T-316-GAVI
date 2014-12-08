@@ -13,6 +13,7 @@ class import_data():
 
         dataFiles = self.findData()
         self.readFiles(dataFiles)
+        
         # print(self.moviesData.head())
         # print(self.tagsData.head())
         # print(self.usersData.head())

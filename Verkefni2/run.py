@@ -8,5 +8,6 @@ from import_data import import_data
 
 if __name__ == '__main__':
     mydb = manage_db('localhost','verkefni2', 'postgres', 'postgres')
-    import_data(mydb)
+    data = import_data()
+    #data.readFiles(data.findData())
     window = theUI.loadUI(mydb)
