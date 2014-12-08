@@ -29,11 +29,6 @@ class import_data():
             if file.endswith(".dat"):
                 self.readData(path+'\\'+file)
 
-    def readFiles(self, dataFiles):
-        path = os.getcwd()+"\data"
-        for file in dataFiles:
-            self.readData(path+'\\'+file)
-
     def readMoviesData(self, data):
         data.columns = ['MovieID', 'TitleYear','Genres']
         data.set_index('MovieID', inplace=True)
