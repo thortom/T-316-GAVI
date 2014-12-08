@@ -11,6 +11,7 @@ class import_data():
         self.usersData = pd.DataFrame()
         self.ratingsData = pd.DataFrame()
 
+
         print("Looking for data")
         self.findData()
         print("Got the data")
@@ -27,11 +28,6 @@ class import_data():
         for file in os.listdir(path):
             if file.endswith(".dat"):
                 self.readData(path+'\\'+file)
-
-    def readFiles(self, dataFiles):
-        path = os.getcwd()+"\data"
-        for file in dataFiles:
-            self.readData(path+'\\'+file)
 
     def readMoviesData(self, data):
         data.columns = ['MovieID', 'TitleYear','Genres']

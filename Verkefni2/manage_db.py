@@ -33,7 +33,10 @@ class manage_db():
             return con
 
     def missingData(self):
-        # TODO: check if all data is available
+        #Remember to add for the other files
+        if 'ratings' in list(self.getTables()[0]):
+            print('tafla already in database')
+            return False
         return True
 
     def getConnection(self):
