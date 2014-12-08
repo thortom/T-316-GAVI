@@ -1,6 +1,8 @@
 from PyQt4 import QtGui
 from ui.window import Ui_MainWindow
 import sys
+from google import search
+import webbrowser
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -17,6 +19,7 @@ class Main(QtGui.QMainWindow):
         self.ui.genTop10.clicked.connect(self.genTop10_Clicked)
         self.ui.Gen_rating_btn.clicked.connect(self.Gen_rating_btn_Clicked)
         self.ui.Gen_ran_btn.clicked.connect(self.Gen_ran_btn_Clicked)
+        self.ui.Gen_Random_Movie_btn.clicked.connect(self.Gen_Random_Movie_btn_Clicked)
         self.mydb = mydb
 
     def genTop10_Clicked(self):
@@ -62,5 +65,37 @@ class Main(QtGui.QMainWindow):
     def Gen_ran_btn_Clicked(self):
         self.ui.User_Line.setText('Arnar Ingi')
         self.ui.Movie_line.setText('Backdoor sluts 9 ')
+
+    def Gen_Random_Movie_btn_Clicked(self):
+        genre1 = str(self.ui.Genre_1_dropdown_2.currentText())
+        genre2 = str(self.ui.Genre_2_dropdown_2.currentText())
+        genre3 = str(self.ui.Genre_3_dropdown_2.currentText())
+        genre4 = self.ui.User_Line_2.text()
+        print(genre4)
+        print(genre1)
+        print(genre2)
+        print(genre3)
+
+        RandMovie = self.mydb.getTables()
+        self.ui.textBrowser.append('The random movie is: ' + RandMovie)
+        UrlList = []
+        youtubeList = []
+        for url in search(RandMovie, stop = 5):
+            UrlList.append(url)
+        imdbList = [s for s in UrlList if 'imdb' in s]
+        youtubeList = [s for s in UrlList if 'youtube' in s]
+
+        if not UrlList:
+            self.ui.textBrowser.append('No imdb link was found for %s' % RandMovie)
+        else:
+            self.ui.textBrowser.append('Imdb link for %s is %s ' %(RandMovie,imdbList[0]))
+            webbrowser.open(imdbList[0])
+
+        if not youtubeList:
+            self.ui.textBrowser.append('No youtube link was found for %s' % RandMovie)
+        else:
+            self.ui.textBrowser.append('Youtube link for %s is %s' %(RandMovie, youtubeList[0]))
+
+
 
     #def loadCatagories(self,listOfCatagories):
