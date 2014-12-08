@@ -80,7 +80,7 @@ class manage_db():
         cur = self.connection.cursor()
         Importin = import_data()
         Data = Importin.moviesData
-        cur.execute('DROP TABLE "teppi"')
+        cur.execute('DROP TABLE "tepppi"')
         Data.to_sql('tepppi', engine)
 
 
