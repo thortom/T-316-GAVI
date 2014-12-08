@@ -34,10 +34,9 @@ class manage_db():
 
     def missingData(self):
         #Remember to add for the other files
-        print('tables', self.getTables())
         try:
-            if 'ratings' in list(self.getTables()[:][0]):
-                print('tafla already in database')
+            if len([item for item in self.getTables() if 'ratings' or 'users' or 'movies' or 'tags' in item]) == 4:
+                print('tables already in database')
                 return False
         except:
             return True
@@ -66,7 +65,7 @@ class manage_db():
     def insertTables(self, data):
         cur = self.connection.cursor()
         con = self.connection
-
+        
         print('doing -> insertTables()')
         # cur.execute("DROP TABLE IF EXISTS users")
         # cur.execute("CREATE TABLE users(userid INTEGER PRIMARY KEY, gender TEXT, age INT, occupation INT, zipcode INT)")
