@@ -9,7 +9,7 @@ import random
 class manage_db():
     def __init__(self,host,database, user, password):
         self.connection = self.connect(host,database, user, password)
-        self.insertTable()
+        #self.insertTable()
     def connect(self,host,database, user, password):
         print('Connecting to database')
         con = None
@@ -34,8 +34,10 @@ class manage_db():
 
     def getTables(self):
         cur = self.connection.cursor()
-        # cur.execute("select relname from pg_class where relkind='r' and relname !~ '^(pg_|sql_)';")
-        # print(cur.fetchall())
+        cur.execute("select relname from pg_class where relkind='r' and relname !~ '^(pg_|sql_)';")
+        return cur.fetchall()
+
+    def getRandomMovie(self):
         engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
         Title = pd.read_sql_table('tafla', engine, columns = ['Title'])
         row,col = Title.shape
@@ -47,10 +49,10 @@ class manage_db():
     def insertTable(self):
         cur = self.connection.cursor()
         con = self.connection
-        Importin = import_data()
-        Data = Importin.moviesData
+        #Importin = import_data()
+        #Data = Importin.moviesData
 
-        engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
+        #engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
         #Data.to_sql('tafla', engine)
 
         #print(pd.read_sql_table('tafla', engine))

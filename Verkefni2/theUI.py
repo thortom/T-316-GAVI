@@ -52,7 +52,7 @@ class Main(QtGui.QMainWindow):
 
                 self.ui.textBrowser.append('Genre '+str(genrenum)+': '+eval('genre'+str((i+1))))
                 genrenum +=1
-        self.mydb.getTables()
+        self.mydb.getRandomMovie()
         if num == 0:
             self.ui.textBrowser.append("Here's your general "+toplist+" list:")
         if num >= 1:
@@ -76,7 +76,7 @@ class Main(QtGui.QMainWindow):
         print(genre2)
         print(genre3)
 
-        RandMovie = self.mydb.getTables()
+        RandMovie = self.mydb.getRandomMovie()
         self.ui.textBrowser.append('The random movie is: ' + RandMovie)
         UrlList = []
         youtubeList = []

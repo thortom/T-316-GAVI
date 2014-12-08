@@ -4,19 +4,28 @@ import numpy as np
 import pandas as pd
 
 class import_data():
-    def __init__(self):
+    def __init__(self,mydb):
         # Empty initialization
         self.moviesData = pd.DataFrame()
         self.tagsData = pd.DataFrame()
         self.usersData = pd.DataFrame()
         self.ratingsData = pd.DataFrame()
 
-        self.findData()
+        #self.findData()
         # print(self.moviesData.head())
         # print(self.tagsData.head())
         # print(self.usersData.head())
         # print(self.ratingsData.head())
 
+        if not self.dbInPlace(mydb):
+            print('Tables not in place\nImporting data')
+            self.findData()
+        else:
+            print('Tables found')
+
+    def dbInPlace(self,mydb):
+        print(mydb.getTables())
+        return False
     def findData(self):
         #Finds .dat files in the folder /data
         path = os.getcwd()+"\data"

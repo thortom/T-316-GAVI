@@ -7,7 +7,6 @@ from import_data import import_data
 
 
 if __name__ == '__main__':
-    #run()
-    import_data()
     mydb = manage_db('localhost','verkefni2', 'postgres', 'postgres')
+    import_data(mydb)
     window = theUI.loadUI(mydb)
