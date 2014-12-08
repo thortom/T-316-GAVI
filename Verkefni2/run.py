@@ -10,6 +10,6 @@ if __name__ == '__main__':
 
     if mydb.missingData():
     	data = import_data()
-    	mydb.insertTable(data)
+    	mydb.insertTables(data)
         
     window = theUI.loadUI(mydb)
