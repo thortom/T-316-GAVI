@@ -16,30 +16,34 @@ class Main(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.genTop10.clicked.connect(self.genTop10_Clicked)
+        #self.ui.genTop10.clicked.connect(self.genTop10_Clicked)
+        self.ui.genTop10.clicked.connect(self.genTopX_Clicked)
         self.ui.Gen_rating_btn.clicked.connect(self.Gen_rating_btn_Clicked)
         self.ui.Gen_ran_btn.clicked.connect(self.Gen_ran_btn_Clicked)
         self.ui.Gen_Random_Movie_btn.clicked.connect(self.Gen_Random_Movie_btn_Clicked)
         self.mydb = mydb
 
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children's",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
-        self.activeCatagories = []
         self.dropdowns = [self.ui.Genre_1_dropdown,self.ui.Genre_2_dropdown,self.ui.Genre_3_dropdown]
-        for dropdown in self.dropdowns:
-            self.loadCatagories(dropdown,catagories)
-            dropdown.currentIndexChanged.connect(self.updateCatagories)
 
-    def updateCatagories(self):
-        print('updated')
         for dropdown in self.dropdowns:
-            if dropdown.currentIndex() != 0:
-                print(dropdown.currentIndex())
-                self.activeCatagories.append(dropdown.itemText(dropdown.currentIndex()))
-                print('activeCatagories:',self.activeCatagories)
+            for catagorie in catagories:
+                dropdown.addItem(catagorie)
 
-    def loadCatagories(self, button, catagories):
-        for catagorie in catagories:
-            button.addItem(catagorie)
+
+    def genTopX_Clicked(self):
+        print('button clicked')
+        toplist = str(self.ui.Top_x_dropdown.currentText())
+        num = int(toplist.split()[1]))
+        genres = []
+        for dropdown in self.dropdowns:
+            genres.append(dropdown.currentText())
+        genres = [item for item in genres if item != "Pick a genre"]
+        print('genres:',genres)
+
+        topX = self.mydb.getTopX(genres,num)
+
+
 
     def genTop10_Clicked(self):
         print('button pushed')
