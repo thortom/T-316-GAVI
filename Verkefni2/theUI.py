@@ -22,6 +22,15 @@ class Main(QtGui.QMainWindow):
         self.ui.Gen_Random_Movie_btn.clicked.connect(self.Gen_Random_Movie_btn_Clicked)
         self.mydb = mydb
 
+        catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children's",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
+        dropdowns = [self.ui.Genre_1_dropdown,self.ui.Genre_2_dropdown,self.ui.Genre_3_dropdown]
+        for dropdown in dropdowns:
+            self.loadCatagories(dropdown,catagories)
+
+    def loadCatagories(self, button, catagories):
+        for catagorie in catagories:
+            button.addItem(catagorie)
+
     def genTop10_Clicked(self):
         print('button pushed')
         genre1 = str(self.ui.Genre_1_dropdown.currentText())
