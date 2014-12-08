@@ -30,32 +30,32 @@ class import_data():
                 self.readData(path+'\\'+file)
 
     def readMoviesData(self, data):
-        data.columns = ['MovieID', 'TitleYear','Genres']
+        data.columns = ['movieid', 'titleyear','genres']
         # data.set_index('MovieID', inplace=True)
 
-        thetitle_year = [i for i in data.TitleYear]
+        thetitle_year = [i for i in data.titleyear]
         thetitle = [i.rsplit('(',1)[0].strip() for i in thetitle_year]
         theyear = [int(i.rsplit('(',1)[1].rstrip(')')) for i in thetitle_year]
 
-        data['Title'] = pd.Series(thetitle, index=data.index)
-        data['Year'] = pd.Series(theyear, index=data.index)
+        data['title'] = pd.Series(thetitle, index=data.index)
+        data['year'] = pd.Series(theyear, index=data.index)
 
-        data.drop('TitleYear', axis=1, inplace=True)
+        data.drop('titleyear', axis=1, inplace=True)
         self.moviesData = data
 
     def readTagsData(self, data):
-        data.columns = ['UserID', 'MovieID', 'Tag', 'Timestamp']
+        data.columns = ['userid', 'movieid', 'tag', 'timestamp']
         # Not sure what should be the index, if there should be an index
         # data.set_index('UserID', inplace=True)
         self.tagsData = data
 
     def readUsersData(self, data):
-        data.columns = ['UserID', 'Gender', 'Age', 'Occupation', 'ZipCode']
+        data.columns = ['userid', 'gender', 'age', 'occupation', 'zipcode']
         # data.set_index('UserID', inplace=True)
         self.usersData = data
 
     def readRatingsData(self, data):
-        data.columns = ['UserID', 'MovieID', 'Rating', 'Timestamp']
+        data.columns = ['userid', 'movieid', 'rating', 'timestamp']
         # Not sure what should be the index, if there should be an index
         # data.set_index('UserID', inplace=True)
         self.ratingsData = data

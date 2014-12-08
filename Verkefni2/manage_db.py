@@ -35,9 +35,12 @@ class manage_db():
     def missingData(self):
         #Remember to add for the other files
         print('tables', self.getTables())
-        if 'ratings' in list(self.getTables()[0]):
-            print('tafla already in database')
-            return False
+        try:
+            if 'ratings' in list(self.getTables()[:][0]):
+                print('tafla already in database')
+                return False
+        except:
+            return True
         return True
 
     def getConnection(self):
@@ -64,35 +67,31 @@ class manage_db():
         cur = self.connection.cursor()
         con = self.connection
 
-        # ['UserID', 'Gender', 'Age', 'Occupation', 'ZipCode']
-        cur.execute("DROP TABLE IF EXISTS users")
-        cur.execute("CREATE TABLE users(UserID INTEGER PRIMARY KEY, Gender TEXT, Age INT, Occupation INT, ZipCode INT)")
-        for idx, row in data.usersData.iterrows():
-            cur.execute("INSERT INTO users VALUES(%s, '%s', %s, %s, %s)" %(row['UserID'], row['Gender'], row['Age'], row['Occupation'], row['ZipCode']))
-        print('Saved users to database')
+        print('doing -> insertTables()')
+        # cur.execute("DROP TABLE IF EXISTS users")
+        # cur.execute("CREATE TABLE users(userid INTEGER PRIMARY KEY, gender TEXT, age INT, occupation INT, zipcode INT)")
+        # for idx, row in data.usersData.iterrows():
+        #     cur.execute("INSERT INTO users VALUES(%s, '%s', %s, %s, %s)" %(row['userid'], row['gender'], row['age'], row['occupation'], row['zipcode']))
+        # print('Saved users to database')
 
-        # ['MovieID', 'TitleYear','Genres']
-        cur.execute("DROP TABLE IF EXISTS movies")
-        cur.execute("CREATE TABLE movies(MovieID INTEGER PRIMARY KEY, Title TEXT, Year TEXT,  Genres TEXT)")
-        for idx, row in data.moviesData.iterrows():
-            cur.execute("INSERT INTO movies VALUES(%s, '%s', '%s', '%s')" %(row['MovieID'], str(row['Title']).replace("'","''"), row['Year'], str(row['Genres']).replace("'","''")))
-        print('Saved movies to database')
+        # cur.execute("DROP TABLE IF EXISTS movies")
+        # cur.execute("CREATE TABLE movies(movieid INTEGER PRIMARY KEY, title TEXT, year TEXT,  genres TEXT)")
+        # for idx, row in data.moviesData.iterrows():
+        #     cur.execute("INSERT INTO movies VALUES(%s, '%s', '%s', '%s')" %(row['movieid'], str(row['title']).replace("'","''"), row['year'], str(row['genres']).replace("'","''")))
+        # print('Saved movies to database')
 
-        cur.execute("DROP TABLE IF EXISTS tags")
-        cur.execute("CREATE TABLE tags(Index INTEGER PRIMARY KEY, UserID INT, MovieID INT, Tag TEXT)")
-        count = 0
-        for idx, row in data.tagsData.iterrows():
-            cur.execute("INSERT INTO tags VALUES(%s, %s, %s, '%s')" %(count, row['UserID'], row['MovieID'], str(row['Tag']).replace("'","''")))
-            count += 1
-        print('Saved tags to database')
+        # cur.execute("DROP TABLE IF EXISTS tags")
+        # cur.execute("CREATE TABLE tags(index INTEGER PRIMARY KEY, userid INT, movieid INT, tag TEXT)")
+        # count = 0
+        # for idx, row in data.tagsData.iterrows():
+        #     cur.execute("INSERT INTO tags VALUES(%s, %s, %s, '%s')" %(count, row['userid'], row['movieid'], str(row['tag']).replace("'","''")))
+        #     count += 1
+        # print('Saved tags to database')
 
-        # ['UserID', 'MovieID', 'Rating', 'Timestamp']
-        cur.execute("DROP TABLE IF EXISTS ratings")
-        cur.execute("CREATE TABLE ratings(Index INTEGER PRIMARY KEY, UserID INT, MovieID INT, Tag INT)")
-        count = 0
-        for idx, row in data.ratingsData.iterrows():
-            # print('count', count)
-            # print(row)
-            cur.execute("INSERT INTO ratings VALUES(%s, %s, %s, %s)" %(count, row['UserID'], row['MovieID'], row['Rating']))
-            count += 1
-        print('Saved ratings to database')
+        # cur.execute("DROP TABLE IF EXISTS ratings")
+        # cur.execute("CREATE TABLE ratings(index INTEGER PRIMARY KEY, userid INT, movieid INT, rating INT)")
+        # count = 0
+        # for idx, row in data.ratingsData.iterrows():
+        #     cur.execute("INSERT INTO ratings VALUES(%s, %s, %s, %s)" %(count, row['userid'], row['movieid'], row['rating']))
+        #     count += 1
+        # print('Saved ratings to database')
