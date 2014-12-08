@@ -11,6 +11,7 @@ class import_data():
         self.usersData = pd.DataFrame()
         self.ratingsData = pd.DataFrame()
 
+
         print("Looking for data")
         self.findData()
         print("Got the data")
@@ -28,17 +29,12 @@ class import_data():
             if file.endswith(".dat"):
                 self.readData(path+'\\'+file)
 
-    def readFiles(self, dataFiles):
-        path = os.getcwd()+"\data"
-        for file in dataFiles:
-            self.readData(path+'\\'+file)
-
     def readMoviesData(self, data):
         data.columns = ['movieid', 'titleyear','genres']
         data.set_index('movieid', inplace=True)
 
         thetitle_year = [i for i in data.titleyear]
-        thetitle = [str(i.rsplit('(',1)[0].strip()) for i in thetitle_year]
+        thetitle = [i.rsplit('(',1)[0].strip() for i in thetitle_year]
         theyear = [int(i.rsplit('(',1)[1].rstrip(')')) for i in thetitle_year]
 
         data['title'] = pd.Series(thetitle, index=data.index)
@@ -48,18 +44,18 @@ class import_data():
         self.moviesData = data
 
     def readTagsData(self, data):
-        data.columns = ['UserID', 'MovieID', 'Tag', 'Timestamp']
+        data.columns = ['userid', 'movieid', 'tag', 'timestamp']
         # Not sure what should be the index, if there should be an index
         # data.set_index('UserID', inplace=True)
         self.tagsData = data
 
     def readUsersData(self, data):
-        data.columns = ['UserID', 'Gender', 'Age', 'Occupation', 'ZipCode']
-        data.set_index('UserID', inplace=True)
+        data.columns = ['userid', 'gender', 'age', 'occupation', 'zipcode']
+        # data.set_index('UserID', inplace=True)
         self.usersData = data
 
     def readRatingsData(self, data):
-        data.columns = ['UserID', 'MovieID', 'Rating', 'Timestamp']
+        data.columns = ['userid', 'movieid', 'rating', 'timestamp']
         # Not sure what should be the index, if there should be an index
         # data.set_index('UserID', inplace=True)
         self.ratingsData = data
