@@ -67,6 +67,15 @@ class Main(QtGui.QMainWindow):
         self.ui.Movie_line.setText('Backdoor sluts 9 ')
 
     def Gen_Random_Movie_btn_Clicked(self):
+        genre1 = str(self.ui.Genre_1_dropdown_2.currentText())
+        genre2 = str(self.ui.Genre_2_dropdown_2.currentText())
+        genre3 = str(self.ui.Genre_3_dropdown_2.currentText())
+        genre4 = self.ui.User_Line_2.text()
+        print(genre4)
+        print(genre1)
+        print(genre2)
+        print(genre3)
+
         RandMovie = self.mydb.getTables()
         self.ui.textBrowser.append('The random movie is: ' + RandMovie)
         UrlList = []
@@ -79,7 +88,7 @@ class Main(QtGui.QMainWindow):
         if not UrlList:
             self.ui.textBrowser.append('No imdb link was found for %s' % RandMovie)
         else:
-            self.ui.textBrowser.append('Imdb link for %s is %s :' %(RandMovie,imdbList[0]))
+            self.ui.textBrowser.append('Imdb link for %s is %s ' %(RandMovie,imdbList[0]))
             webbrowser.open(imdbList[0])
 
         if not youtubeList:
