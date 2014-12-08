@@ -74,6 +74,7 @@ class import_data():
         elif ('users.dat' in fileName):
             chunks = pd.read_csv(fileName, delimiter='::', header=None, engine='python', chunksize=1024)
             data = pd.concat(chunk for chunk in chunks)
+            print(data)
             self.readUsersData(data)
         elif ('ratings.dat' in fileName):
             #Takes very long to load
