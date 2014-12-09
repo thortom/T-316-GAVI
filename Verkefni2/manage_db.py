@@ -57,6 +57,13 @@ class manage_db():
         cur.execute("select relname from pg_class where relkind='r' and relname !~ '^(pg_|sql_)';")
         return cur.fetchall()
 
+    def getTopX(self,genres,num):
+        cur = self.connection.cursor()
+        cur.execute("select movieid from tags where tag = '%s' limit %s" %(genres[0],num))
+        rows = cur.fetchall()
+        for row in rows:
+            print(row)
+
     def getRandomMovie(self):
         # engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
         # Title = pd.read_sql_table('tafla', engine, columns = ['Title'])

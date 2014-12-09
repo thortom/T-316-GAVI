@@ -34,7 +34,7 @@ class Main(QtGui.QMainWindow):
     def genTopX_Clicked(self):
         print('button clicked')
         toplist = str(self.ui.Top_x_dropdown.currentText())
-        num = int(toplist.split()[1]))
+        num = toplist.split()[1]
         genres = []
         for dropdown in self.dropdowns:
             genres.append(dropdown.currentText())
