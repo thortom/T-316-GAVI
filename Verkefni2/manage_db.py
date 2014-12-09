@@ -69,7 +69,7 @@ class manage_db():
 
     def createAverageRatingsTable(self):
         cur = self.connection.cursor()
-        cur.execute("drop table averageratings")
+        cur.execute("drop table if EXISTS averageratings")
         cur.execute("create table averageratings(title varchar(180),movieid integer PRIMARY KEY,averagerating float)")
         cur.execute("Insert into averageratings(title,movieid,averagerating) select movies.title, movies.movieid, AVG(ratings.rating) as a from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by a DESC")
 
