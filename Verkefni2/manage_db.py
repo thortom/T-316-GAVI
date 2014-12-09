@@ -52,22 +52,20 @@ class manage_db():
         return cur.fetchall()
 
     def getTopX(self,genres,num):
-        command = "select movieid from movies"
-        s = " where genres = "
-        for genre in genres:
-            if genre == genres[0]:
-                command += (s+"'"+genre+"'")
-            else:
-                command += (" or genres = "+"'"+genre+"'")
-        print(command)
-        cur = self.connection.cursor()
-        
-        #cur.execute("select movieid from movies where genres = '%s' limit %s" %(genres[0],num))
-        cur.execute(command+" limit %s" %num)
+        cur = self.cursor
+        g = " where genres = '"
+        for genre in sorted(genres):
+            g += genre
+            g += '|'
+        g = g[:-1] + "'"
+        sql = "select movieid, genres from movies"
+        if len(genres)>0:
+            sql += g
+
+        cur.execute(sql+' limit %s'%str(num))
         rows = cur.fetchall()
         for row in rows:
             print(row)
-
     def getRandomMovie(self):
         # engine = sqlc.create_engine('postgresql://postgres:postgres@localhost:5432/verkefni2')
         # Title = pd.read_sql_table('tafla', engine, columns = ['Title'])
