@@ -67,6 +67,7 @@ class manage_db():
                 command += (" or genres = "+"'"+genre+"'")
         print(command)
         cur = self.connection.cursor()
+        
         #cur.execute("select movieid from movies where genres = '%s' limit %s" %(genres[0],num))
         cur.execute(command+" limit %s" %num)
         rows = cur.fetchall()
