@@ -81,6 +81,11 @@ class import_data():
             data = pd.concat(chunk for chunk in chunks)
             self.readRatingsData(data)
             # print('ratings not loaded // Remember to uncomment')
+            # cur.execute("DROP TABLE IF EXISTS ratings")
+            # cur.execute("CREATE TABLE ratings(userid INT, col1 TEXT, movieid INT, col2 TEXT, rating DEC, col3 TEXT, time INT);")
+            # cur.execute("COPY ratings FROM 'C:/ratings.dat' Using Delimiters ':';")
+            # cur.execute('ALTER TABLE ratings DROP COLUMN col1, DROP COLUMN col2, DROP COLUMN col3, DROP COLUMN time;')
+
         else:
             print('Error: .dat file {} found but not read'.format(fileName))
 
