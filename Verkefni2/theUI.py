@@ -23,6 +23,7 @@ class Main(QtGui.QMainWindow):
         self.ui.Gen_Random_Movie_btn.clicked.connect(self.Gen_Random_Movie_btn_Clicked)
         self.mydb = mydb
 
+
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
         self.dropdowns = [self.ui.Genre_1_dropdown,self.ui.Genre_2_dropdown,self.ui.Genre_3_dropdown]
 
@@ -42,6 +43,7 @@ class Main(QtGui.QMainWindow):
         print('genres:',genres)
 
         topX = self.mydb.getTopX(genres,num)
+
 
 
 
@@ -80,6 +82,16 @@ class Main(QtGui.QMainWindow):
             self.ui.textBrowser.append("Here's your general "+toplist+" list:")
         if num >= 1:
             self.ui.textBrowser.append("\nHere's your "+toplist+" list:")
+
+        # self.mydb.cursor.execute("SELECT * FROM ratings")
+        # count = 0
+        # while True:
+        #     row = self.mydb.cursor.fetchone()
+            
+        #     if row == None or count == 10:
+        #         break
+        #     print(row)
+        #     count += 1
 
     def Gen_rating_btn_Clicked(self):
         UserID = self.ui.User_Line.text()
