@@ -16,11 +16,36 @@ class Main(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.genTop10.clicked.connect(self.genTop10_Clicked)
+        #self.ui.genTop10.clicked.connect(self.genTop10_Clicked)
+        self.ui.genTop10.clicked.connect(self.genTopX_Clicked)
         self.ui.Gen_rating_btn.clicked.connect(self.Gen_rating_btn_Clicked)
         self.ui.Gen_ran_btn.clicked.connect(self.Gen_ran_btn_Clicked)
         self.ui.Gen_Random_Movie_btn.clicked.connect(self.Gen_Random_Movie_btn_Clicked)
         self.mydb = mydb
+
+
+        catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
+        self.dropdowns = [self.ui.Genre_1_dropdown,self.ui.Genre_2_dropdown,self.ui.Genre_3_dropdown]
+
+        for dropdown in self.dropdowns:
+            for catagorie in catagories:
+                dropdown.addItem(catagorie)
+
+
+    def genTopX_Clicked(self):
+        print('button clicked')
+        toplist = str(self.ui.Top_x_dropdown.currentText())
+        num = toplist.split()[1]
+        genres = []
+        for dropdown in self.dropdowns:
+            genres.append(dropdown.currentText())
+        genres = [item for item in genres if item != "Pick a genre"]
+        print('genres:',genres)
+
+        topX = self.mydb.getTopX(genres,num)
+
+
+
 
     def genTop10_Clicked(self):
         print('button pushed')
@@ -57,6 +82,16 @@ class Main(QtGui.QMainWindow):
             self.ui.textBrowser.append("Here's your general "+toplist+" list:")
         if num >= 1:
             self.ui.textBrowser.append("\nHere's your "+toplist+" list:")
+
+        # self.mydb.cursor.execute("SELECT * FROM ratings")
+        # count = 0
+        # while True:
+        #     row = self.mydb.cursor.fetchone()
+            
+        #     if row == None or count == 10:
+        #         break
+        #     print(row)
+        #     count += 1
 
     def Gen_rating_btn_Clicked(self):
         UserID = self.ui.User_Line.text()
