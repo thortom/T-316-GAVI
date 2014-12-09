@@ -9,6 +9,7 @@ import random
 class manage_db():
     def __init__(self,host,database, user, password):
         self.connection = self.connect(host,database, user, password)
+        self.cursor = self.connection.cursor()
         #self.insertTable()
     def connect(self,host,database, user, password):
         print('Connecting to database')
@@ -36,7 +37,7 @@ class manage_db():
         #Remember to add for the other files
         print('tables', self.getTables())
         try:
-            if 'ratings' in list(self.getTables()[:][0]):
+            if 'users' in list(self.getTables()[:][0]):
                 print('tafla already in database')
                 return False
         except:
@@ -62,7 +63,6 @@ class manage_db():
         # TODO:
         pass
 
-
     def insertTables(self, data):
         cur = self.connection.cursor()
         con = self.connection
@@ -74,11 +74,11 @@ class manage_db():
         #     cur.execute("INSERT INTO users VALUES(%s, '%s', %s, %s, %s)" %(row['userid'], row['gender'], row['age'], row['occupation'], row['zipcode']))
         # print('Saved users to database')
 
-        # cur.execute("DROP TABLE IF EXISTS movies")
-        # cur.execute("CREATE TABLE movies(movieid INTEGER PRIMARY KEY, title TEXT, year TEXT,  genres TEXT)")
-        # for idx, row in data.moviesData.iterrows():
-        #     cur.execute("INSERT INTO movies VALUES(%s, '%s', '%s', '%s')" %(row['movieid'], str(row['title']).replace("'","''"), row['year'], str(row['genres']).replace("'","''")))
-        # print('Saved movies to database')
+        cur.execute("DROP TABLE IF EXISTS movies")
+        cur.execute("CREATE TABLE movies(movieid INTEGER PRIMARY KEY, title TEXT, year TEXT,  genres TEXT)")
+        for idx, row in data.moviesData.iterrows():
+            cur.execute("INSERT INTO movies VALUES(%s, '%s', '%s', '%s')" %(row['movieid'], str(row['title']).replace("'","''"), row['year'], str(row['genres']).replace("'","''")))
+        print('Saved movies to database')
 
         # cur.execute("DROP TABLE IF EXISTS tags")
         # cur.execute("CREATE TABLE tags(index INTEGER PRIMARY KEY, userid INT, movieid INT, tag TEXT)")
@@ -95,3 +95,14 @@ class manage_db():
         #     cur.execute("INSERT INTO ratings VALUES(%s, %s, %s, %s)" %(count, row['userid'], row['movieid'], row['rating']))
         #     count += 1
         # print('Saved ratings to database')
+
+        cur.execute("DROP TABLE IF EXISTS ratings")
+        cur.execute("CREATE TABLE ratings(index INTEGER PRIMARY KEY, userid INT, movieid INT, rating INT)")
+        count = 0
+        while True:
+            try:
+                cur.execute("INSERT INTO ratings VALUES(%s, %s, %s, %s)" %(count, data.ratingsData[count]['userid'], data.ratingsData[count]['movieid'], data.ratingsData[count]['rating']))
+                count += 1
+            except KeyError:
+                break
+        print('Saved ratings to database')
