@@ -111,25 +111,28 @@ class Main(QtGui.QMainWindow):
         print(genre2)
         print(genre3)
 
-        RandMovie = self.mydb.getRandomMovie()
-        self.ui.textBrowser.append('The random movie is: ' + RandMovie)
-        UrlList = []
-        youtubeList = []
-        for url in search(RandMovie, stop = 5):
-            UrlList.append(url)
-        imdbList = [s for s in UrlList if 'imdb' in s]
-        youtubeList = [s for s in UrlList if 'youtube' in s]
-
-        if not UrlList:
-            self.ui.textBrowser.append('No imdb link was found for %s' % RandMovie)
+        RandMovie = self.mydb.getRandomMovie(genre1, genre2, genre3, genre4)
+        if RandMovie == 'Nope':
+            self.ui.textBrowser.append("Try Again Bitch")
         else:
-            self.ui.textBrowser.append('Imdb link for %s is %s ' %(RandMovie,imdbList[0]))
-            webbrowser.open(imdbList[0])
+            self.ui.textBrowser.append('The random movie is: ' + RandMovie)
+            UrlList = []
+            youtubeList = []
+            for url in search(RandMovie, stop = 5):
+                UrlList.append(url)
+            imdbList = [s for s in UrlList if 'imdb' in s]
+            youtubeList = [s for s in UrlList if 'youtube' in s]
 
-        if not youtubeList:
-            self.ui.textBrowser.append('No youtube link was found for %s' % RandMovie)
-        else:
-            self.ui.textBrowser.append('Youtube link for %s is %s' %(RandMovie, youtubeList[0]))
+            if not imdbList:
+                self.ui.textBrowser.append('No imdb link was found for %s' % RandMovie)
+            else:
+                self.ui.textBrowser.append('Imdb link for %s is %s ' %(RandMovie,imdbList[0]))
+                webbrowser.open(imdbList[0])
+
+            if not youtubeList:
+                self.ui.textBrowser.append('No youtube link was found for %s' % RandMovie)
+            else:
+                self.ui.textBrowser.append('Youtube link for %s is %s' %(RandMovie, youtubeList[0]))
 
 
 
