@@ -36,7 +36,7 @@ class manage_db():
     def missingData(self):
         #Remember to add for the other files
         try:
-            if len([item for item in self.getTables() if 'ratings' or 'users' or 'movies' or 'tags' in item]) == 4:
+            if len([item for item in self.getTables() if 'ratings' or 'users' or 'movies' or 'tags' in item]) == 5:
                 print('Tables already in Database')
                 return False
         except:
@@ -66,6 +66,13 @@ class manage_db():
         rows = cur.fetchall()
         for row in rows:
             print(row)
+
+    def createAverageRatingsTable(self):
+        cur = self.connection.cursor()
+        cur.execute("drop table averageratings")
+        cur.execute("create table averageratings(title varchar(180),movieid integer PRIMARY KEY,averagerating float)")
+        cur.execute("Insert into averageratings(title,movieid,averagerating) select movies.title, movies.movieid, AVG(ratings.rating) as a from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by a DESC")
+
 
     def getRandomMovie(self, genre1, genre2, Rating, Year):
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
