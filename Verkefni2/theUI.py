@@ -22,25 +22,6 @@ class Main(QtGui.QMainWindow):
         self.ui.Gen_Random_Movie_btn.clicked.connect(self.Gen_Random_Movie_btn_Clicked)
         self.mydb = mydb
 
-        catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children's",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
-        self.activeCatagories = []
-        self.dropdowns = [self.ui.Genre_1_dropdown,self.ui.Genre_2_dropdown,self.ui.Genre_3_dropdown]
-        for dropdown in self.dropdowns:
-            self.loadCatagories(dropdown,catagories)
-            dropdown.currentIndexChanged.connect(self.updateCatagories)
-
-    def updateCatagories(self):
-        print('updated')
-        for dropdown in self.dropdowns:
-            if dropdown.currentIndex() != 0:
-                print(dropdown.currentIndex())
-                self.activeCatagories.append(dropdown.itemText(dropdown.currentIndex()))
-                print('activeCatagories:',self.activeCatagories)
-
-    def loadCatagories(self, button, catagories):
-        for catagorie in catagories:
-            button.addItem(catagorie)
-
     def genTop10_Clicked(self):
         print('button pushed')
         genre1 = str(self.ui.Genre_1_dropdown.currentText())
@@ -76,6 +57,16 @@ class Main(QtGui.QMainWindow):
             self.ui.textBrowser.append("Here's your general "+toplist+" list:")
         if num >= 1:
             self.ui.textBrowser.append("\nHere's your "+toplist+" list:")
+
+        # self.mydb.cursor.execute("SELECT * FROM ratings")
+        # count = 0
+        # while True:
+        #     row = self.mydb.cursor.fetchone()
+            
+        #     if row == None or count == 10:
+        #         break
+        #     print(row)
+        #     count += 1
 
     def Gen_rating_btn_Clicked(self):
         UserID = self.ui.User_Line.text()
