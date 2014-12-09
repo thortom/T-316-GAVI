@@ -58,8 +58,17 @@ class manage_db():
         return cur.fetchall()
 
     def getTopX(self,genres,num):
+        command = "select movieid from movies"
+        s = " where genres = "
+        for genre in genres:
+            if genre == genres[0]:
+                command += (s+"'"+genre+"'")
+            else:
+                command += (" or genres = "+"'"+genre+"'")
+        print(command)
         cur = self.connection.cursor()
-        cur.execute("select movieid from tags where tag = '%s' limit %s" %(genres[0],num))
+        #cur.execute("select movieid from movies where genres = '%s' limit %s" %(genres[0],num))
+        cur.execute(command+" limit %s" %num)
         rows = cur.fetchall()
         for row in rows:
             print(row)
