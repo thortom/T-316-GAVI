@@ -73,10 +73,10 @@ class manage_db():
         try:
             self.cursor.execute("select exists(select relname from pg_class where relname='averageratings')")
             exists = self.cursor.fetchone()[0]
-        except psycopg2.Error as e:
+        except:
             self.cursor.execute("drop table if EXISTS averageratings")
             self.cursor.execute("create table averageratings(title varchar(180),movieid integer PRIMARY KEY,averagerating float)")
-            self.cursor.execute("Insert into averageratings(title,movieid,averagerating) select movies.title, movies.movieid, AVG(ratings.rating) as a from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by a DESC")
+            self.cursor.execute("select title, movieid, averagerating, numberofvotes from(select movies.title, movies.movieid, AVG(ratings.rating)as averagerating, count(ratings.rating) as numberofvotes from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by averagerating DESC) as avrat where numberofvotes > 100")
         print('averageratings:', exists)
         
     def getRandomMovie(self, genre1, genre2, Rating, Year):
