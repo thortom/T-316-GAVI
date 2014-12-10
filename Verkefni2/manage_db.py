@@ -55,10 +55,8 @@ class manage_db():
         cur = self.cursor
         g = " where movies.genres like '%"
         for genre in sorted(genres):
-            print(genre)
             g += genre+"%' and genres like'%"
         g = g[:-18]
-        print("g:",g)
         sql = "select movies.title, averageratings.averagerating from averageratings inner join movies on averageratings.movieid = movies.movieid"
         if len(genres)>0:
             sql += g
@@ -66,8 +64,14 @@ class manage_db():
 
         cur.execute(sql+' limit %s'%str(num))
         rows = cur.fetchall()
+        text ="Rank\tRating\tTitle\n\n"
+        r=1
         for row in rows:
-            print(row)
+            row = list(row)
+            #print(row[0],round(row[1],2))
+            text += str(r)+'\t'+str(round(row[1],2)) + '\t' + row[0]+'\n'
+            r+=1
+        return(text[:-1])
 
     def createAverageRatingsTable(self):
         # Avoid recreating table if not needed
