@@ -64,11 +64,13 @@ class manage_db():
 
         cur.execute(sql+' limit %s'%str(num))
         rows = cur.fetchall()
-        text =""
+        text ="Rank\tRating\tTitle\n\n"
+        r=1
         for row in rows:
             row = list(row)
             #print(row[0],round(row[1],2))
-            text += str(round(row[1],2)) + '\t' + row[0]+'\n'
+            text += str(r)+'\t'+str(round(row[1],2)) + '\t' + row[0]+'\n'
+            r+=1
         return(text[:-1])
 
     def createAverageRatingsTable(self):
