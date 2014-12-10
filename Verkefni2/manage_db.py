@@ -36,7 +36,7 @@ class manage_db():
     def missingData(self):
         #Remember to add for the other files
         try:
-            if len([item for item in self.getTables() if 'ratings' or 'users' or 'movies' or 'tags' in item]) == 5:
+            if len([item for item in self.getTables() if 'ratings' or 'users' or 'movies' or 'tags' in item >= 4) :
                 print('Tables already in Database')
                 return False
         except:
