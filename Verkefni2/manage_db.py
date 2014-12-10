@@ -53,14 +53,16 @@ class manage_db():
 
     def getTopX(self,genres,num):
         cur = self.cursor
-        g = " where genres = '"
+        g = " where movies.genres like '%"
         for genre in sorted(genres):
-            g += genre
-            g += '|'
-        g = g[:-1] + "'"
-        sql = "select movieid, genres from movies"
+            print(genre)
+            g += genre+"%' and genres like'%"
+        g = g[:-18]
+        print("g:",g)
+        sql = "select movies.title, averageratings.averagerating from averageratings inner join movies on averageratings.movieid = movies.movieid"
         if len(genres)>0:
             sql += g
+        sql += " order by averagerating desc"
 
         cur.execute(sql+' limit %s'%str(num))
         rows = cur.fetchall()
