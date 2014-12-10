@@ -106,33 +106,22 @@ class Main(QtGui.QMainWindow):
         genre2 = str(self.ui.Genre_2_dropdown_2.currentText())
         genre3 = str(self.ui.Genre_3_dropdown_2.currentText())
         genre4 = self.ui.User_Line_2.text()
-        print(genre4)
-        print(genre1)
-        print(genre2)
-        print(genre3)
 
         RandMovie = self.mydb.getRandomMovie(genre1, genre2, genre3, genre4)
         if RandMovie == 'Nope':
-            self.ui.textBrowser.append("Try Again Bitch")
+            self.ui.textBrowser.append("No movie was found: Try Again with diffrent values")
         else:
             self.ui.textBrowser.append('The random movie is: ' + RandMovie)
             UrlList = []
-            youtubeList = []
             for url in search(RandMovie, stop = 5):
                 UrlList.append(url)
             imdbList = [s for s in UrlList if 'imdb' in s]
-            youtubeList = [s for s in UrlList if 'youtube' in s]
 
             if not imdbList:
                 self.ui.textBrowser.append('No imdb link was found for %s' % RandMovie)
             else:
                 self.ui.textBrowser.append('Imdb link for %s is %s ' %(RandMovie,imdbList[0]))
                 webbrowser.open(imdbList[0])
-
-            if not youtubeList:
-                self.ui.textBrowser.append('No youtube link was found for %s' % RandMovie)
-            else:
-                self.ui.textBrowser.append('Youtube link for %s is %s' %(RandMovie, youtubeList[0]))
 
 
 

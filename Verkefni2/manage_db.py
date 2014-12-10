@@ -70,44 +70,36 @@ class manage_db():
     def createAverageRatingsTable(self):
         cur = self.connection.cursor()
         cur.execute("drop table if EXISTS averageratings")
-        cur.execute("create table averageratings(title varchar(180),movieid integer PRIMARY KEY,averagerating float)")
-        cur.execute("Insert into averageratings(title,movieid,averagerating) select movies.title, movies.movieid, AVG(ratings.rating) as a from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by a DESC")
-
+        cur.execute("create table averageratings(thetitle varchar(180),movieid integer PRIMARY KEY,averagerating float)")
+        cur.execute("Insert into averageratings(thetitle,movieid,averagerating) select movies.title, movies.movieid, AVG(ratings.rating) as a from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by a DESC")
+        print('Av')
 
     def getRandomMovie(self, genre1, genre2, Rating, Year):
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
         cur = self.connection.cursor()
+
         if 'Pick' in genre1 and 'Pick' in genre2 and 'Rating' in Rating and 'Choose' in Year:
             Start = 'SELECT title From movies'
         else:
-            if 'Pick' in genre1:
-                genre1 = ''
-            if 'Pick' in genre2:
-                genre2 = ''
-            if 'Rating' in Rating:
-                Rating = ''
-                print(Rating)
-            if 'Choose' in Year:
+            if '' in Year or 'Choose' in Year:
                 Year = ''
             else:
-                if Year == '':
-                    Year = ''
-                else:
-                    if Year[2] == ' ':
-                        Year = 'year ' + Year[0] + Year[1] + "'" + Year[3:len(Year)] + "'"
-                    elif Year[1] == ' ':
-                        Year = 'year ' + Year[0] + "'" + Year[2:len(Year)] + "'"
-                    elif Year[0] in '12':
-                        Year = 'year = ' + "'" + Year + "'" 
-            if genre1 == '' and genre2 =='':
+                if Year[2] == ' ':
+                    Year = 'year ' + Year[0] + Year[1] + "'" + Year[3:len(Year)] + "'"
+                elif Year[1] == ' ':
+                    Year = 'year ' + Year[0] + "'" + Year[2:len(Year)] + "'"
+                elif Year[0] in '12':
+                    Year = 'year = ' + "'" + Year + "'" 
+
+            if 'Pick' in genre1 and 'Pick' in genre2:
                 Start = 'SELECT title FROM movies WHERE ' + Year
-            elif genre1 == '' and not genre2 == '':
+            elif 'Pick' in genre1 and not 'Pick' in genre2:
                 genre2 = "'" + genre2 + "'" 
                 if Year == '':
                     Start = "SELECT title FROM movies WHERE " + Year + 'genres = ' + genre2
                 else:
                     Start = "SELECT title FROM movies WHERE " + Year + ' And ' + 'genres = ' + genre2
-            elif not genre1 == ''  and genre2 == '':
+            elif not 'Pick' in genre1 and 'Pick' in genre2:
                 genre1 = "'" + genre1 + "'" 
                 if Year == '':
                     Start = 'SELECT title FROM movies WHERE ' + Year + 'genres = ' + genre1
@@ -119,27 +111,20 @@ class manage_db():
                     Start = 'SELECT title FROM movies WHERE ' + Year + 'genres = ' + genre
                 else:
                     Start = 'SELECT title FROM movies WHERE ' + Year + ' and ' + 'genres = ' + genre
-            if not Rating == '':
 
+            if not 'Rating' in Rating:
                 Start = 'Select title From ratings, movies where rating ' + Rating + ' and RANDOM() < 0.01'
-                print(Start)
-                if not genre1 == '' and genre2 == '':
+                if not 'Pick' in genre1 and 'Pick' in genre2:
                     Start = Start + ' And genres = ' + genre1
-                    print(Start)
-                elif genre1 == '' and not genre2 == '':
+                elif 'Pick' in genre1 and not 'Pick' in genre2:
                     Start = Start + ' And genres = ' + genre2
-                    print(Start)
-                elif not genre1 == '' and not genre2 == '':
+                else:
                     Start = Start + ' And genres = ' + genre
-                    print(Start)
-                
-                print(Start)
 
                 if not Year == '':
                     Start = Start + ' And ' + Year
-                    print(Start)
+
                 Start = Start + ' Limit 100'
-                print(Start)
 
 
         cur.execute(Start)
@@ -149,9 +134,6 @@ class manage_db():
         else:
             row = pd.DataFrame(row)
             rand = random.randint(0,len(row)-1)
-            print(row)
-            print(rand)
-            print(row.iloc[rand,0])
             try: 
                 return row.iloc[rand,0]
             except:
