@@ -81,11 +81,10 @@ class manage_db():
         
     def getRandomMovie(self, genre1, genre2, Rating, Year):
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
-        cur = self.connection.cursor()
         if 'Pick' in genre1 and 'Pick' in genre2 and 'Rating' in Rating and 'Choose' in Year:
             Start = 'SELECT title From movies'
         else:
-            if '' in Year or 'Choose' in Year:
+            if not Year or 'Choose' in Year:
                 Year = ''
             else:
                 if Year[2] == ' ':
@@ -96,40 +95,30 @@ class manage_db():
                     Year = 'year = ' + "'" + Year + "'" 
 
             if 'Pick' in genre1 and 'Pick' in genre2:
-                Start = 'SELECT title FROM movies WHERE ' + Year
+                Start = 'SELECT title FROM movies, ratings WHERE ' + Year
             elif 'Pick' in genre1 and not 'Pick' in genre2:
-                genre2 = "'" + genre2 + "'" 
                 if Year == '':
-                    Start = "SELECT title FROM movies WHERE " + Year + 'genres = ' + genre2
+                    Start = "SELECT title FROM movies, ratings WHERE genres like '%{}%'".format(genre2)
                 else:
-                    Start = "SELECT title FROM movies WHERE " + Year + ' And ' + 'genres = ' + genre2
+                    print('HAllo')
+                    Start = "SELECT title FROM movies, ratings WHERE genres like '%{}%' and {} ".format(genre2, Year)
             elif not 'Pick' in genre1 and 'Pick' in genre2:
-                genre1 = "'" + genre1 + "'" 
                 if Year == '':
-                    Start = 'SELECT title FROM movies WHERE ' + Year + 'genres = ' + genre1
+                    Start = "SELECT title FROM movies, ratings WHERE genres like '%{}%' ".format(genre1)
                 else:
-                    Start = 'SELECT title FROM movies WHERE ' + Year + ' And ' + 'genres = ' + genre1
+                    Start = "SELECT title FROM movies, ratings WHERE genres like '%{}%' and {} ".format(genre1, Year)
             else:
-                genre = "'" + genre1 + "|" + genre2 + "'"
                 if Year == '':
-                    Start = 'SELECT title FROM movies WHERE ' + Year + 'genres = ' + genre
+                    Start = "SELECT title FROM movies, ratings WHERE genres like '%{}%' and genres like '%{}%'".format(genre1,genre2)
                 else:
-                    Start = 'SELECT title FROM movies WHERE ' + Year + ' and ' + 'genres = ' + genre
+                    Start = "SELECT title FROM movies, ratings WHERE genres like '%{}%' and genres like '%{}%' and {} ".format(genre1,genre2,Year)
 
             if not 'Rating' in Rating:
-                Start = 'Select title From ratings, movies where rating ' + Rating + ' and RANDOM() < 0.01'
-                if not 'Pick' in genre1 and 'Pick' in genre2:
-                    Start = Start + ' And genres = ' + genre1
-                elif 'Pick' in genre1 and not 'Pick' in genre2:
-                    Start = Start + ' And genres = ' + genre2
+                if 'Pick' in genre1 and 'Pick' in genre2 and not Year:
+                    Start = Start + " rating {} and RANDOM() < 0.01".format(Rating)
                 else:
-                    Start = Start + ' And genres = ' + genre
-
-                if not Year == '':
-                    Start = Start + ' And ' + Year
-
+                    Start = Start + " And rating {} and RANDOM() < 0.01".format(Rating)
                 Start = Start + ' Limit 100'
-
 
         self.cursor.execute(Start)
         row = self.cursor.fetchall()
