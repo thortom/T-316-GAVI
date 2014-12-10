@@ -74,11 +74,12 @@ class manage_db():
             self.cursor.execute("select exists(select relname from pg_class where relname='averageratings')")
             exists = self.cursor.fetchone()[0]
         except:
+            pass
+        if not exists:
             self.cursor.execute("drop table if EXISTS averageratings")
             self.cursor.execute("create table averageratings(title varchar(180),movieid integer PRIMARY KEY,averagerating float)")
-            self.cursor.execute("select title, movieid, averagerating, numberofvotes from(select movies.title, movies.movieid, AVG(ratings.rating)as averagerating, count(ratings.rating) as numberofvotes from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by averagerating DESC) as avrat where numberofvotes > 100")
+            self.cursor.execute("Insert into averageratings(title,movieid,averagerating) select title, movieid, averagerating from(select movies.title, movies.movieid, AVG(ratings.rating)as averagerating, count(ratings.rating) as numberofvotes from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by averagerating DESC) as avrat where numberofvotes > 100")
             print('Averageratings table created')
-        print('averageratings:', exists)
         
     def getRandomMovie(self, genre1, genre2, Rating, Year):
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
