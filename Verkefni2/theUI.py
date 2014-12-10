@@ -33,14 +33,12 @@ class Main(QtGui.QMainWindow):
 
 
     def genTopX_Clicked(self):
-        print('button clicked')
         toplist = str(self.ui.Top_x_dropdown.currentText())
         num = toplist.split()[1]
         genres = []
         for dropdown in self.dropdowns:
             genres.append(dropdown.currentText())
         genres = [item for item in genres if item != "Pick a genre"]
-        print('genres:',genres)
 
         topX = self.mydb.getTopX(genres,num)
 
