@@ -68,11 +68,17 @@ class manage_db():
             print(row)
 
     def createAverageRatingsTable(self):
-        cur = self.connection.cursor()
-        cur.execute("drop table if EXISTS averageratings")
-        cur.execute("create table averageratings(thetitle varchar(180),movieid integer PRIMARY KEY,averagerating float)")
-        cur.execute("Insert into averageratings(thetitle,movieid,averagerating) select movies.title, movies.movieid, AVG(ratings.rating) as a from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by a DESC")
-
+        # Avoid recreating table if not needed
+        exists = False
+        try:
+            self.cursor.execute("select exists(select relname from pg_class where relname='averageratings')")
+            exists = self.cursor.fetchone()[0]
+        except psycopg2.Error as e:
+            self.cursor.execute("drop table if EXISTS averageratings")
+            self.cursor.execute("create table averageratings(title varchar(180),movieid integer PRIMARY KEY,averagerating float)")
+            self.cursor.execute("Insert into averageratings(title,movieid,averagerating) select movies.title, movies.movieid, AVG(ratings.rating) as a from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by a DESC")
+        print('averageratings:', exists)
+        
     def getRandomMovie(self, genre1, genre2, Rating, Year):
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
         cur = self.connection.cursor()
