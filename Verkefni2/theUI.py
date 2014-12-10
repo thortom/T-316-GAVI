@@ -41,12 +41,13 @@ class Main(QtGui.QMainWindow):
         genres = [item for item in genres if item != "Pick a genre"]
 
         topX = self.mydb.getTopX(genres,num)
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append(topX)
 
 
 
 
     def genTop10_Clicked(self):
-        print('button pushed')
         genre1 = str(self.ui.Genre_1_dropdown.currentText())
         genre2 = str(self.ui.Genre_2_dropdown.currentText())
         genre3 = str(self.ui.Genre_3_dropdown.currentText())
