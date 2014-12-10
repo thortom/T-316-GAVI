@@ -89,8 +89,9 @@ class manage_db():
         
     def getRandomMovie(self, genre1, genre2, Rating, Year):
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
+        Start = 'SELECT m.title FROM movies m Inner Join averageratings av on av.movieid = m.movieid '
         if 'Pick' in genre1 and 'Pick' in genre2 and 'Rating' in Rating and 'Choose' in Year:
-            Start = 'SELECT m.title From movies m'
+            pass
         else:
             if not Year or 'Choose' in Year:
                 Year = ''
@@ -103,34 +104,37 @@ class manage_db():
                     Year = 'm.year = ' + "'" + Year + "'" 
 
             if 'Pick' in genre1 and 'Pick' in genre2:
-                Start = 'SELECT m.title FROM movies m Inner Join averageratings av on av.movieid = m.movieid WHERE m.title = av.title'
-                if not Year:
-                    Start = 'SELECT m.title FROM movies m Inner Join averageratings av on av.movieid = m.movieid WHERE m.title = av.title ' + Year
-            elif 'Pick' in genre1 and not 'Pick' in genre2:
-                if Year == '':
-                    Start = "SELECT movies.title FROM movies m Inner Join averageratings av on av.movieid = m.movieid WHERE m.genres like '%{}%'".format(genre2)
-                else:
-                    print('HAllo')
-                    Start = "SELECT movies.title FROM movies m Inner Join averageratings av on av.movieid = m.movieid WHERE m.genres like '%{}%' and {} ".format(genre2, Year)
+                if Year:
+                    Start = Start + ' Where ' + Year
             elif not 'Pick' in genre1 and 'Pick' in genre2:
-                if Year == '':
-                    Start = "SELECT movies.title FROM movies m Inner Join averageratings av on av.movieid = m.movieid WHERE m.genres like '%{}%' ".format(genre1)
+                if not Year:
+                    Start = Start + "WHERE m.genres like '%{}%'".format(genre1)
                 else:
-                    Start = "SELECT movies.title FROM movies m Inner Join averageratings av on av.movieid = m.movieid WHERE m.genres like '%{}%' and {} ".format(genre1, Year)
+                    Start = Start + " and m.genres like '%{}%' and {} ".format(genre1, Year)
+            elif 'Pick' in genre1 and not 'Pick' in genre2:
+                if not Year:
+                    Start = Start + "WHERE m.genres like '%{}%'".format(genre2)
+                else:
+                    Start = Start + " and m.genres like '%{}%' and {} ".format(genre2, Year)
+            elif not 'Pick' in genre1 and 'Pick' in genre2:
+                if not Year:
+                    Start = Start + "WHERE m.genres like '%{}%'".format(genre1)
+                else:
+                    Start = Start + " and m.genres like '%{}%' and {} ".format(genre1, Year)
             else:
                 if Year == '':
-                    Start = "SELECT movies.title FROM movies m Inner Join averageratings av on av.movieid = m.movieid WHERE m.genres like '%{}%' and m.genres like '%{}%'".format(genre1,genre2)
+                    Start = Start + " Where m.genres like '%{}%' and m.genres like '%{}%'".format(genre1,genre2)
                 else:
-                    Start = "SELECT movies.title FROM movies m Inner Join averageratings av on av.movieid = m.movieid WHERE m.genres like '%{}%' and m.genres like '%{}%' and {} ".format(genre1,genre2,Year)
+                    Start = Start + " Where m.genres like '%{}%' and m.genres like '%{}%' and {} ".format(genre1,genre2,Year)
 
             if not 'Rating' in Rating:
                 if 'Pick' in genre1 and 'Pick' in genre2 and not Year:
-                    Start = Start + " av.averagerating {} and RANDOM() < 0.01".format(Rating)
+                    Start = Start + " Where av.averagerating {} and RANDOM() < 1".format(Rating)
                 else:
-                    Start = Start + " And av.averagerating {} and RANDOM() < 0.01".format(Rating)
+                    Start = Start + " And av.averagerating {} and RANDOM() < 1".format(Rating)
                 Start = Start + ' Limit 100'
 
-        print(Start)
+
         self.cursor.execute(Start)
         row = self.cursor.fetchall()
         if not row:

@@ -43,8 +43,6 @@ class Main(QtGui.QMainWindow):
         print('genres:',genres)
 
         topX = self.mydb.getTopX(genres,num)
-        self.ui.textBrowser.clear()
-        self.ui.textBrowser.append(topX)
 
 
 
