@@ -25,6 +25,7 @@ class import_data():
             if file.endswith(".dat"):
                 self.readData(path+'\\'+file)
 
+    # TODO: add references between tables
     def readMoviesData(self, fileName):
         print("start: ", fileName.rsplit('\\')[-1])
 
@@ -56,6 +57,7 @@ class import_data():
             self.mydb.cursor.execute("INSERT INTO movies VALUES(%s, '%s', '%s', '%s')" %(row['movieid'], str(row['title']).replace("'","''"), row['year'], str(row['genres']).replace("'","''")))
         print('Saved movies to database')
 
+    # TODO: add references between tables
     def readTagsData(self, fileName):
         print("start: ", fileName.rsplit('\\')[-1])
         self.mydb.cursor.execute("DROP TABLE IF EXISTS tags")
@@ -65,6 +67,7 @@ class import_data():
         self.mydb.cursor.execute("ALTER TABLE tags ADD COLUMN index BIGSERIAL PRIMARY KEY;")
         print('Saved tags to database')
 
+    # TODO: add references between tables
     def readRatingsData(self, fileName):
         print("start: ", fileName.rsplit('\\')[-1])
         self.mydb.cursor.execute("DROP TABLE IF EXISTS ratings")
