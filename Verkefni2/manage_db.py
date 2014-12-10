@@ -77,6 +77,7 @@ class manage_db():
             self.cursor.execute("drop table if EXISTS averageratings")
             self.cursor.execute("create table averageratings(title varchar(180),movieid integer PRIMARY KEY,averagerating float)")
             self.cursor.execute("select title, movieid, averagerating, numberofvotes from(select movies.title, movies.movieid, AVG(ratings.rating)as averagerating, count(ratings.rating) as numberofvotes from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by averagerating DESC) as avrat where numberofvotes > 100")
+            print('Averageratings table created')
         print('averageratings:', exists)
         
     def getRandomMovie(self, genre1, genre2, Rating, Year):
