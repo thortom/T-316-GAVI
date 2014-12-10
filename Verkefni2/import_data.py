@@ -71,7 +71,7 @@ class import_data():
     def readRatingsData(self, fileName):
         print("start: ", fileName.rsplit('\\')[-1])
         self.mydb.cursor.execute("DROP TABLE IF EXISTS ratings")
-        self.mydb.cursor.execute("CREATE TABLE ratings(userid INT, movieid INT, rating DEC, time INT);")
+        self.mydb.cursor.execute("CREATE TABLE ratings(userid INT, movieid INT, rating INT, time INT);")
         self.mydb.cursor.execute("COPY ratings FROM '%s' Using Delimiters '\t';" %fileName)
         self.mydb.cursor.execute("ALTER TABLE ratings DROP COLUMN time;")
         self.mydb.cursor.execute("ALTER TABLE ratings ADD COLUMN index BIGSERIAL PRIMARY KEY;")

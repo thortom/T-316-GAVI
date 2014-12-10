@@ -83,23 +83,92 @@ class Main(QtGui.QMainWindow):
         if num >= 1:
             self.ui.textBrowser.append("\nHere's your "+toplist+" list:")
 
-        # self.mydb.cursor.execute("SELECT * FROM ratings")
-        # count = 0
-        # while True:
-        #     row = self.mydb.cursor.fetchone()
-            
-        #     if row == None or count == 10:
-        #         break
-        #     print(row)
-        #     count += 1
 
     def Gen_rating_btn_Clicked(self):
-        UserID = self.ui.User_Line.text()
-        Movie = self.ui.Movie_line.text()
-        self.ui.textBrowser.append("Looks like "+UserID+" Will rate "+Movie+"10/10 !")
+        self.ui.textBrowser.append("Generating the prediction will take some time....")
+        print("Generating the prediction will take some time....")
+        mainUserID = self.ui.User_Line.text()
+        mainMovie = self.ui.Movie_line.text()
+        try:
+            mainUserID = int(mainUserID)
+        except ValueError:
+            self.ui.textBrowser.append("Error: The user needs to be inserted as an ID-number")
+            return
+        try:
+            mainMovieID = int(mainMovie)
+        except ValueError:
+            self.mydb.cursor.execute("select movieid from movies where title='%s'" %mainMovie)
+            mainMovieID = self.mydb.cursor.fetchone()[0]
+            if mainMovieID == None:
+                self.ui.textBrowser.append("Error: The movie title was not found in library")
+                return
+
+        print('mainUserID', mainUserID)
+        print('movieID', mainMovieID)
+
+        # Selecting previously rated movies by the mainUserID
+        self.mydb.cursor.execute("select movieid from ratings where userid = %s" %mainUserID)
+
+        mainUserMovies = '('
+        count = 0
+        while True:
+            row = self.mydb.cursor.fetchone()
+            if row == None:
+                break
+            mainUserMovies += "movieid='"+str(row[0])+"'" + " or "
+            count += 1
+        mainUserMovies = mainUserMovies[:-4] + ')'                                              # Cut of the last redundant " or " expression
+        print('mainUserMovies', mainUserMovies)
+
+        print("Starting the long query....")
+        print("If the list here above is long then this will take a long time")
+        print("A long list is more than 20 items this list is %s items long" %count)
+        # Sort by.... TODO: say something clever
+        s = '''select distinct ta.userid, count(ta.userid)
+                from
+                    (
+                    select ratings.userid, ratings.movieid, ratings.rating
+                        from ratings
+                            inner join
+                                (
+                                    select userid from ratings
+                                        where movieid=%s
+                                ) as s
+                                    on ratings.userid=s.userid
+                    ) as ta
+                where %s
+               group by ta.userid
+               order by count(ta.userid) desc''' %(mainMovieID, mainUserMovies)
+        self.mydb.cursor.execute(s)
+        firstRow = self.mydb.cursor.fetchone()
+        maxCommonWatchedMovies = firstRow[1]
+        print('maxCommonWatchedMovies', maxCommonWatchedMovies)
+        commonUserIDString = "(userid='" + str(firstRow[0]) + "'" + " or "
+        while True:
+            row = self.mydb.cursor.fetchone()
+            if row == None or maxCommonWatchedMovies != row[1]:
+                break
+            commonUserIDString += "userid='"+str(row[0])+"'" + " or "
+        commonUserIDString = commonUserIDString[:-4] + ')'
+        print('commonUserIDString', commonUserIDString)
+
+        # Get the average for all users that have similar watching history
+        s = "select rating from ratings where movieid=%s and %s" %(mainMovieID, commonUserIDString)
+        self.mydb.cursor.execute(s)
+        ratings = []
+        while True:
+            row = self.mydb.cursor.fetchone()
+            if row == None:
+                break
+            ratings.append(float(row[0]))
+        avgRating = sum(ratings)/len(ratings)
+
+        self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovieID), str(avgRating)))
+
     def Gen_ran_btn_Clicked(self):
-        self.ui.User_Line.setText('Arnar Ingi')
-        self.ui.Movie_line.setText('Backdoor sluts 9 ')
+        userID, movieTitle = self.mydb.getRandomUserAndMovie()
+        self.ui.User_Line.setText(str(userID))
+        self.ui.Movie_line.setText(movieTitle)
 
     def Gen_Random_Movie_btn_Clicked(self):
         genre1 = str(self.ui.Genre_1_dropdown_2.currentText())

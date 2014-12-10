@@ -10,7 +10,8 @@ class manage_db():
     def __init__(self,host,database, user, password):
         self.connection = self.connect(host,database, user, password)
         self.cursor = self.connection.cursor()
-        #self.insertTable()
+        self.sizeOfRatingsTable = None
+
     def connect(self,host,database, user, password):
         print('Connecting to database')
         con = None
@@ -78,7 +79,20 @@ class manage_db():
             self.cursor.execute("create table averageratings(title varchar(180),movieid integer PRIMARY KEY,averagerating float)")
             self.cursor.execute("Insert into averageratings(title,movieid,averagerating) select movies.title, movies.movieid, AVG(ratings.rating) as a from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by a DESC")
         print('averageratings:', exists)
-        
+
+    def getRandomUserAndMovie(self):
+        if self.sizeOfRatingsTable == None:
+            self.cursor.execute("select max(index) from ratings")
+            self.sizeOfRatingsTable = self.cursor.fetchone()[0]
+
+        randRatingsRow = random.randint(1, self.sizeOfRatingsTable)
+        self.cursor.execute(''' select r.userid, m.title
+                                    from ratings r, movies m
+                                        where r.index=%s and r.movieid=m.movieid''' %randRatingsRow)
+        row = self.cursor.fetchone()
+        userID, movieTitle = row[0], row[1]
+        return userID, movieTitle
+
     def getRandomMovie(self, genre1, genre2, Rating, Year):
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
         cur = self.connection.cursor()
