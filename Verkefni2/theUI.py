@@ -105,7 +105,7 @@ class Main(QtGui.QMainWindow):
             mainMovieID = int(mainMovie)
         except ValueError:
             s = "select movieid from movies where title=%s"
-            self.mydb.cursor.execute(s, mainMovie)
+            self.mydb.cursor.execute(s, (mainMovie,))
             mainMovieID = self.mydb.cursor.fetchone()[0]
             if mainMovieID == None:
                 self.ui.textBrowser.append("Error: The movie title was not found in library")
