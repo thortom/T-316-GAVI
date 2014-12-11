@@ -211,7 +211,7 @@
        </item>
        <item>
         <property name="text">
-         <string>Sci-fi</string>
+         <string>Sci-Fi</string>
         </property>
        </item>
        <item>
@@ -234,7 +234,7 @@
      <item row="4" column="0">
       <widget class="QLineEdit" name="User_Line_2">
        <property name="text">
-        <string>Choose year (ex. 1990=&gt;)</string>
+        <string>Choose year (ex. &gt;= 1990)</string>
        </property>
       </widget>
      </item>
@@ -324,7 +324,7 @@
        </item>
        <item>
         <property name="text">
-         <string>Sci-fi</string>
+         <string>Sci-Fi</string>
         </property>
        </item>
        <item>
@@ -353,57 +353,52 @@
        </item>
        <item>
         <property name="text">
-         <string>&gt;= 0</string>
+         <string>&gt; 0</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>= 0</string>
+         <string>&gt; 0.5</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>&gt;= 1</string>
+         <string>&gt; 1</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>= 1</string>
+         <string>&gt; 1.5</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>&gt;= 2</string>
+         <string>&gt; 2</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>= 2</string>
+         <string>&gt; 2.5</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>&gt;= 3</string>
+         <string>&gt; 3</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>= 3</string>
+         <string>&gt; 3.5</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>&gt;= 4</string>
+         <string>&gt; 4</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>= 4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>= 5</string>
+         <string>&gt; 4.5</string>
         </property>
        </item>
       </widget>
