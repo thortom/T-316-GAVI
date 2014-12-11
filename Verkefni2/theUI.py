@@ -200,6 +200,7 @@ class Main(QtGui.QMainWindow):
         self.ui.Movie_line.setText(movieTitle)
 
     def Gen_Random_Movie_btn_Clicked(self):
+        self.ui.textBrowser.clear()
         genre1 = str(self.ui.Genre_1_dropdown_2.currentText())
         genre2 = str(self.ui.Genre_2_dropdown_2.currentText())
         genre3 = str(self.ui.Genre_3_dropdown_2.currentText())
