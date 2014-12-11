@@ -1,0 +1,81 @@
+\documentclass[11pt,a4paper]{amsart}
+%\documentclass[paper=a4, fontsize=11pt]{scrartcl}
+%\documentclass[12pt, final]{sreport}
+\usepackage[utf8]{inputenc}
+\usepackage[icelandic]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{setspace} 
+\usepackage{lipsum}
+\usepackage{ifthen}
+\usepackage{geometry}
+
+%\onehalfspacing
+%\addtolength{\textheight}{2.4cm}
+%\addtolength{\hoffset}{-1.2cm}
+%\addtolength{\voffset}{-2cm}
+%\addtolength{\textwidth}{2.3cm}
+
+% Define new commands and operators
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\No}{\N_0}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\perms}{\mathfrak{S}}
+
+\DeclareMathOperator{\prst}{\mathcal{P}} 
+\DeclareMathOperator{\rem}{rem}	
+\DeclareMathOperator{\id}{id}
+% End of new commands definitions
+
+% Setup theorem styles
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+% End of theorem styles setup
+
+
+
+\begin{document}
+
+\input{titlepage2}
+
+Í þessu verkefni fáum gögn með 10 milljón einkunnir á 10,000 myndir frá 72,000 notendum.\par
+Útfrá þessum gögnum eigum við annars vegar að finna topp 10 lista samkvæmt einkunnum notendum og hins vegar að setja fram spá sem segir til hvaða einkunn tilgreindur notandi myndi gefa tilgreindi kvikmynd og bera saman við einkunnina sem notandi gaf myndinni ef einkunninn er til staðar.  
+\\
+Í notendaviðmótinu getur notandinn valið hvaða tegund(genre) af mynd og hversu stóran topplista notandinn vill og útfrá því fær notandinn topplista af þeirri tegund. Ef ekkert er valið, kemur topplisti yfir allar myndirnar.\par Þegar notandinn er velur tegund leitum við í gagnagrunni 'movies.genre' með hjálp 'LIKE' skipunar í PostgreSQL.
+
+
+
+
+Einnig erum við með smá auka valmöguleika, þar sem notandinn getur fengið upp mynd af handahófi eftir hvaða tegund og einkunnarskala hann vill.\par Þar notumst við eins og áður með hjálp 'LIKE' skipunar í PostgreSQL á 'movies.genre' gagnagrunninn og sækjum einkunnir í meðaltalseinkunnargagnagrunninn. 
+
+
+\section{Viðauki}
+
+
+	
+
+%\bibliographystyle{plain}
+\end{document}
