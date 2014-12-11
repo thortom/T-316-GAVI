@@ -203,7 +203,7 @@ class Main(QtGui.QMainWindow):
         try:
             print(rating[0])
             rating = rating[0]
-            self.ui.textBrowser.append("\nThe user has rated the movie before and did give the movie: %s in rating" %rating)
+            self.ui.textBrowser.append("\nThe user has rated the movie before and rated the movie: %s " %rating)
         except TypeError:
             self.ui.textBrowser.append("\nThe user has not rated the movie before")
 
