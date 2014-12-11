@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'window.ui'
 #
-# Created: Wed Dec 10 23:46:16 2014
+# Created: Thu Dec 11 10:34:01 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -143,7 +143,6 @@ class Ui_MainWindow(object):
         self.Genre_3_dropdown_2.addItem(_fromUtf8(""))
         self.Genre_3_dropdown_2.addItem(_fromUtf8(""))
         self.Genre_3_dropdown_2.addItem(_fromUtf8(""))
-        self.Genre_3_dropdown_2.addItem(_fromUtf8(""))
         self.gridLayout_2.addWidget(self.Genre_3_dropdown_2, 3, 0, 1, 1)
         self.label_3 = QtGui.QLabel(self.gridLayoutWidget_2)
         font = QtGui.QFont()
@@ -219,7 +218,7 @@ class Ui_MainWindow(object):
         self.Genre_1_dropdown_2.setItemText(1, _translate("MainWindow", "Action", None))
         self.Genre_1_dropdown_2.setItemText(2, _translate("MainWindow", "Adventure", None))
         self.Genre_1_dropdown_2.setItemText(3, _translate("MainWindow", "Animation", None))
-        self.Genre_1_dropdown_2.setItemText(4, _translate("MainWindow", "Children\'s", None))
+        self.Genre_1_dropdown_2.setItemText(4, _translate("MainWindow", "Children", None))
         self.Genre_1_dropdown_2.setItemText(5, _translate("MainWindow", "Comedy", None))
         self.Genre_1_dropdown_2.setItemText(6, _translate("MainWindow", "Crime", None))
         self.Genre_1_dropdown_2.setItemText(7, _translate("MainWindow", "Documentary", None))
@@ -240,7 +239,7 @@ class Ui_MainWindow(object):
         self.Genre_2_dropdown_2.setItemText(1, _translate("MainWindow", "Action", None))
         self.Genre_2_dropdown_2.setItemText(2, _translate("MainWindow", "Adventure", None))
         self.Genre_2_dropdown_2.setItemText(3, _translate("MainWindow", "Animation", None))
-        self.Genre_2_dropdown_2.setItemText(4, _translate("MainWindow", "Children\'s", None))
+        self.Genre_2_dropdown_2.setItemText(4, _translate("MainWindow", "Children", None))
         self.Genre_2_dropdown_2.setItemText(5, _translate("MainWindow", "Comedy", None))
         self.Genre_2_dropdown_2.setItemText(6, _translate("MainWindow", "Crime", None))
         self.Genre_2_dropdown_2.setItemText(7, _translate("MainWindow", "Documentary", None))
@@ -256,18 +255,17 @@ class Ui_MainWindow(object):
         self.Genre_2_dropdown_2.setItemText(17, _translate("MainWindow", "War", None))
         self.Genre_2_dropdown_2.setItemText(18, _translate("MainWindow", "Western", None))
         self.Genre_3_dropdown_2.setItemText(0, _translate("MainWindow", "Rating", None))
-        self.Genre_3_dropdown_2.setItemText(1, _translate("MainWindow", "Dont care", None))
-        self.Genre_3_dropdown_2.setItemText(2, _translate("MainWindow", ">=0", None))
-        self.Genre_3_dropdown_2.setItemText(3, _translate("MainWindow", "=0", None))
-        self.Genre_3_dropdown_2.setItemText(4, _translate("MainWindow", ">=1", None))
-        self.Genre_3_dropdown_2.setItemText(5, _translate("MainWindow", "=1", None))
-        self.Genre_3_dropdown_2.setItemText(6, _translate("MainWindow", ">=2", None))
-        self.Genre_3_dropdown_2.setItemText(7, _translate("MainWindow", "=2", None))
-        self.Genre_3_dropdown_2.setItemText(8, _translate("MainWindow", ">=3", None))
-        self.Genre_3_dropdown_2.setItemText(9, _translate("MainWindow", "=3", None))
-        self.Genre_3_dropdown_2.setItemText(10, _translate("MainWindow", ">=4", None))
-        self.Genre_3_dropdown_2.setItemText(11, _translate("MainWindow", "=4", None))
-        self.Genre_3_dropdown_2.setItemText(12, _translate("MainWindow", "=5", None))
+        self.Genre_3_dropdown_2.setItemText(1, _translate("MainWindow", ">= 0", None))
+        self.Genre_3_dropdown_2.setItemText(2, _translate("MainWindow", "= 0", None))
+        self.Genre_3_dropdown_2.setItemText(3, _translate("MainWindow", ">= 1", None))
+        self.Genre_3_dropdown_2.setItemText(4, _translate("MainWindow", "= 1", None))
+        self.Genre_3_dropdown_2.setItemText(5, _translate("MainWindow", ">= 2", None))
+        self.Genre_3_dropdown_2.setItemText(6, _translate("MainWindow", "= 2", None))
+        self.Genre_3_dropdown_2.setItemText(7, _translate("MainWindow", ">= 3", None))
+        self.Genre_3_dropdown_2.setItemText(8, _translate("MainWindow", "= 3", None))
+        self.Genre_3_dropdown_2.setItemText(9, _translate("MainWindow", ">= 4", None))
+        self.Genre_3_dropdown_2.setItemText(10, _translate("MainWindow", "= 4", None))
+        self.Genre_3_dropdown_2.setItemText(11, _translate("MainWindow", "= 5", None))
         self.label_3.setText(_translate("MainWindow", "Random Movie", None))
         self.Gen_ran_btn.setText(_translate("MainWindow", "Generate random UserID and MovieID", None))
         self.label_2.setText(_translate("MainWindow", "Rating Prediction", None))
