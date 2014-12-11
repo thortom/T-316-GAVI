@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>893</width>
+    <width>1146</width>
     <height>633</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>400</x>
       <y>30</y>
-      <width>461</width>
+      <width>681</width>
       <height>541</height>
      </rect>
     </property>
@@ -27,30 +27,24 @@
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>70</y>
-      <width>201</width>
-      <height>129</height>
+      <x>70</x>
+      <y>40</y>
+      <width>261</width>
+      <height>151</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QComboBox" name="Genre_2_dropdown"/>
      </item>
-     <item row="2" column="0">
-      <widget class="QComboBox" name="Genre_1_dropdown"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="QComboBox" name="Genre_3_dropdown"/>
-     </item>
-     <item row="6" column="0">
+     <item row="7" column="0">
       <widget class="QPushButton" name="genTop10">
        <property name="text">
         <string>Generate list</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
+     <item row="6" column="0">
       <widget class="QComboBox" name="Top_x_dropdown">
        <item>
         <property name="text">
@@ -99,173 +93,158 @@
        </item>
       </widget>
      </item>
+     <item row="3" column="0">
+      <widget class="QComboBox" name="Genre_1_dropdown"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QComboBox" name="Genre_3_dropdown"/>
+     </item>
+     <item row="2" column="0" alignment="Qt::AlignHCenter">
+      <widget class="QLabel" name="label_4">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Top list generator&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
     </layout>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>30</y>
-      <width>131</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Top list generator</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="User_Line">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>270</y>
-      <width>201</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Please enter a UserID</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="Movie_line">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>300</y>
-      <width>201</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Please write the title or ID of your movie</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Gen_rating_btn">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>390</y>
-      <width>201</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Generate rating prediction</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Gen_ran_btn">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>360</y>
-      <width>201</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Generate random UserID and MovieID</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="MovieID_checkbox">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>330</y>
-      <width>70</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>MovieID</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-    <property name="autoExclusive">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="MovieTitle_checkbox">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>330</y>
-      <width>70</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Movie title</string>
-    </property>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>30</y>
-      <width>121</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout"/>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>240</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <italic>false</italic>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Rating prediction</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>420</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <italic>false</italic>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Random Movie</string>
-    </property>
    </widget>
    <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>440</y>
-      <width>201</width>
-      <height>131</height>
+      <x>70</x>
+      <y>380</y>
+      <width>261</width>
+      <height>171</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
+     <item row="5" column="0">
+      <widget class="QCheckBox" name="checkBox">
+       <property name="text">
+        <string>Want to open IMDB in browser?</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QComboBox" name="Genre_1_dropdown_2">
+       <item>
+        <property name="text">
+         <string>Pick a genre</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Action</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Adventure</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Animation</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Children's</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Comedy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Crime</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Documentary</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Drama</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Fantasy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Film-Noir</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Horror</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Musical</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Mystery</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Romance</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Sci-fi</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Thriller</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>War</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Western</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLineEdit" name="User_Line_2">
+       <property name="text">
+        <string>Choose year (ex. 1990=&gt;)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QPushButton" name="Gen_Random_Movie_btn">
+       <property name="text">
+        <string>Generate Random Movie</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="0">
       <widget class="QComboBox" name="Genre_2_dropdown_2">
        <item>
@@ -434,117 +413,92 @@
        </item>
       </widget>
      </item>
-     <item row="5" column="0">
-      <widget class="QPushButton" name="Gen_Random_Movie_btn">
+     <item row="0" column="0" alignment="Qt::AlignHCenter">
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
-        <string>Generate Random Movie</string>
+        <string>Random Movie</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLineEdit" name="User_Line_2">
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>210</y>
+      <width>261</width>
+      <height>148</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="4" column="0" colspan="2">
+      <widget class="QPushButton" name="Gen_ran_btn">
        <property name="text">
-        <string>Choose year (ex. 1990=&gt;)</string>
+        <string>Generate random UserID and MovieID</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QComboBox" name="Genre_1_dropdown_2">
-       <item>
-        <property name="text">
-         <string>Pick a genre</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Action</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Adventure</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Animation</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Children's</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Comedy</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Crime</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Documentary</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Drama</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Fantasy</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Film-Noir</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Horror</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Musical</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Mystery</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Romance</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Sci-fi</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Thriller</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>War</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Western</string>
-        </property>
-       </item>
+     <item row="0" column="0" colspan="2" alignment="Qt::AlignHCenter">
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Rating Prediction</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" colspan="2">
+      <widget class="QLineEdit" name="Movie_line">
+       <property name="text">
+        <string>Please write the title or ID of your movie</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QCheckBox" name="MovieID_checkbox">
+       <property name="text">
+        <string>MovieID</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QCheckBox" name="MovieTitle_checkbox">
+       <property name="text">
+        <string>Movie title</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0" colspan="2">
+      <widget class="QPushButton" name="Gen_rating_btn">
+       <property name="text">
+        <string>Generate rating prediction</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QLineEdit" name="User_Line">
+       <property name="text">
+        <string>Please enter a UserID</string>
+       </property>
       </widget>
      </item>
     </layout>
@@ -555,7 +509,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>893</width>
+     <width>1146</width>
      <height>21</height>
     </rect>
    </property>
