@@ -27,8 +27,6 @@ class Main(QtGui.QMainWindow):
         cb.stateChanged.connect(self.checkBox)
         self.DATRUTH = True
 
-
-
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
         self.dropdowns = [self.ui.Genre_1_dropdown,self.ui.Genre_2_dropdown,self.ui.Genre_3_dropdown]
 
@@ -55,9 +53,6 @@ class Main(QtGui.QMainWindow):
         topX = self.mydb.getTopX(genres,num)
         self.ui.textBrowser.clear()
         self.ui.textBrowser.append(topX)
-
-
-
 
     def genTop10_Clicked(self):
         genre1 = str(self.ui.Genre_1_dropdown.currentText())
@@ -96,6 +91,7 @@ class Main(QtGui.QMainWindow):
 
 
     def Gen_rating_btn_Clicked(self):
+        self.ui.textBrowser.clear()
         self.ui.textBrowser.append("Generating the prediction will take some time....")
         print("Generating the prediction will take some time....")
         mainUserID = self.ui.User_Line.text()
@@ -108,7 +104,8 @@ class Main(QtGui.QMainWindow):
         try:
             mainMovieID = int(mainMovie)
         except ValueError:
-            self.mydb.cursor.execute("select movieid from movies where title='%s'" %mainMovie)
+            s = "select movieid from movies where title=%s"
+            self.mydb.cursor.execute(s, (mainMovie,))
             mainMovieID = self.mydb.cursor.fetchone()[0]
             if mainMovieID == None:
                 self.ui.textBrowser.append("Error: The movie title was not found in library")
@@ -120,16 +117,37 @@ class Main(QtGui.QMainWindow):
         # Selecting previously rated movies by the mainUserID
         self.mydb.cursor.execute("select movieid from ratings where userid = %s" %mainUserID)
 
+        lines = self.mydb.cursor.fetchall()
+        print('lines:', lines)
+        print('len(lines)', len(lines))
+        size = len(lines)
+
         mainUserMovies = '('
+        margin = 0.5
+        maxSize = 20
         count = 0
-        while True:
-            row = self.mydb.cursor.fetchone()
-            if row == None:
-                break
-            mainUserMovies += "movieid='"+str(row[0])+"'" + " or "
+        for movieid in lines:
+            print('movieid', movieid)
+            if size < maxSize:
+                mainUserMovies += "movieid='"+str(movieid[0])+"'" + " or "
+            else:
+                mainUserMovies += "movieid='"+str(movieid[0])+"'" + " or "
+                # TODO:
+                # mainUserMovies += "movieid='"+str(movieid[0])+"' and rating between ...." + " or "
             count += 1
         mainUserMovies = mainUserMovies[:-4] + ')'                                              # Cut of the last redundant " or " expression
         print('mainUserMovies', mainUserMovies)
+
+        # mainUserMovies = '('
+        # count = 0
+        # while True:
+        #     row = self.mydb.cursor.fetchone()
+        #     if row == None:
+        #         break
+        #     mainUserMovies += "movieid='"+str(row[0])+"'" + " or "
+        #     count += 1
+        # mainUserMovies = mainUserMovies[:-4] + ')'                                              # Cut of the last redundant " or " expression
+        # print('mainUserMovies', mainUserMovies)
 
         print("Starting the long query....")
         print("If the list here above is long then this will take a long time")
@@ -174,7 +192,8 @@ class Main(QtGui.QMainWindow):
             ratings.append(float(row[0]))
         avgRating = sum(ratings)/len(ratings)
 
-        self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie %s with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovie), str(mainMovieID), str(avgRating)))
+        self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie %s with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovie), str(mainMovieID), str(0.5 * ceil(2.0 * avgRating))))
+
 
     def Gen_ran_btn_Clicked(self):
         userID, movieTitle = self.mydb.getRandomUserAndMovie()
@@ -182,6 +201,7 @@ class Main(QtGui.QMainWindow):
         self.ui.Movie_line.setText(movieTitle)
 
     def Gen_Random_Movie_btn_Clicked(self):
+        self.ui.textBrowser.clear()
         genre1 = str(self.ui.Genre_1_dropdown_2.currentText())
         genre2 = str(self.ui.Genre_2_dropdown_2.currentText())
         genre3 = str(self.ui.Genre_3_dropdown_2.currentText())
