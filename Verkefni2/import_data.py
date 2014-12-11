@@ -89,12 +89,12 @@ class import_data():
         return newFileName
 
     def readData(self, fileName):
-        if ('movies' in fileName):
+        if ('movies.dat' in fileName):
             self.readMoviesData(fileName)
-        elif ('tags' in fileName):
+        elif ('tags.dat' in fileName):
             fileName = self.fixDelimiterInFile(fileName)
             self.readTagsData(fileName)
-        elif ('ratings' in fileName):
+        elif ('ratings.dat' in fileName):
             fileName = self.fixDelimiterInFile(fileName)
             self.readRatingsData(fileName)
         else:

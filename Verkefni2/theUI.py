@@ -1,4 +1,4 @@
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 from ui.window import Ui_MainWindow
 import sys
 from google import search
@@ -22,6 +22,11 @@ class Main(QtGui.QMainWindow):
         self.ui.Gen_ran_btn.clicked.connect(self.Gen_ran_btn_Clicked)
         self.ui.Gen_Random_Movie_btn.clicked.connect(self.Gen_Random_Movie_btn_Clicked)
         self.mydb = mydb
+        cb = self.ui.checkBox
+        cb.toggle()
+        cb.stateChanged.connect(self.checkBox)
+        self.DATRUTH = True
+
 
 
         catagories = ["Pick a genre", "Action", "Adventure",    "Animation",    "Children",   "Comedy",   "Crime",    "Documentary",  "Drama",    "Fantasy",  "Film-Noir",    "Horror",   "Musical",  "Mystery",  "Romance",  "Sci-Fi",   "Thriller", "War",  "Western"]
@@ -32,23 +37,29 @@ class Main(QtGui.QMainWindow):
                 dropdown.addItem(catagorie)
 
 
+    def checkBox(self,state):
+        cb = self.checkBox
+        if state == QtCore.Qt.Checked:
+            self.DATRUTH = True
+        else:
+            self.DATRUTH = False
+
     def genTopX_Clicked(self):
-        print('button clicked')
         toplist = str(self.ui.Top_x_dropdown.currentText())
         num = toplist.split()[1]
         genres = []
         for dropdown in self.dropdowns:
             genres.append(dropdown.currentText())
         genres = [item for item in genres if item != "Pick a genre"]
-        print('genres:',genres)
 
         topX = self.mydb.getTopX(genres,num)
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append(topX)
 
 
 
 
     def genTop10_Clicked(self):
-        print('button pushed')
         genre1 = str(self.ui.Genre_1_dropdown.currentText())
         genre2 = str(self.ui.Genre_2_dropdown.currentText())
         genre3 = str(self.ui.Genre_3_dropdown.currentText())
@@ -190,7 +201,8 @@ class Main(QtGui.QMainWindow):
                 self.ui.textBrowser.append('No imdb link was found for %s' % RandMovie)
             else:
                 self.ui.textBrowser.append('Imdb link for %s is %s ' %(RandMovie,imdbList[0]))
-                webbrowser.open(imdbList[0])
+                if self.DATRUTH:
+                    webbrowser.open(imdbList[0])
 
 
 
