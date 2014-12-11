@@ -3,6 +3,7 @@ from ui.window import Ui_MainWindow
 import sys
 from google import search
 import webbrowser
+import math
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -192,8 +193,7 @@ class Main(QtGui.QMainWindow):
             ratings.append(float(row[0]))
         avgRating = sum(ratings)/len(ratings)
 
-        self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie %s with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovie), str(mainMovieID), str(0.5 * ceil(2.0 * avgRating))))
-
+        self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie %s with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovie), str(mainMovieID), str(0.5 * math.ceil(2.0 * avgRating))))
 
     def Gen_ran_btn_Clicked(self):
         userID, movieTitle = self.mydb.getRandomUserAndMovie()
