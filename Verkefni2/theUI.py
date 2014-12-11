@@ -193,7 +193,7 @@ class Main(QtGui.QMainWindow):
             ratings.append(float(row[0]))
         avgRating = sum(ratings)/len(ratings)
 
-        self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovieID), str(0.5 * math.ceil(2.0 * avgRating))))
+        self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie %s with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovie), str(mainMovieID), str(0.5 * math.ceil(2.0 * avgRating))))
 
         # Look for rating if exists
         s = "select rating from ratings where userid=%s and movieid=%s"
