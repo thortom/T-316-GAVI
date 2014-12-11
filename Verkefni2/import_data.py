@@ -1,5 +1,6 @@
 import sys
 import os
+import csv
 import numpy as np
 import pandas as pd
 
@@ -61,8 +62,14 @@ class import_data():
     def readTagsData(self, fileName):
         print("start: ", fileName.rsplit('\\')[-1])
         self.mydb.cursor.execute("DROP TABLE IF EXISTS tags")
-        self.mydb.cursor.execute("CREATE TABLE tags(userid INT, movieid INT, tag TEXT, time INT)")
+        self.mydb.cursor.execute("CREATE TABLE tags(userid INT, movieid INT, tag TEXT, time INT);")
+        # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
         self.mydb.cursor.execute("COPY tags FROM '%s' Using Delimiters '\t';" %fileName)
+        # Tekur lengri tíma en fileName þarf ekki endileg að vera í C:\ möppunni
+        # with open(fileName, newline='') as csvfile:
+        #     for line in csvfile:
+        #         line = line.split('\t')
+        #         self.mydb.cursor.execute("INSERT INTO tags(userid, movieid, tag, time) VALUES(%s ,%s ,%s ,%s)", (line[0], line[1], line[2], line[3]))
         self.mydb.cursor.execute("ALTER TABLE tags DROP COLUMN time;")
         self.mydb.cursor.execute("ALTER TABLE tags ADD COLUMN index BIGSERIAL PRIMARY KEY;")
         print('Saved tags to database')
@@ -71,8 +78,14 @@ class import_data():
     def readRatingsData(self, fileName):
         print("start: ", fileName.rsplit('\\')[-1])
         self.mydb.cursor.execute("DROP TABLE IF EXISTS ratings")
-        self.mydb.cursor.execute("CREATE TABLE ratings(userid INT, movieid INT, rating INT, time INT);")
+        self.mydb.cursor.execute("CREATE TABLE ratings(userid INT, movieid INT, rating DEC, time INT);")
+        # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
         self.mydb.cursor.execute("COPY ratings FROM '%s' Using Delimiters '\t';" %fileName)
+        # Tekur 2-3 tíma en fileName þarf ekki endileg að vera í C:\ möppunni
+        # with open(fileName, newline='') as csvfile:
+        #     for line in csvfile:
+        #         line = line.split('\t')
+        #         self.mydb.cursor.execute("INSERT INTO ratings(userid, movieid, rating, time) VALUES(%s ,%s ,%s ,%s)",(line[0], line[1], line[2], line[3]))
         self.mydb.cursor.execute("ALTER TABLE ratings DROP COLUMN time;")
         self.mydb.cursor.execute("ALTER TABLE ratings ADD COLUMN index BIGSERIAL PRIMARY KEY;")
         print('Saved ratings to database')
