@@ -1,0 +1,17 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdftex 2014.10.12)  12 OCT 2014 12:06
+entering extended mode
+**C:/Users/HalliStef/Documents/HR/5.önn/T-501-REGL*Reglunarfræði/Verkefni/S1
+/Reglun-S1/Skýrsla/sreport.cls
+
+("C:/Users/HalliStef/Documents/HR/5.önn/T-501-REGL Reglunarfræði/Verkefni/S1
+/Reglun-S1/Skýrsla/sreport.cls"
+! Undefined control sequence.
+l.4 \newcommand
+               {\fileversion@rureport}{v0.1}
+? 
+! Emergency stop.
+l.4 \newcommand
+               {\fileversion@rureport}{v0.1}
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!
