@@ -93,7 +93,7 @@ class Main(QtGui.QMainWindow):
 
     def Gen_rating_btn_Clicked(self):
         self.ui.textBrowser.clear()
-        self.ui.textBrowser.append("Generating the prediction will take some time....")
+        # self.ui.textBrowser.append("Generating the prediction will take some time....")
         print("Generating the prediction will take some time....")
         mainUserID = self.ui.User_Line.text()
         mainMovie = self.ui.Movie_line.text()
@@ -194,6 +194,19 @@ class Main(QtGui.QMainWindow):
         avgRating = sum(ratings)/len(ratings)
 
         self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovieID), str(0.5 * math.ceil(2.0 * avgRating))))
+
+        # Look for rating if exists
+        s = "select rating from ratings where userid=%s and movieid=%s"
+        self.mydb.cursor.execute(s, (mainUserID, mainMovieID))
+        rating = self.mydb.cursor.fetchone()
+        print(rating)
+        try:
+            print(rating[0])
+            rating = rating[0]
+            self.ui.textBrowser.append("\nThe user has rated the movie before and did give the movie: %s in rating" %rating)
+        except TypeError:
+            self.ui.textBrowser.append("\nThe user has not rated the movie before")
+
 
     def Gen_ran_btn_Clicked(self):
         userID, movieTitle = self.mydb.getRandomUserAndMovie()
