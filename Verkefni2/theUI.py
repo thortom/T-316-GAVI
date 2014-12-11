@@ -174,7 +174,7 @@ class Main(QtGui.QMainWindow):
             ratings.append(float(row[0]))
         avgRating = sum(ratings)/len(ratings)
 
-        self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovieID), str(avgRating)))
+        self.ui.textBrowser.append('''Looks like user: %s \nWill give the movie %s with ID-number: %s \nThe rating: %s''' %(str(mainUserID), str(mainMovie), str(mainMovieID), str(avgRating)))
 
     def Gen_ran_btn_Clicked(self):
         userID, movieTitle = self.mydb.getRandomUserAndMovie()
