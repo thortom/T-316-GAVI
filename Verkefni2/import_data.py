@@ -88,6 +88,7 @@ class import_data():
         #         self.mydb.cursor.execute("INSERT INTO ratings(userid, movieid, rating, time) VALUES(%s ,%s ,%s ,%s)",(line[0], line[1], line[2], line[3]))
         self.mydb.cursor.execute("ALTER TABLE ratings DROP COLUMN time;")
         self.mydb.cursor.execute("ALTER TABLE ratings ADD COLUMN index BIGSERIAL PRIMARY KEY;")
+        self.mydb.cursor.execute("CREATE INDEX userid_idx ON ratings (userid);")
         print('Saved ratings to database')
 
     def fixDelimiterInFile(self, fileName):
