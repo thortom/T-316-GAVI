@@ -22,11 +22,11 @@
 \usepackage{ifthen}
 \usepackage{geometry}
 
-%\onehalfspacing
-%\addtolength{\textheight}{2.4cm}
-%\addtolength{\hoffset}{-1.2cm}
-%\addtolength{\voffset}{-2cm}
-%\addtolength{\textwidth}{2.3cm}
+\onehalfspacing
+\addtolength{\textheight}{2.4cm}
+\addtolength{\hoffset}{-1.2cm}
+\addtolength{\voffset}{-2cm}
+\addtolength{\textwidth}{2.3cm}
 
 % Define new commands and operators
 \newcommand{\N}{\mathbb{N}}
@@ -71,32 +71,41 @@ Forritið byrjar á því að kanna hvort töflunar 'ratings', 'movies' og 'tags
 Í notendaviðmótinu getur notandinn valið hvaða tegund(genre) af mynd og hversu stóran topplista notandinn vill og útfrá því fær notandinn topplista af þeirri tegund. Ef ekkert er valið, kemur topplisti yfir allar myndirnar.\par Þegar notandinn er velur tegund leitum við í gagnagrunni 'movies.genre' með hjálp 'LIKE' skipunar í PostgreSQL. Forritið sækir upplýsingar um topplista í 'averageratings' töfluna.
 
 \subsection{Einkunnarspá}
-
+Ef notandinn vill nýta sér einkunnarspánna getur hann annað hvort slegið inn sjálfur 'UserID' og 'MovieID' eða 'Movie Title' og þá fær hann spá frá tilgreindum einstaklingi fyrir valda bíómynd. Einnig getur hann valið 'UserID' og 'Movie Title' af handahófi.\par
+Til þess að setja fram spá finnum við út hvaða myndir valin einstaklingur hefur gefið einkunnum. Við finnum þá notendur sem líka hafa gefið þeim myndum einkunnir. Síðan nýtum við okkur einkunnagjöf þeirra notenda sem eiga flestar sameiginlega myndir með valda einstaklingnum. Lokaspáin er þá meðaltal þeirra einkunna sem þeir notendur hafa gefið valdri bíómynd.
 
 
 \subsection{BÓNUS - Mynd af handahófi}
-Einnig erum við með smá auka valmöguleika, þar sem notandinn getur fengið upp mynd af handahófi eftir hvaða tegund og einkunnarskala hann vill.\par Þar notumst við eins og áður með hjálp 'LIKE' skipunar í PostgreSQL á 'movies.genre' gagnagrunninn og sækjum einkunnir í 'averageratings' töfluna. 
+Einnig erum við með smá auka valmöguleika, þar sem notandinn getur fengið upp mynd af handahófi eftir hvaða tegund og einkunnarskala hann vill.\par Þar notumst við eins og áður með hjálp 'LIKE' skipunar í PostgreSQL á 'movies.genre' gagnagrunninn og sækjum einkunnir í 'averageratings' töfluna.  Einnig er getur notandinn valið hvort hann vilji að IMDB slóð komi upp í vafranum.
 
+\newpage
 
 \section{Viðauki}
 
 \begin{figure}[H]
-\centering
-\includegraphics[height=40mm]{ui_top20.jpg}
-\caption{$ Topp\ 20\ listi $\label{fig:top20}}
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[height=50mm]{ui_top20.jpg}
+		\caption{$ Topp\ 20\ listi $\label{fig:top20}}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\includegraphics[height=50mm]{predict.jpg}
+		\caption{$ Einkunnarspa\ fyrir\ Die\ Hard $\label{fig:predict}}	
+	\end{subfigure}
+\end{figure}
+\vspace{20mm}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[height=50mm]{rand.jpg}
+		\caption{$ Mynd\ af\ handahofi\ valin $\label{fig:rad}}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\includegraphics[height=40mm]{pre_dia.jpg}
+		\caption{$ Diagram\ fyrir\ einkunnarspa $\label{fig:dia}}	
+	\end{subfigure}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[height=50mm]{predict.jpg}
-\caption{$ Einkunnarspa\ fyrir\ Die\ Hard $\label{fig:predict}}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[height=50mm]{rand.jpg}
-\caption{$ Mynd\ af\ handahofi\ valin $\label{fig:rad}}
-\end{figure}
 
 %\bibliographystyle{plain}
 \end{document}
