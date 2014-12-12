@@ -1,4 +1,10 @@
 
-http://www.imf.org/external/datamapper/index.php
-dm-export-20141211.xlx
+dm-export-20141211.xlx -> http://www.imf.org/external/datamapper/index.php
+
+World Development Indicators:
+	20_Topic_en_csv_v2.csv -> https://eads.usaid.gov/gbk/data/prepared.cfm
+
+PREPARED FOREIGN ASSISTANCE:
+	us_economic_constant.xls -> https://eads.usaid.gov/gbk/data/prepared.cfm
+	us_military_constant.xls -> https://eads.usaid.gov/gbk/data/prepared.cfm
 
