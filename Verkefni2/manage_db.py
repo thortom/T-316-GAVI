@@ -35,10 +35,8 @@ class manage_db():
             return con
 
     def missingData(self):
-        #Remember to add for the other files
         try:
             if len([item for item in self.getTables() if 'ratings' or 'movies' or 'tags' in item]) > 1:
-            # if len([item for item in self.getTables() if 'ratings' and 'users' and 'movies' and 'tags' in item]) > 1:
                 print('Tables already in Database')
                 return False
         except:
@@ -70,7 +68,6 @@ class manage_db():
         r=1
         for row in rows:
             row = list(row)
-            #print(row[0],round(row[1],2))
             text += str(r)+'\t'+str(round(row[1],2)) + '\t' + row[0]+'\n'
             r+=1
         return(text[:-1])
@@ -87,8 +84,18 @@ class manage_db():
             print("start: averageratings", )
             self.cursor.execute("drop table if EXISTS averageratings")
             self.cursor.execute("create table averageratings(title varchar(180),movieid integer PRIMARY KEY,averagerating float)")
-            self.cursor.execute("Insert into averageratings(title,movieid,averagerating) select title, movieid, averagerating from(select movies.title, movies.movieid, AVG(ratings.rating)as averagerating, count(ratings.rating) as numberofvotes from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by averagerating DESC) as avrat where numberofvotes > 100")
-            # self.cursor.execute("Insert into averageratings(title,movieid,averagerating) select movies.title, movies.movieid, AVG(ratings.rating) as a from movies join ratings on movies.movieid=ratings.movieid group by movies.movieid order by a DESC")
+            self.cursor.execute('''Insert into averageratings(title,movieid,averagerating)
+                                        select title, movieid, averagerating
+                                            from
+                                            (
+                                                select movies.title, movies.movieid, AVG(ratings.rating) as averagerating, count(ratings.rating) as numberofvotes
+                                                    from movies
+                                                        join ratings on movies.movieid=ratings.movieid
+                                                    group by movies.movieid
+                                                    order by averagerating DESC
+                                            ) as avrat
+                                    where numberofvotes > 100''')
+            self.cursor.execute("ALTER TABLE averageratings ADD FOREIGN KEY (movieid) REFERENCES movies(movieid);")
             print('Averageratings table created')
 
     def getRandomUserAndMovie(self):
