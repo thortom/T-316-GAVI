@@ -62,41 +62,55 @@
 \input{titlepage2}
 
 \section{Aðferð/Niðurstaða}
-Í þessu verkefni fáum gögn með 10 milljón einkunnir á 10,000 myndir frá 72,000 notendum.
-Útfrá þessum gögnum eigum við annars vegar að finna topp 10 lista samkvæmt einkunnum notendum og hins vegar að setja fram spá sem segir til hvaða einkunn tilgreindur notandi myndi gefa tilgreindi kvikmynd og bera saman við einkunnina sem notandi gaf myndinni ef einkunninn er til staðar.  
+Í þessu verkefni fáum gögn með 10 milljón einkunnunum á 10,000 myndum frá 72,000 notendum.
+Útfrá þessum gögnum eigum við annars vegar að finna topp 10 lista og hins vegar að setja fram spá sem segir til hvaða einkunn tilgreindur notandi myndi gefa tilgreindri kvikmynd og bera saman við einkunnina sem notandinn gaf myndinni ef einkunninn er til staðar.  
 \\\par
-Forritið byrjar á því að kanna hvort töflunar 'ratings', 'movies' og 'tags' séu í gagnagrunninum og býr þær til ef svo er ekki. Þvi næst býr forritið til töflu 'averageratings' í gagnagrunninum sem heldur utan um meðaltalseinkunn mynda, þar sem einkunnin er reiknuð út frá einkunnagjöf frá að lágmarki 100 notendum. Þegar allar töflur eru komnar í gagnagrunninn kemur upp notendaviðmótið.
+Forritið byrjar á því að kanna hvort töflunar 'ratings', 'movies' og 'tags' séu í gagnagrunninum og býr þær til ef svo er ekki. Því næst býr forritið til töflu 'averageratings' í gagnagrunninum sem heldur utan um meðaltalseinkunn mynda, þar sem einkunnin er reiknuð út frá einkunnagjöf frá að lágmarki 100 notendum. Ákveðið var að 'averageratings' væri tafla þar sem við erum með kyrrstæð gögn og það fljótvirkara en ef við værum með lifandi gögn myndum augljóslega notast við 'VIEW'. Taflan 'averageratings' er gerð til að flýta fyrir framtíðar útreikningum. Þegar allar töflur eru komnar í gagnagrunninn kemur upp notendaviðmótið. Mynd~\ref{fig:schema} sýnir 'Database schema'.
 
 \subsection{Topp 10}
-Í notendaviðmótinu getur notandinn valið hvaða tegund(genre) af mynd og hversu stóran topplista notandinn vill og útfrá því fær notandinn topplista af þeirri tegund. Ef ekkert er valið, kemur topplisti yfir allar myndirnar.\par Þegar notandinn er velur tegund leitum við í gagnagrunni 'movies.genre' með hjálp 'LIKE' skipunar í PostgreSQL. Forritið sækir upplýsingar um topplista í 'averageratings' töfluna.
+Í notendaviðmótinu getur notandinn valið hvaða tegund(genre) af mynd og hversu stóran topplista notandinn vill og útfrá því fær notandinn topplista af þeirri tegund. Ef ekkert er valið, kemur topplisti yfir allar myndirnar.\par Þegar notandinn velur tegund leitum við í gagnagrunni 'movies.genre' með hjálp 'LIKE '\%genre\%'' skipunar í PostgreSQL. Forritið sækir upplýsingar um topplista í 'averageratings' töfluna. Sjá mynd~\ref{fig:top20}.
 
-\subsection{Einkunnarspá}
-
+\subsection{Einkunnaspá}
+Ef notandinn vill nýta sér einkunnaspánna getur hann annað hvort slegið inn sjálfur 'UserID' og 'MovieID' eða 'Movie Title' og þá fær hann spá frá tilgreindum einstaklingi fyrir valda bíómynd. Einnig getur hann valið 'UserID' og 'Movie Title' af handahófi. Einkunnarspá fyrir 'Much Ado About Nothing' má sjá á mynd~\ref{fig:predict}.\par
+Til þess að setja fram spá finnum við út hvaða myndir valinn einstaklingur hefur gefið einkunn. Við finnum þá notendur sem hafa líka gefið þeim myndum einkunnir. Síðan nýtum við okkur einkunnagjöf þeirra notenda sem eiga flestar sameiginlega myndir með valda einstaklingnum. Lokaspáin er þá meðaltal þeirra einkunna sem þeir notendur hafa gefið valdri bíómynd. Gróf skýringarmynd um hvernig við hugsuðum spánna má sjá á mynd~\ref{fig:pdia}.
 
 
 \subsection{BÓNUS - Mynd af handahófi}
-Einnig erum við með smá auka valmöguleika, þar sem notandinn getur fengið upp mynd af handahófi eftir hvaða tegund og einkunnarskala hann vill.\par Þar notumst við eins og áður með hjálp 'LIKE' skipunar í PostgreSQL á 'movies.genre' gagnagrunninn og sækjum einkunnir í 'averageratings' töfluna. 
+Einnig erum við með smá auka valmöguleika, þar sem notandinn getur fengið upp mynd af handahófi eftir hvaða tegund og einkunnarskala hann vill.\par Þar notumst við eins og áður með hjálp 'LIKE '\%genre\%'' skipunar í PostgreSQL á 'movies.genre' gagnagrunninn og sækjum einkunnir í 'averageratings' töfluna.  Einnig er getur notandinn valið hvort hann vilji að IMDB slóð komi upp í vafranum. Mynd~\ref{fig:rad}.
 
+\newpage
 
 \section{Viðauki}
-
+\vspace{2mm}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[H]{0.5\textwidth}
+		\includegraphics[height=50mm]{ui_top20.jpg}
+		\caption{$ Topp\ 20\ listi $\label{fig:top20}}
+	\end{subfigure}
+	\begin{subfigure}[H]{0.4\textwidth}
+		\includegraphics[height=50mm]{predict.png}
+		\caption{$ Einkunnarspa\ fyrir\ Much\ Ado\ About\ Nothing$\label{fig:predict}}	
+	\end{subfigure}
+\end{figure}
+\vspace{2mm}
 \begin{figure}[H]
 \centering
-\includegraphics[height=40mm]{ui_top20.jpg}
-\caption{$ Topp\ 20\ listi $\label{fig:top20}}
+\includegraphics[height=50mm,width=16cm]{pre_dia.jpg}
+\caption{$ Diagram\ fyrir\ einkunnarspa $\label{fig:pdia}}
 \end{figure}
+\vspace{2mm}
 
 \begin{figure}[H]
-\centering
-\includegraphics[height=50mm]{predict.jpg}
-\caption{$ Einkunnarspa\ fyrir\ Die\ Hard $\label{fig:predict}}
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[height=50mm]{rand.jpg}
+		\caption{$ Mynd\ af\ handahofi\ valin $\label{fig:rad}}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\includegraphics[height=50mm]{database_schema.png}
+		\caption{$ Database\ schema $\label{fig:schema}}	
+	\end{subfigure}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[height=50mm]{rand.jpg}
-\caption{$ Mynd\ af\ handahofi\ valin $\label{fig:rad}}
-\end{figure}
-
-%\bibliographystyle{plain}
 \end{document}

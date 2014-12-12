@@ -8,37 +8,23 @@ class import_data():
     def __init__(self, mydb):
         self.mydb = mydb
 
-        # Empty initialization
-        self.moviesData = pd.DataFrame()
-        self.tagsData = pd.DataFrame()
-        self.usersData = pd.DataFrame()
-        self.ratingsData = pd.DataFrame()
-
         print("Looking for data")
         self.findData()
         print("Got the data")
 
+    #Finds .dat files in the folder /data
     def findData(self):
-        #Finds .dat files in the folder /data
         dataFiles=[]
         path = os.getcwd()+"\data"
         for file in os.listdir(path):
             if file.endswith(".dat"):
                 self.readData(path+'\\'+file)
 
-    # TODO: add references between tables
     def readMoviesData(self, fileName):
         print("start: ", fileName.rsplit('\\')[-1])
 
-        # TODO: fix!!
-        # self.mydb.cursor.execute("DROP TABLE IF EXISTS movies")
-        # self.mydb.cursor.execute("CREATE TABLE movies(movieid INTEGER PRIMARY KEY, title TEXT, year TEXT,  genres TEXT)")
-        # self.mydb.cursor.execute("COPY movies FROM '%s' Using Delimiters '\t';" %fileName)
-
         # Need to fix for delimiter
-        data = pd.read_csv(fileName, delimiter='::', header=None, engine='python')        # Errors on delimiter='\t'
-
-        # print('data', data)
+        data = pd.read_csv(fileName, delimiter='::', header=None, engine='python')
 
         data.columns = ['movieid', 'titleyear','genres']
 
@@ -51,14 +37,12 @@ class import_data():
 
         data.drop('titleyear', axis=1, inplace=True)
 
-        # TODO
         self.mydb.cursor.execute("DROP TABLE IF EXISTS movies")
         self.mydb.cursor.execute("CREATE TABLE movies(movieid INTEGER PRIMARY KEY, title TEXT, year TEXT,  genres TEXT)")
         for idx, row in data.iterrows():
             self.mydb.cursor.execute("INSERT INTO movies VALUES(%s, '%s', '%s', '%s')" %(row['movieid'], str(row['title']).replace("'","''"), row['year'], str(row['genres']).replace("'","''")))
         print('Saved movies to database')
 
-    # TODO: add references between tables
     def readTagsData(self, fileName):
         print("start: ", fileName.rsplit('\\')[-1])
         self.mydb.cursor.execute("DROP TABLE IF EXISTS tags")
@@ -72,9 +56,9 @@ class import_data():
         #         self.mydb.cursor.execute("INSERT INTO tags(userid, movieid, tag, time) VALUES(%s ,%s ,%s ,%s)", (line[0], line[1], line[2], line[3]))
         self.mydb.cursor.execute("ALTER TABLE tags DROP COLUMN time;")
         self.mydb.cursor.execute("ALTER TABLE tags ADD COLUMN index BIGSERIAL PRIMARY KEY;")
+        self.mydb.cursor.execute("ALTER TABLE tags ADD FOREIGN KEY (movieid) REFERENCES movies(movieid);")
         print('Saved tags to database')
 
-    # TODO: add references between tables
     def readRatingsData(self, fileName):
         print("start: ", fileName.rsplit('\\')[-1])
         self.mydb.cursor.execute("DROP TABLE IF EXISTS ratings")
@@ -88,10 +72,12 @@ class import_data():
         #         self.mydb.cursor.execute("INSERT INTO ratings(userid, movieid, rating, time) VALUES(%s ,%s ,%s ,%s)",(line[0], line[1], line[2], line[3]))
         self.mydb.cursor.execute("ALTER TABLE ratings DROP COLUMN time;")
         self.mydb.cursor.execute("ALTER TABLE ratings ADD COLUMN index BIGSERIAL PRIMARY KEY;")
+        self.mydb.cursor.execute("ALTER TABLE ratings ADD FOREIGN KEY (movieid) REFERENCES movies(movieid);")
+        self.mydb.cursor.execute("CREATE INDEX userid_idx ON ratings (userid);")
         print('Saved ratings to database')
 
+    # Reads .dat files and changes the delimiter :: -> \t
     def fixDelimiterInFile(self, fileName):
-        #Lesa .dat og breyta delimiter
         newFileName = fileName.replace('.dat', '.csv')
         with open(fileName, newline='', encoding='utf-8') as dat_file:
             with open(newFileName , 'w', newline='', encoding='utf-8') as out_data:
@@ -102,12 +88,12 @@ class import_data():
         return newFileName
 
     def readData(self, fileName):
-        if ('movies.dat' in fileName):
+        if ('movies' in fileName):
             self.readMoviesData(fileName)
-        elif ('tags.dat' in fileName):
+        elif ('tags' in fileName):
             fileName = self.fixDelimiterInFile(fileName)
             self.readTagsData(fileName)
-        elif ('ratings.dat' in fileName):
+        elif ('ratings' in fileName):
             fileName = self.fixDelimiterInFile(fileName)
             self.readRatingsData(fileName)
         else:
