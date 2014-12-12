@@ -93,7 +93,6 @@ class Main(QtGui.QMainWindow):
 
     def Gen_rating_btn_Clicked(self):
         self.ui.textBrowser.clear()
-        # self.ui.textBrowser.append("Generating the prediction will take some time....")
         print("Generating the prediction will take some time....")
         mainUserID = self.ui.User_Line.text()
         mainMovie = self.ui.Movie_line.text()
@@ -104,6 +103,12 @@ class Main(QtGui.QMainWindow):
             return
         try:
             mainMovieID = int(mainMovie)
+            s = "select title from movies where movieid=%s"
+            self.mydb.cursor.execute(s, (mainUserID,))
+            mainMovie = self.mydb.cursor.fetchone()[0]
+            if mainMovie == None:
+                self.ui.textBrowser.append("Error: The movie-ID was not found in library")
+                return
         except ValueError:
             s = "select movieid from movies where title=%s"
             self.mydb.cursor.execute(s, (mainMovie,))
@@ -112,48 +117,22 @@ class Main(QtGui.QMainWindow):
                 self.ui.textBrowser.append("Error: The movie title was not found in library")
                 return
 
-        print('mainUserID', mainUserID)
-        print('movieID', mainMovieID)
-
         # Selecting previously rated movies by the mainUserID
         self.mydb.cursor.execute("select movieid from ratings where userid = %s" %mainUserID)
 
-        lines = self.mydb.cursor.fetchall()
-        print('lines:', lines)
-        print('len(lines)', len(lines))
-        size = len(lines)
-
         mainUserMovies = '('
-        margin = 0.5
-        maxSize = 20
         count = 0
-        for movieid in lines:
-            print('movieid', movieid)
-            if size < maxSize:
-                mainUserMovies += "movieid='"+str(movieid[0])+"'" + " or "
-            else:
-                mainUserMovies += "movieid='"+str(movieid[0])+"'" + " or "
-                # TODO:
-                # mainUserMovies += "movieid='"+str(movieid[0])+"' and rating between ...." + " or "
+        while True:
+            row = self.mydb.cursor.fetchone()
+            if row == None:
+                break
+            mainUserMovies += "movieid='"+str(row[0])+"'" + " or "
             count += 1
         mainUserMovies = mainUserMovies[:-4] + ')'                                              # Cut of the last redundant " or " expression
-        print('mainUserMovies', mainUserMovies)
-
-        # mainUserMovies = '('
-        # count = 0
-        # while True:
-        #     row = self.mydb.cursor.fetchone()
-        #     if row == None:
-        #         break
-        #     mainUserMovies += "movieid='"+str(row[0])+"'" + " or "
-        #     count += 1
-        # mainUserMovies = mainUserMovies[:-4] + ')'                                              # Cut of the last redundant " or " expression
         # print('mainUserMovies', mainUserMovies)
 
         print("Starting the long query....")
-        print("If the list here above is long then this will take a long time")
-        print("A long list is more than 20 items this list is %s items long" %count)
-        # Sort by.... TODO: say something clever
+        # Sort by movies rated by the user, find all users that have rated the same movies and count how many similar movies they have rated.
         s = '''select distinct ta.userid, count(ta.userid)
                 from
                     (
@@ -199,9 +178,7 @@ class Main(QtGui.QMainWindow):
         s = "select rating from ratings where userid=%s and movieid=%s"
         self.mydb.cursor.execute(s, (mainUserID, mainMovieID))
         rating = self.mydb.cursor.fetchone()
-        print(rating)
         try:
-            print(rating[0])
             rating = rating[0]
             self.ui.textBrowser.append("\nThe user has rated the movie before and rated the movie: %s " %rating)
         except TypeError:
@@ -237,6 +214,3 @@ class Main(QtGui.QMainWindow):
                 if self.DATRUTH:
                     webbrowser.open(imdbList[0])
 
-
-
-    #def loadCatagories(self,listOfCatagories):
