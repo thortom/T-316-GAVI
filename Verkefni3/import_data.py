@@ -15,4 +15,5 @@ class import_data():
 
     def findData(self):
         # This should collect panda DataFrames
-        self.usEconomicConstant = th.getUsEconomicConstant()
+        self.usEconomicConstant = th.getUsEconomicConstant("data/us_economic_constant.csv")
+        self.usMilitaryConstant = th.getUsMilitaryConstant("data/us_military_constant.csv")
