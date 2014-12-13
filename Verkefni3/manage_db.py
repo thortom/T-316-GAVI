@@ -9,7 +9,11 @@ import random
 class manage_db():
     def __init__(self,host,database, user, password):
         self.connection = self.connect(host,database, user, password)
-        self.cursor = self.connection.cursor()
+        try:
+            self.cursor = self.connection.cursor()
+        except AttributeError:
+            sys.exit(1)
+
         self.sizeOfRatingsTable = None
 
     def connect(self,host,database, user, password):
