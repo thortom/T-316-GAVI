@@ -23,6 +23,21 @@ class Main(QtGui.QMainWindow):
         self.ui.checkBox_2.clicked.connect(self.chb2_clicked)
         self.ui.checkBox_3.clicked.connect(self.chb3_clicked)
 
+        #app = QtGui.QApplication(sys.argv) 
+        #list = QtGui.QListView()
+        list = self.ui.listView
+        #list.setWindowTitle('Example List')
+        #list.setMinimumSize(600, 400)
+        model = QtGui.QStandardItemModel(list)
+        foods = ['a','b','c']
+        for food in foods:
+            item = QtGui.QStandardItem(food)
+            item.setCheckable(True)
+            model.appendRow(item)
+        list.setModel(model)
+        #list.show()
+        #app.exec_()
+
     def chb1_clicked(self):
         print('clickkk')
         print(self.ui.checkBox.checkState())
@@ -30,7 +45,7 @@ class Main(QtGui.QMainWindow):
     def chb2_clicked(self):
         print('clickkk')
         print(self.ui.checkBox_2.checkState())
-        
+
     def chb3_clicked(self):
         print('clickkk')
         print(self.ui.checkBox_3.checkState())
