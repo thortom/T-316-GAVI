@@ -20,3 +20,7 @@ class import_data():
         self.usMilitaryConstant = th.getUsMilitaryConstant("data/us_military_constant.csv")
         self.worldDevelopmentIndicators = th.getWorldDevelopmentIndicators("data/20_Topic_en_csv_v2.csv")
         self.unemploymentMen = li.getUnemploymentMen("data/unemployment_worldbank/men.csv")
+
+    def createTable(self):
+    	self.mydb.cursor.execute("DROP TABLE IF EXISTS world_info")
+        self.mydb.cursor.execute("CREATE TABLE world_info(country TEXT)")
