@@ -8,3 +8,8 @@ PREPARED FOREIGN ASSISTANCE:
 	us_economic_constant.xls -> https://eads.usaid.gov/gbk/data/prepared.cfm
 	us_military_constant.xls -> https://eads.usaid.gov/gbk/data/prepared.cfm
 
+World DataBank Education statistics:
+	http://databank.worldbank.org/data/views/variableselection/selectvariables.aspx?source=education-statistics-~-all-indicators#
+World DataBank World development indicators:
+	http://databank.worldbank.org/data/views/variableselection/selectvariables.aspx?source=world-development-indicators
+
