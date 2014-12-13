@@ -19,6 +19,7 @@ class import_data():
         self.usEconomicConstant = th.getUsEconomicConstant("data/us_economic_constant.csv")
         self.usMilitaryConstant = th.getUsMilitaryConstant("data/us_military_constant.csv")
         self.worldDevelopmentIndicators = th.getWorldDevelopmentIndicators("data/20_Topic_en_csv_v2.csv")
+        self.worldBankDev = li.getWorldBankDev("data/worldbank_data_worlddev.csv")
         self.unemploymentMen = li.getUnemploymentMen("data/unemployment_worldbank/men.csv")
 
     def createTable(self):

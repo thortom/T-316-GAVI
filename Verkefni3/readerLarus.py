@@ -3,7 +3,7 @@ import csv as csv
 import re                       # imports regular expression
 
 
-def getUnemploymentMen(fileName):
+def getWorldBankDev(fileName):
     csvIn = open(fileName, newline='')
     dialect = csv.Sniffer().sniff(csvIn.read(1024))
     csvIn.seek(0)
@@ -14,5 +14,5 @@ def getUnemploymentMen(fileName):
     return data
 
 if __name__ == '__main__':
-    fileName = "data/unemployment_worldbank/men.csv"
-    getUnemploymentMen(fileName)
+    fileName = "data/worldbank_data_worlddev.csv"
+    getWorldBankDev(fileName)
