@@ -4,6 +4,7 @@ import csv
 import numpy as np
 import pandas as pd
 import readerThor as th
+import readerLarus as li
 
 class import_data():
     def __init__(self, mydb):
@@ -18,3 +19,4 @@ class import_data():
         self.usEconomicConstant = th.getUsEconomicConstant("data/us_economic_constant.csv")
         self.usMilitaryConstant = th.getUsMilitaryConstant("data/us_military_constant.csv")
         self.worldDevelopmentIndicators = th.getWorldDevelopmentIndicators("data/20_Topic_en_csv_v2.csv")
+        self.worldBankDev = li.getWorldBankDev("data/worldbank_data_worlddev.csv")
