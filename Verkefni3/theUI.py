@@ -119,11 +119,12 @@ class ApplicationWindow(QtGui.QMainWindow):
 """This is the greatest program of all times."""
 )
 
+def loadUI(mydb):
+    qApp = QtGui.QApplication(sys.argv)
+    window = ApplicationWindow()
+    window.setWindowTitle("%s" % progname)
+    window.show()
+    sys.exit(qApp.exec_())
+    qApp.exec_()
+    return window
 
-qApp = QtGui.QApplication(sys.argv)
-
-aw = ApplicationWindow()
-aw.setWindowTitle("%s" % progname)
-aw.show()
-sys.exit(qApp.exec_())
-#qApp.exec_()

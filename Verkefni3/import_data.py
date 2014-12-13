@@ -3,6 +3,7 @@ import os
 import csv
 import numpy as np
 import pandas as pd
+import readerThor as th
 
 class import_data():
     def __init__(self, mydb):
@@ -13,9 +14,7 @@ class import_data():
         print("Got the data")
 
     def findData(self):
-        #Finds .dat files in the folder /data
-        dataFiles=[]
-        path = os.getcwd()+"\data"
-        for file in os.listdir(path):
-            if file.endswith(".dat"):
-                self.readData(path+'\\'+file)
+        # This should collect panda DataFrames
+        self.usEconomicConstant = th.getUsEconomicConstant("data/us_economic_constant.csv")
+        self.usMilitaryConstant = th.getUsMilitaryConstant("data/us_military_constant.csv")
+        self.worldDevelopmentIndicators = th.getWorldDevelopmentIndicators("data/20_Topic_en_csv_v2.csv")
