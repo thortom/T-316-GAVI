@@ -34,3 +34,17 @@ class manage_db():
                 con.close()
         finally:
             return con
+
+    def missingData(self):
+        try:
+            if len([item for item in self.getTables() if 'world_info' in item]) > 0:
+                print('Tables already in Database')
+                return False
+        except:
+            return True
+        return True
+
+    def getTables(self):
+        cur = self.connection.cursor()
+        cur.execute("select relname from pg_class where relkind='r' and relname !~ '^(pg_|sql_)';")
+        return cur.fetchall()
