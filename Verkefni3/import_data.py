@@ -59,7 +59,7 @@ class import_data():
         sizeOfIndex = len(dataFrame.index)
         for index in dataFrame.index:
             # There is not always subIndex
-            if len(index) == 2
+            if len(index) == 2:
                 parentIndex, subIndex = index[0], index[1]
 
                 fixedParentIndex = parentIndex.replace("'","''")
