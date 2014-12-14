@@ -25,6 +25,7 @@ class Main(QtGui.QMainWindow):
         self.mydb = mydb
         self.curr = self.mydb.cursor
         self.ui.ClearPlot.clicked.connect(self.ClearPlot_clicked)
+        self.ui.ScatterPlot.clicked.connect(self.ScatterPlot_clicked)
         self.ui.Plot.clicked.connect(self.Plot_clicked)
         self.ListCol = []
 
@@ -102,9 +103,7 @@ class Main(QtGui.QMainWindow):
         i = 0
         self.ListCol = []
         while self.model.item(i):
-            print(self.model.item(i))
             state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(i).checkState()]
-            print(self.model.item(i).text(), state)
             if state == "CHECKED":
                 self.ListCol.append(self.model.item(i).text())
             i += 1
@@ -150,3 +149,38 @@ class Main(QtGui.QMainWindow):
                 c2 = r.randint(20,255)
                 c3 = r.randint(20,255)
                 self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
+                self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+
+    def ScatterPlot_clicked(self):
+        print(dir(self.Graph))
+        print(self.ListCol)
+        Country = str(self.ui.CountryBox.currentText())
+        if not self.ListCol:
+            self.ui.textBrowser.clear()
+            self.ui.textBrowser.append('Choose some data')
+        else:
+            for Col in self.ListCol:
+                Data = []
+                Datayear = []
+                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(Col, Country))
+                row = self.curr.fetchall()
+                for i in row:
+                    Data.append(i[0])
+                    Datayear.append(i[1])
+                print(Data)
+                print(Datayear)
+                count = 0
+                for i in Data:
+                    if i == None:
+                        Data[count] = np.nan
+                    count += 1
+                print(Data)
+                print(self.list)
+                c1 = r.randint(20,255)
+                c2 = r.randint(20,255)
+                c3 = r.randint(20,255)
+                s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3), legend = "Arnar")
+                l = pg.LegendItem((100,60), (60,10))  # args are (size, position)
+                l.setParentItem(self.Graph.graphicsItem())
+                self.Graph.addItem(s, 'Arnar')
+                self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
