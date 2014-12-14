@@ -146,7 +146,7 @@ class Main(QtGui.QMainWindow):
                     count += 1
                 print(Data)
                 print(self.list)
-                c1 = r.randint(0,255)
-                c2 = r.randint(0,255)
-                c3 = r.randint(0,255)
+                c1 = r.randint(20,255)
+                c2 = r.randint(20,255)
+                c3 = r.randint(20,255)
                 self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
