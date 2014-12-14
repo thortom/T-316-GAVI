@@ -3,6 +3,7 @@ import os
 from PyQt4 import QtGui, QtCore
 import pyqtgraph as pg
 from ui.window import Ui_MainWindow
+import pyqtgraph.examples
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -13,11 +14,11 @@ def loadUI(mydb):
 
 class Main(QtGui.QMainWindow):
     def __init__(self,mydb):
+        #pyqtgraph.examples.run()    
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.Graph = self.ui.graphicsView
-
         self.mydb = mydb
         self.curr = self.mydb.cursor
 
@@ -57,6 +58,12 @@ class Main(QtGui.QMainWindow):
 
         self.model.itemChanged.connect(self.CheckBox_changed)
 
+        
+        self.Graph.setLabel('left', 'Value')
+        self.Graph.setLabel('bottom', 'Years')
+        self.Graph.setXRange(1960, 2020)
+        self.Graph.setYRange(0, 100)
+
         #app.exec_()
 
     def chb1_clicked(self):
@@ -95,3 +102,9 @@ class Main(QtGui.QMainWindow):
         print(self.model.item(0))
         if state == 'CHECKED':
             self.Graph.plot([0,2,4,6,10],[5,1,7,9,7], pen='b')
+
+        rect = QtGui.QGraphicsRectItem(QtCore.QRectF(1990, 10, 20, 80))
+        rect.setPen(QtGui.QPen(QtGui.QColor(100, 200, 100)))
+        self.Graph.addItem(rect,'green rect')
+        
+        
