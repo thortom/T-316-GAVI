@@ -25,7 +25,7 @@ class import_data():
 
         self.worldBankDev = self.getWorldBankDev("data/WDI_Data.csv")
 
-        self.createNoteTable(self.worldBankNotes)
+        # self.createNoteTable(self.worldBankNotes)
         self.createTable(self.worldBankDev)
 
         # self.addData(self.usEconomicConstant)
@@ -82,8 +82,8 @@ class import_data():
                 print('Error: in addData() this function is not correctly used or unfinished')
 
     def getWorldBankDev(self, fileName):
-        dialect = self.sniffDialect(fileName)
-        data = pd.read_csv(fileName, dialect=dialect, encoding='ascii',index_col=[0,3])
+        # dialect = self.sniffDialect(fileName)
+        data = pd.read_csv(fileName, delimiter=',', encoding='ascii',index_col=[0,3])
         data.dropna(axis=0, how='all', inplace=True)
         data.drop('Country Code', axis=1, inplace=True)
         data.drop('Indicator Name', axis=1, inplace=True)
