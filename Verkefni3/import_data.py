@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import re
 import psycopg2
+import shutil
 
 class import_data():
     mainTable = "world_info"
@@ -18,17 +19,57 @@ class import_data():
 
     def findData(self):
         # This should collect panda DataFrames
-        self.usEconomicConstant = self.getUsEconomicConstant("data/us_economic_constant.csv")
-        self.usMilitaryConstant = self.getUsMilitaryConstant("data/us_military_constant.csv")
+        # self.usEconomicConstant = self.getUsEconomicConstant("data/us_economic_constant.csv")
+        # self.usMilitaryConstant = self.getUsMilitaryConstant("data/us_military_constant.csv")
         self.worldDevelopmentIndicators = self.getWorldDevelopmentIndicators("data/20_Topic_en_csv_v2.csv")
         #self.worldBankEdu = self.getWorldBankEdu("data/worldbank_data_education.csv")
 
         self.worldBankDev = self.getWorldBankDev("data/WDI_Data.csv")
 
-        # self.createNoteTable(self.worldBankNotes)
-        self.createTable(self.worldBankDev)
+        # self.createTable(self.worldBankDev)
+        self.createNoteTable('data/WDI_CS_Notes.csv', 'data/WDI_Data.csv')
 
         # self.addData(self.usEconomicConstant)
+
+    def createNoteTable(self, noteFile, wdiDataFile):
+        tempFile = 'C:/test.csv'
+        noteTable = 'notes'
+        shutil.copyfile(noteFile, tempFile)
+        noteFile = tempFile
+
+        self.mydb.cursor.execute("SET CLIENT_ENCODING TO 'LATIN1';")
+        self.mydb.cursor.execute("DROP TABLE IF EXISTS %s" %noteTable)
+        columns = '(country_code TEXT, series_code TEXT ,description TEXT)'
+        self.mydb.cursor.execute("CREATE TABLE %s %s" %(noteTable, columns))
+        # # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
+        self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(noteTable, noteFile))
+
+        lableTable = 'lable'
+        shutil.copyfile(wdiDataFile, tempFile)
+        wdiDataFile = tempFile
+
+        # Country Name  Country Code    Indicator Name  Indicator Code
+        self.mydb.cursor.execute("DROP TABLE IF EXISTS %s" %lableTable)
+        columns = '(country TEXT, country_code TEXT , series_code_text TEXT, series_code TEXT, '
+        for year in range(1960, 2015):
+            columns += '_' + str(year) + ' real, '
+        columns = columns[:-2] + ')'
+
+        self.mydb.cursor.execute("CREATE TABLE %s %s" %(lableTable, columns))
+        # # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
+        self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(lableTable, wdiDataFile))
+
+        for year in range(1960, 2015):
+            self.mydb.cursor.execute("ALTER TABLE %s DROP COLUMN %s" %(lableTable, '_'+str(year)))
+
+        self.mydb.cursor.execute("ALTER TABLE %s ADD COLUMN series_code_text TEXT" %noteTable)
+
+        self.mydb.cursor.execute('''INSERT INTO %s (series_code_text, country_code, series_code, description)
+            SELECT DISTINCT l.series_code_text, n.country_code, n.series_code, n.description
+            FROM %s n, %s l
+            WHERE n.series_code = l.series_code'''  %(noteTable, noteTable, lableTable))
+
+        os.remove(tempFile)
 
     def createTable(self, dataFrame):
         fileName = 'C:/temp.csv'
@@ -48,7 +89,6 @@ class import_data():
         self.mydb.cursor.execute("CREATE INDEX year_idx ON %s (year);" %self.mainTable)
 
         os.remove(fileName)
-
 
     # TODO: refactor this function
     def addData(self, dataFrame, category=None):
