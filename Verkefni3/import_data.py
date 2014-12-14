@@ -81,7 +81,7 @@ class import_data():
                 # TODO: use the category as added column
                 print('Error: in addData() this function is not correctly used or unfinished')
 
-    def getWorldBankDev(fileName):
+    def getWorldBankDev(self, fileName):
         dialect = self.sniffDialect(fileName)
         data = pd.read_csv(fileName, dialect=dialect, encoding='ascii',index_col=[0,3])
         data.dropna(axis=0, how='all', inplace=True)
@@ -89,7 +89,7 @@ class import_data():
         data.drop('Indicator Name', axis=1, inplace=True)
         return data
 
-    def getWorldBankEdu(fileName):
+    def getWorldBankEdu(self, fileName):
         dialect = self.sniffDialect(fileName)
         data = pd.read_csv(fileName, dialect=dialect, encoding='UTF-8-SIG',thousands=',',error_bad_lines=False, index_col=False)
         return data
