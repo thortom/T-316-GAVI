@@ -10,7 +10,9 @@ def getWorldBankDev(fileName):
     csvIn.close()
 
     data = pd.read_csv(fileName, dialect=dialect, encoding='ascii',index_col=[0,2])
-    #data.dropna(axis=0, how='all', inplace=True)
+    data.dropna(axis=0, how='all', inplace=True)
+    data.drop('Country Code', axis=1, inplace=True)
+    data.drop('Indicator Code', axis=1, inplace=True)
     return data
 def getWorldBankEdu(fileName):
     csvIn = open(fileName, newline='')
@@ -24,7 +26,7 @@ def getWorldBankEdu(fileName):
 
 if __name__ == '__main__':
     fileName = "data/WDI_Data.csv"
-    #testdata = getWorldBankDev(fileName)
+    testdata = getWorldBankDev(fileName)
 
     #fileName = "data/worldbank_data_education.csv"
     #testdata2 = getWorldBankEdu(fileName)
