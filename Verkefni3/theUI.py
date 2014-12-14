@@ -33,6 +33,8 @@ class Main(QtGui.QMainWindow):
         self.setCheckBoxes()
         self.setInfo()
 
+        self.ui.CountryBox.currentIndexChanged.connect(self.setCheckBoxes)
+
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
         row = self.curr.fetchall()
@@ -144,7 +146,7 @@ class Main(QtGui.QMainWindow):
                     count += 1
                 print(Data)
                 print(self.list)
-                c1 = r.randint(0,260)
-                c2 = r.randint(0,260)
-                c3 = r.randint(0,260)
+                c1 = r.randint(0,255)
+                c2 = r.randint(0,255)
+                c3 = r.randint(0,255)
                 self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
