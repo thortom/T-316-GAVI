@@ -40,6 +40,10 @@ class Main(QtGui.QMainWindow):
         for i in row:
             Country.append(i[0])
         Country.sort()
+        self.Columns = []
+        self.curr.execute("Select * from world_info LIMIT 0")
+        for idx, col in enumerate(self.curr.description):
+            self.Columns.append(col[0])
 
         catagories = Country
         self.dropdowns = [self.ui.CountryBox]
@@ -101,15 +105,35 @@ class Main(QtGui.QMainWindow):
             if state == "CHECKED":
                 self.ListCol.append(self.model.item(i).text())
             i += 1
+    def UnToggleAll(self):
+        i = 0
+        for food in self.foods:
+            self.model.removeColumn(i)
+            i += 1
+            print(i)
+        self.Window()
+
+    def Window(self):
+        self.model = QtGui.QStandardItemModel(self.list)
+        self.foods = self.Columns
+        for food in self.foods:
+            self.item = QtGui.QStandardItem(food)
+            self.item.setCheckable(True)
+            self.model.appendRow(self.item)
+        self.list.setModel(self.model)
+        self.list.show()
 
     def ClearPlot_clicked(self):
         self.Graph.clear()
+        self.UnToggleAll()
+
 
     def Plot_clicked(self):
         print(self.ListCol)
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
-            print('Col Bitch')
+            self.ui.textBrowser.clear()
+            self.ui.textBrowser.append('Choose some data')
         else:
             for Col in self.ListCol:
                 Data = []
@@ -132,43 +156,3 @@ class Main(QtGui.QMainWindow):
                 c2 = r.randint(0,260)
                 c3 = r.randint(0,260)
                 self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
-
-
-
-
-
-
-        # self.curr.execute("SELECT child_survival_and_health,year from world_info where country = '{}' ORDER BY year ".format(Country))
-        # #print(self.curr.fetchall())
-        # row = self.curr.fetchall()
-        # Data = []
-        # Datayear = []
-        # for i in row:
-        #     Data.append(i[0])
-        #     Datayear.append(i[1])
-
-        # print(Data)
-        # print(Datayear)
-
-
-
-        # self.Graph.plot(Datayear,Data, pen='r')
-
-        # state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(1).checkState()]
-        # print(self.model.item(1))
-        # if state == 'CHECKED':
-        #     self.Graph.plot([0,1,2,3,4,5], [3,2,1,4,5,7], pen='r')
-        
-        state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(0).checkState()]
-        print(self.model.item(0))
-        if state == 'CHECKED':
-            self.Graph.plot([0,2,4,6,10],[5,1,7,9,7], pen='b')
-
-        #rect = QtGui.QGraphicsRectItem(QtCore.QRectF(1990, 10, 20, 80))
-        #rect.setPen(QtGui.QPen(QtGui.QColor(100, 200, 100)))
-        #self.Graph.addItem(rect,'green rect')
-
-        # state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(0).checkState()]
-        # print(self.model.item(0))
-        # if state == 'CHECKED':
-        #     self.Graph.plot([0,2,4,6,10],[5,1,7,9,7], pen='b')
