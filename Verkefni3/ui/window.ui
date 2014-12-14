@@ -20,7 +20,7 @@
       <x>200</x>
       <y>60</y>
       <width>731</width>
-      <height>311</height>
+      <height>381</height>
      </rect>
     </property>
    </widget>
@@ -30,17 +30,31 @@
       <x>20</x>
       <y>60</y>
       <width>160</width>
-      <height>311</height>
+      <height>381</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QComboBox" name="comboBox"/>
+      <widget class="QComboBox" name="CountryBox"/>
      </item>
      <item>
       <widget class="QListView" name="listView">
        <property name="autoFillBackground">
         <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Plot">
+       <property name="text">
+        <string>Plot</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ClearPlot">
+       <property name="text">
+        <string>Clear Plot</string>
        </property>
       </widget>
      </item>
