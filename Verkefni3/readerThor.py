@@ -15,9 +15,7 @@ def getUsEconomicConstant(fileName):
 
     data.dropna(axis=0, how='all', inplace=True)                                            # Drop nan rows
     data.columns = [re.sub('\D','',x) for x in data.columns]                                # used regular expression to replace all non digital values with ''
-    # print(data['Country Name']['Afghanistan'])
     # print(data.T['Afghanistan']['Child Survival and Health'])
-    # print('data', data.head())
     return data
 
 def getUsMilitaryConstant(fileName):
@@ -30,7 +28,7 @@ def getUsMilitaryConstant(fileName):
 
     data.dropna(axis=0, how='all', inplace=True)                                            # Drop nan rows
     data.columns = [re.sub('\D','',x) for x in data.columns]                                # used regular expression to replace all non digital values with ''
-    # print('data', data.head())
+    data.drop('', axis=1, inplace=True)                                                     # Drop unused columns
     return data
 
 def getWorldDevelopmentIndicators(fileName):
@@ -74,35 +72,35 @@ if __name__ == '__main__':
 
     fileName = "data/us_economic_constant.csv"
     usEconomic = getUsEconomicConstant(fileName)
-    # print(usEconomic.index)
+    # print(usEconomic.head())
 
     fileName = "data/us_military_constant.csv"
     usMilitary = getUsMilitaryConstant(fileName)
-    # print(usMilitary.index)
+    # print(usMilitary.head())
 
     fileName = "data/20_Topic_en_csv_v2.csv"
     worldDev = getWorldDevelopmentIndicators(fileName)
-    # print(worldDev.index)
+    # print(worldDev.head())
 
     fileName = "data/dm-export-20141211.csv"
     gdpGrowth = getGDPgrowth(fileName)
-    # print(gdpGrowth.index)
+    # print(gdpGrowth.head())
 
-    options = {'usEconomic': usEconomic, 'usMilitary': usMilitary, 'worldDev': worldDev, 'gdpGrowth': gdpGrowth}
+    # options = {'usEconomic': usEconomic, 'usMilitary': usMilitary, 'worldDev': worldDev, 'gdpGrowth': gdpGrowth}
 
-    while True:
-        print('options: ', options.keys())
-        toUse = input('Data to use:')
-        data = options.get(toUse)
-        print('Sub options', data.index)
-        plotThis = input('Data to plot:')
-        print(data.T[plotThis])
-        print(list(data.T[plotThis]))
-        if type(list(data.T[plotThis])[0]) != int:
-            plotThisSub = subOptions(data.T[plotThis])
-            plotter([int(x) for x in data.columns], list(data.T[plotThis][plotThisSub]))
-        else:
-            plotter([int(x) for x in data.columns], list(data.T[plotThis]))
+    # while True:
+    #     print('options: ', options.keys())
+    #     toUse = input('Data to use:')
+    #     data = options.get(toUse)
+    #     print('Sub options', data.index)
+    #     plotThis = input('Data to plot:')
+    #     print(data.T[plotThis])
+    #     print(list(data.T[plotThis]))
+    #     if type(list(data.T[plotThis])[0]) != int:
+    #         plotThisSub = subOptions(data.T[plotThis])
+    #         plotter([int(x) for x in data.columns], list(data.T[plotThis][plotThisSub]))
+    #     else:
+    #         plotter([int(x) for x in data.columns], list(data.T[plotThis]))
 
 
     # print('gdpGrowth', gdpGrowth.head())
