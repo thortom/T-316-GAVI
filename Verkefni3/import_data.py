@@ -19,7 +19,8 @@ class import_data():
         self.usEconomicConstant = th.getUsEconomicConstant("data/us_economic_constant.csv")
         self.usMilitaryConstant = th.getUsMilitaryConstant("data/us_military_constant.csv")
         self.worldDevelopmentIndicators = th.getWorldDevelopmentIndicators("data/20_Topic_en_csv_v2.csv")
-        self.worldBankDev = li.getWorldBankDev("data/worldbank_data_worlddev.csv")
+        self.worldBankDev = li.getWorldBankDev("data/WDI_Data.csv")
+        #self.worldBankEdu = li.getWorldBankEdu("data/worldbank_data_education.csv")
 
     def createTable(self):
         self.mydb.cursor.execute("DROP TABLE IF EXISTS world_info")
