@@ -513,6 +513,13 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="ScatterPlot">
+       <property name="text">
+        <string>Scatter Plot</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="ClearPlot">
        <property name="text">
         <string>Clear Plot</string>

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'window.ui'
 #
-# Created: Sun Dec 14 15:25:17 2014
+# Created: Sun Dec 14 22:14:26 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -507,6 +507,9 @@ class Ui_MainWindow(object):
         self.Plot = QtGui.QPushButton(self.verticalLayoutWidget)
         self.Plot.setObjectName(_fromUtf8("Plot"))
         self.verticalLayout.addWidget(self.Plot)
+        self.ScatterPlot = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.ScatterPlot.setObjectName(_fromUtf8("ScatterPlot"))
+        self.verticalLayout.addWidget(self.ScatterPlot)
         self.ClearPlot = QtGui.QPushButton(self.verticalLayoutWidget)
         self.ClearPlot.setObjectName(_fromUtf8("ClearPlot"))
         self.verticalLayout.addWidget(self.ClearPlot)
@@ -611,6 +614,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "Verkefni 3", None))
         self.Plot.setText(_translate("MainWindow", "Plot", None))
+        self.ScatterPlot.setText(_translate("MainWindow", "Scatter Plot", None))
         self.ClearPlot.setText(_translate("MainWindow", "Clear Plot", None))
 
 from pyqtgraph import PlotWidget

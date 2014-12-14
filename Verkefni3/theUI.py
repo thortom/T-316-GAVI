@@ -21,7 +21,7 @@ class Main(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.Graph = self.ui.graphicsView
+        self.Graph = self.ui.graphicsView.getPlotItem()
         self.mydb = mydb
         self.curr = self.mydb.cursor
         self.ui.ClearPlot.clicked.connect(self.ClearPlot_clicked)
@@ -148,7 +148,9 @@ class Main(QtGui.QMainWindow):
                 c1 = r.randint(20,255)
                 c2 = r.randint(20,255)
                 c3 = r.randint(20,255)
-                self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
+                s = self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3), legend = 'red')
+                l = pg.LegendItem((100,60), (60,10))  # args are (size, position)
+                l.setParentItem(self.Graph.graphicsItem())
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
 
     def ScatterPlot_clicked(self):
@@ -179,7 +181,8 @@ class Main(QtGui.QMainWindow):
                 c1 = r.randint(20,255)
                 c2 = r.randint(20,255)
                 c3 = r.randint(20,255)
-                s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3), legend = "Arnar")
+                self.Graph.Addlegend()
+                s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3), name = 'Arnar')
                 l = pg.LegendItem((100,60), (60,10))  # args are (size, position)
                 l.setParentItem(self.Graph.graphicsItem())
                 self.Graph.addItem(s, 'Arnar')
