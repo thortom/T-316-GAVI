@@ -3,8 +3,6 @@ import os
 import csv
 import numpy as np
 import pandas as pd
-import readerThor as th
-import readerLarus as li
 import re
 import psycopg2
 
