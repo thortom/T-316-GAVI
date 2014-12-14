@@ -92,28 +92,20 @@ class Main(QtGui.QMainWindow):
         i = 0
         self.ListCol = []
         while self.model.item(i):
+            print(self.model.item(i))
             state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(i).checkState()]
             print(self.model.item(i).text(), state)
             if state == "CHECKED":
                 self.ListCol.append(self.model.item(i).text())
             i += 1
+
     def UnToggleAll(self):
         i = 0
-        for food in self.foods:
-            self.model.removeColumn(i)
+        while self.model.item(i):
+            state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(i).checkState()]
+            if state == "CHECKED":
+                self.model.item(i).setCheckState(QtCore.Qt.Unchecked)
             i += 1
-            print(i)
-        self.Window()
-
-    def Window(self):
-        self.model = QtGui.QStandardItemModel(self.list)
-        self.foods = self.Columns
-        for food in self.foods:
-            self.item = QtGui.QStandardItem(food)
-            self.item.setCheckable(True)
-            self.model.appendRow(self.item)
-        self.list.setModel(self.model)
-        self.list.show()
 
     def ClearPlot_clicked(self):
         self.Graph.clear()
