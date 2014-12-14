@@ -13,6 +13,62 @@
   <property name="windowTitle">
    <string>Verkefni 3</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow,
+QAbstractItemView
+{
+ color: #EAEAEA;
+ background: #5C5C5C;
+}
+ 
+QComboBox
+{
+   color: #FFFFFF;
+   background-color: #5C5C5C;
+   min-height: 15px;
+   min-width: 60px;
+   max-width: 360px;
+   padding-left: 5px;
+   padding-right: 15px;
+   border-style: solid;
+}
+ 
+QComboBox QAbstractItemView
+{
+   color: #000000;
+   background-color: #CFCFCF;
+   selection-background-color: #1D1D1D;
+   border-style: solid;
+}
+ 
+QHeaderView::section
+{
+   color: white;
+   background-color: #7F7F7F;
+   padding-left: 4px;
+   border: 1px solid #6c6c6c;
+}
+ 
+QTreeView
+{
+   color: #000000;
+   background-color: #B6B6B6;
+   alternate-background-color: #A5A5A5;
+   selection-color: #000000;
+   selection-background-color: #7FB3E6;
+}
+ 
+QTreeView::branch:item
+{
+   color: #714DFF;
+}
+ 
+QListView
+{
+   color: #000000;
+   background-color: #D7D7D7;
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="PlotWidget" name="graphicsView">
     <property name="geometry">

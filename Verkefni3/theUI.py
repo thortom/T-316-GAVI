@@ -18,12 +18,19 @@ class Main(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self.Graph = self.ui.graphicsView
 
-        #self.ui.graphicsView.plot([0,1,2,3,4,5], [3,2,1,4,5,7], pen='r')
+        self.mydb = mydb
+        self.curr = self.mydb.cursor
 
+        self.curr.execute("SELECT Distinct country from world_info")
+        row = self.curr.fetchall()
+        Country = []
+        for i in row:
+            Country.append(i[0])
+        Country.sort()
 
         self.ui.ClearPlot.clicked.connect(self.ClearPlot_clicked)
         self.ui.Plot.clicked.connect(self.Plot_clicked)
-        catagories = ["Pick Country","Iceland", "Denmark", "Sweden", "Norway", "Penis"]
+        catagories = Country #["Pick Country","Iceland", "Denmark", "Sweden", "Norway", "Penis"]
         self.dropdowns = [self.ui.CountryBox]
 
         for dropdown in self.dropdowns:
@@ -65,9 +72,7 @@ class Main(QtGui.QMainWindow):
         print(self.ui.checkBox_3.checkState())
 
     def CheckBox_changed(self, item):
-
         i = 0
-
         while self.model.item(i):
             state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(i).checkState()]
             print(self.model.item(i).text(), state)
@@ -79,10 +84,8 @@ class Main(QtGui.QMainWindow):
     def Plot_clicked(self):
 
         Country = str(self.ui.CountryBox.currentText())
-
-
-        
-
+        self.curr.execute("SELECT child_survival_and_health from world_info where country = '{}' ".format(Country))
+        print(self.curr.fetchall())
         state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(1).checkState()]
         print(self.model.item(1))
         if state == 'CHECKED':

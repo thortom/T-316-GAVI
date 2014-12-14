@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'window.ui'
 #
-# Created: Sun Dec 14 11:53:21 2014
+# Created: Sun Dec 14 12:40:17 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,6 +27,60 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(992, 655)
+        MainWindow.setStyleSheet(_fromUtf8("QMainWindow,\n"
+"QAbstractItemView\n"
+"{\n"
+" color: #EAEAEA;\n"
+" background: #5C5C5C;\n"
+"}\n"
+" \n"
+"QComboBox\n"
+"{\n"
+"   color: #FFFFFF;\n"
+"   background-color: #5C5C5C;\n"
+"   min-height: 15px;\n"
+"   min-width: 60px;\n"
+"   max-width: 360px;\n"
+"   padding-left: 5px;\n"
+"   padding-right: 15px;\n"
+"   border-style: solid;\n"
+"}\n"
+" \n"
+"QComboBox QAbstractItemView\n"
+"{\n"
+"   color: #000000;\n"
+"   background-color: #CFCFCF;\n"
+"   selection-background-color: #1D1D1D;\n"
+"   border-style: solid;\n"
+"}\n"
+" \n"
+"QHeaderView::section\n"
+"{\n"
+"   color: white;\n"
+"   background-color: #7F7F7F;\n"
+"   padding-left: 4px;\n"
+"   border: 1px solid #6c6c6c;\n"
+"}\n"
+" \n"
+"QTreeView\n"
+"{\n"
+"   color: #000000;\n"
+"   background-color: #B6B6B6;\n"
+"   alternate-background-color: #A5A5A5;\n"
+"   selection-color: #000000;\n"
+"   selection-background-color: #7FB3E6;\n"
+"}\n"
+" \n"
+"QTreeView::branch:item\n"
+"{\n"
+"   color: #714DFF;\n"
+"}\n"
+" \n"
+"QListView\n"
+"{\n"
+"   color: #000000;\n"
+"   background-color: #D7D7D7;\n"
+"}"))
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.graphicsView = PlotWidget(self.centralwidget)
