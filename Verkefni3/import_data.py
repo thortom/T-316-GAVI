@@ -33,8 +33,7 @@ class import_data():
         # self.addData(self.worldBankDev)
 
     def createTable(self, dataFrame):
-        # TODO: delete the file fileName
-        fileName = 'C:/test.csv'
+        fileName = 'C:/temp.csv'
         stacked = dataFrame.stack()
         data = stacked.unstack(1)
         data.to_csv(fileName)
@@ -50,6 +49,7 @@ class import_data():
         self.mydb.cursor.execute("CREATE INDEX country_idx ON %s (country);" %self.mainTable)
         self.mydb.cursor.execute("CREATE INDEX year_idx ON %s (year);" %self.mainTable)
 
+        os.remove(fileName)
 
 
     def addData(self, dataFrame, category=None):
