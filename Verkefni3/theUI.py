@@ -8,6 +8,7 @@ import pyqtgraph as pg
 from ui.window import Ui_MainWindow
 import pyqtgraph.examples
 import re
+import math
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -28,6 +29,7 @@ class Main(QtGui.QMainWindow):
         self.ui.ClearPlot.clicked.connect(self.ClearPlot_clicked)
         self.ui.ScatterPlot.clicked.connect(self.ScatterPlot_clicked)
         self.ui.Plot.clicked.connect(self.Plot_clicked)
+        self.ui.Trendline.clicked.connect(self.Trendline_clicked)
         self.ListCol = []
         # self.legend = pg.LegendItem((100,60), (60,10))
         # self.legend.setParentItem(self.Graph.graphicsItem())
