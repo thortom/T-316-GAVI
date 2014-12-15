@@ -1,0 +1,83 @@
+\documentclass[11pt,a4paper]{amsart}
+%\documentclass[paper=a4, fontsize=11pt]{scrartcl}
+%\documentclass[12pt, final]{sreport}
+\usepackage[utf8]{inputenc}
+\usepackage[icelandic]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{setspace} 
+\usepackage{lipsum}
+\usepackage{ifthen}
+\usepackage{geometry}
+\usepackage{hyperref}
+
+%\onehalfspacing
+%\addtolength{\textheight}{2.4cm}
+%\addtolength{\hoffset}{-1.2cm}
+%\addtolength{\voffset}{-2cm}
+%\addtolength{\textwidth}{2.3cm}
+
+% Define new commands and operators
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\No}{\N_0}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\perms}{\mathfrak{S}}
+
+\DeclareMathOperator{\prst}{\mathcal{P}} 
+\DeclareMathOperator{\rem}{rem}	
+\DeclareMathOperator{\id}{id}
+% End of new commands definitions
+
+% Setup theorem styles
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+% End of theorem styles setup
+
+
+
+\begin{document}
+
+\input{titlepage3}
+
+\section{Aðferð/Niðurstaða}
+Í þessu verkefni náðum við í mikið af gögnum frá  \href{http://www.worldbank.org/}{World Bank.} Til þess að finna út hvaða land í heimi væri best að búa í. Við settum .csv skrár frá World Bank og settum gögnin inn í gagnagrunn með python kóða. Út frá þeim gagnagrunni náum við í þau gögn sem við vildum vinna með. Við settum upp einning notendaviðmót þar sem notendaninn getur valið land og svo ákveðið efni og teiknað upp þau gögn á móti svo öðru landi.
+
+
+\subsection{Besta land í heimi}
+
+
+\subsection{Top tíu listi}
+
+
+
+\subsection{BÓNUS - Mynd af handahófi}
+
+\newpage
+
+\section{Viðauki}
+
+
+\end{document}
