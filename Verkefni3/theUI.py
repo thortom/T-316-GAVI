@@ -87,11 +87,16 @@ class Main(QtGui.QMainWindow):
         self.model = QtGui.QStandardItemModel(self.list)
         self.foods = self.findColumns()
         # print('foods: ', self.foods)
+        checkBoxText = []
         for food in self.foods:
             checkBox = self.getLabelForCheck(food)
-            # TODO:
+            # TODO: check if text was found
             # if checkBox == 'none':
             #     continue
+            checkBoxText.append(checkBox)
+        # Sort in alphabetical order
+        checkBoxText.sort()
+        for checkBox in checkBoxText:
             self.item = QtGui.QStandardItem(checkBox)
             self.item.setCheckable(True)
             self.model.appendRow(self.item)
