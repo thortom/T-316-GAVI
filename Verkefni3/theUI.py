@@ -35,14 +35,23 @@ class Main(QtGui.QMainWindow):
         # self.legend.setParentItem(self.Graph.graphicsItem())
         self.list = self.ui.listView
         self.initializeDropdowns()
+        self.initializeTopList()
         self.setCheckBoxes()
         self.setInfo()
 
         self.ui.CountryBox.currentIndexChanged.connect(self.setCheckBoxes)
         
         self.ui.beer_btn.clicked.connect(self.print_stats)
+        self.ui.toplist_pb.clicked.connect(self.topList)
 
         self.lastChecked = None
+
+    def initializeTopList(self):
+        self.curr.execute("Select distinct year from world_info order by year desc")
+        rows = self.curr.fetchall()
+        for row in rows:
+            #print('year:',row[0])
+            self.ui.toplist_cb.addItem(str(row[0]))
 
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
@@ -281,6 +290,7 @@ class Main(QtGui.QMainWindow):
             selectedCountry = str(self.ui.CountryBox.currentText())
             col = self.lastChecked
             code = self.getNameOfCol(col)
+            year = self.ui.toplist_cb.currentText()
             #command = "Select %s from world_info where %s = '%s'"
             print('selectedCountry',selectedCountry)
             print('lastChecked',col)
@@ -296,3 +306,44 @@ class Main(QtGui.QMainWindow):
             for row in rows:
                 print(row[0])
             #print('number of countries:',x)
+
+    def topList(self):
+        print('awwyeah')
+        if self.lastChecked != None:
+            selectedCountry = str(self.ui.CountryBox.currentText())
+            col = self.lastChecked
+            code = self.getNameOfCol(col)
+            year = str(self.ui.toplist_cb.currentText())
+
+            print('selectedCountry',selectedCountry)
+            print('lastChecked',col)
+            print('code', code)
+            print('year', year)
+            
+            command ="""
+            Create view tempTopList as (select rank() over (order by %s desc) as rank, country, %s
+            from world_info
+            where year = %s
+            and %s is not null
+            order by %s desc);
+
+            (select rank, country, %s
+            from tempTopList
+            limit 10)
+            union
+            (select rank, country, %s
+            from tempTopList
+            where country = '%s')
+            order by %s desc""" %(code,code,year,code,code,code,code,selectedCountry,code)
+
+            self.curr.execute(command)
+            rows = self.curr.fetchall()
+            self.curr.execute("drop view tempTopList")
+
+            string ="Rank\t%s\tCountry\n"%(col)
+            for row in rows:
+                string += str(row[0])+'\t'+str(round(float(row[2]),1))+'\t\t\t'+str(row[1])+'\n'
+            print(string)
+            self.ui.textBrowser.clear()
+            self.ui.textBrowser.append(string)
+            
