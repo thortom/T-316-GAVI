@@ -40,6 +40,8 @@ class Main(QtGui.QMainWindow):
         
         self.ui.beer_btn.clicked.connect(self.print_stats)
 
+        self.lastChecked = None
+
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
         row = self.curr.fetchall()
@@ -117,12 +119,18 @@ class Main(QtGui.QMainWindow):
 
     def CheckBox_changed(self, item):
         i = 0
-        self.ListCol = []
+        
+        newListCol = []
         while self.model.item(i):
             state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(i).checkState()]
             if state == "CHECKED":
-                self.ListCol.append(self.model.item(i).text())
+                newListCol.append(self.model.item(i).text())
+                if self.model.item(i).text() not in self.ListCol:
+                    self.lastChecked = self.model.item(i).text()
             i += 1
+
+        self.ListCol = newListCol
+
 
     def UnToggleAll(self):
         i = 0
