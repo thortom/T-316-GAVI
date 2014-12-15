@@ -1,8 +1,9 @@
+
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'window.ui'
 #
-# Created: Mon Dec 15 13:56:04 2014
+# Created: Mon Dec 15 15:18:04 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +27,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(1114, 694)
+        MainWindow.resize(1283, 694)
         MainWindow.setStyleSheet(_fromUtf8("QToolTip\n"
 "{\n"
 "     border: 1px solid black;\n"
@@ -489,10 +490,10 @@ class Ui_MainWindow(object):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.graphicsView = PlotWidget(self.centralwidget)
-        self.graphicsView.setGeometry(QtCore.QRect(300, 60, 621, 381))
+        self.graphicsView.setGeometry(QtCore.QRect(300, 60, 691, 431))
         self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
         self.verticalLayoutWidget = QtGui.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(20, 60, 251, 381))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(20, 50, 251, 471))
         self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
         self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setMargin(0)
@@ -510,11 +511,14 @@ class Ui_MainWindow(object):
         self.ScatterPlot = QtGui.QPushButton(self.verticalLayoutWidget)
         self.ScatterPlot.setObjectName(_fromUtf8("ScatterPlot"))
         self.verticalLayout.addWidget(self.ScatterPlot)
+        self.Trendline = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.Trendline.setObjectName(_fromUtf8("Trendline"))
+        self.verticalLayout.addWidget(self.Trendline)
         self.ClearPlot = QtGui.QPushButton(self.verticalLayoutWidget)
         self.ClearPlot.setObjectName(_fromUtf8("ClearPlot"))
         self.verticalLayout.addWidget(self.ClearPlot)
         self.textBrowser = QtGui.QTextBrowser(self.centralwidget)
-        self.textBrowser.setGeometry(QtCore.QRect(300, 450, 621, 111))
+        self.textBrowser.setGeometry(QtCore.QRect(340, 520, 621, 111))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(177, 177, 177))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -603,14 +607,14 @@ class Ui_MainWindow(object):
         self.beer_btn.setGeometry(QtCore.QRect(40, 600, 158, 22))
         self.beer_btn.setObjectName(_fromUtf8("beer_btn"))
         self.textBrowser_2 = QtGui.QTextBrowser(self.centralwidget)
-        self.textBrowser_2.setGeometry(QtCore.QRect(950, 60, 131, 381))
+        self.textBrowser_2.setGeometry(QtCore.QRect(1020, 60, 201, 381))
         self.textBrowser_2.setObjectName(_fromUtf8("textBrowser_2"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1114, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1283, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         MainWindow.setMenuBar(self.menubar)
 
@@ -621,6 +625,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Verkefni 3", None))
         self.Plot.setText(_translate("MainWindow", "Plot", None))
         self.ScatterPlot.setText(_translate("MainWindow", "Scatter Plot", None))
+        self.Trendline.setText(_translate("MainWindow", "Add trendline", None))
         self.ClearPlot.setText(_translate("MainWindow", "Clear Plot", None))
         self.beer_btn.setText(_translate("MainWindow", "stats", None))
 
