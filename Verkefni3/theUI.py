@@ -7,6 +7,7 @@ from PyQt4 import QtGui, QtCore
 import pyqtgraph as pg
 from ui.window import Ui_MainWindow
 import pyqtgraph.examples
+import re
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -37,6 +38,7 @@ class Main(QtGui.QMainWindow):
 
         self.ui.CountryBox.currentIndexChanged.connect(self.setCheckBoxes)
         
+        self.ui.beer_btn.clicked.connect(self.print_stats)
 
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
@@ -104,7 +106,7 @@ class Main(QtGui.QMainWindow):
         self.model.itemChanged.connect(self.CheckBox_changed)
 
 
-    def setInfo(self,left='Value',bottom='Years',x1=1960,x2=2020):
+    def setInfo(self,left='Value',bottom='Years',x1=1930,x2=2020):
         self.Graph.setLabel('left', left)
         self.Graph.setLabel('bottom', bottom)
         self.Graph.setXRange(x1, x2)
@@ -202,6 +204,24 @@ class Main(QtGui.QMainWindow):
                 c1 = r.randint(20,255)
                 c2 = r.randint(20,255)
                 c3 = r.randint(20,255)
+
                 s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.addItem(s)
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+
+    def print_stats(self):
+        print('yoyo')
+        command = "Select %s from world_info where %s = '%s'"
+        cat = 'SP.DYN.LE00.MA.IN'.replace('.','_')
+        print(cat)
+        print(command)
+        self.curr.execute(command %(cat,"country",str(self.ui.CountryBox.currentText())))
+        rows = self.curr.fetchall()
+        #print(rows)
+        avIncr = []
+        for i in np.arange(len(rows)):
+            #print(1960+i,': ',rows[i][0])
+            try:
+                print(1960+i,': ',round((rows[i][0]/rows[i-1][0]-1)*100,2))
+            except:
+                pass
