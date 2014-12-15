@@ -1236,7 +1236,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "Verkefni 3", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Quickplot - Verkefni 3", None))
         self.Plot.setText(_translate("MainWindow", "Plot", None))
         self.ScatterPlot.setText(_translate("MainWindow", "Scatter Plot", None))
         self.ClearPlot.setText(_translate("MainWindow", "Clear Plot", None))
