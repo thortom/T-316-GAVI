@@ -63,7 +63,8 @@ class Main(QtGui.QMainWindow):
         columns = []
         self.curr.execute("Select * from world_info LIMIT 0")
         for idx, col in enumerate(self.curr.description):
-            # print(col[0])
+            print('col', col)
+            print('col[0]', col[0])
             if col[0] != 'country' and col[0] != 'year':
                 self.curr.execute("Select count(%s) from world_info where country = '%s'" %(col[0],self.ui.CountryBox.currentText()))
                 rows = self.curr.fetchall()
