@@ -29,6 +29,7 @@ class Main(QtGui.QMainWindow):
         self.ui.ClearPlot.clicked.connect(self.ClearPlot_clicked)
         self.ui.ScatterPlot.clicked.connect(self.ScatterPlot_clicked)
         self.ui.Plot.clicked.connect(self.Plot_clicked)
+        self.ui.Trendline.clicked.connect(self.Trendline_clicked)
         self.ListCol = []
         # self.legend = pg.LegendItem((100,60), (60,10))
         # self.legend.setParentItem(self.Graph.graphicsItem())
@@ -276,3 +277,24 @@ class Main(QtGui.QMainWindow):
             yearBefore = row
         data = pd.DataFrame(data, columns=['DataValue', 'IncrEachYear%'], index=years)
         print(data)
+
+    def rank(self):
+        if self.lastChecked != None:
+            selectedCountry = str(self.ui.CountryBox.currentText())
+            col = self.lastChecked
+            code = self.getNameOfCol(col)
+            #command = "Select %s from world_info where %s = '%s'"
+            print('selectedCountry',selectedCountry)
+            print('lastChecked',col)
+            print('code', code)
+
+            ##Get 2014 life expects
+
+            valueOfSelected = 70
+
+            command = "SELECT DISTINCT country from world_info where country != '%s' and %s > %s and year = 2014" %(selectedCountry,code,valueOfSelected)
+            self.curr.execute(command)
+            rows = self.curr.fetchall()
+            for row in rows:
+                print(row[0])
+            #print('number of countries:',x)
