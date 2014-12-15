@@ -8,6 +8,7 @@ import pyqtgraph as pg
 from ui.window import Ui_MainWindow
 import pyqtgraph.examples
 import re
+import math
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -28,6 +29,7 @@ class Main(QtGui.QMainWindow):
         self.ui.ClearPlot.clicked.connect(self.ClearPlot_clicked)
         self.ui.ScatterPlot.clicked.connect(self.ScatterPlot_clicked)
         self.ui.Plot.clicked.connect(self.Plot_clicked)
+        self.ui.Trendline.clicked.connect(self.Trendline_clicked)
         self.ListCol = []
         # self.legend = pg.LegendItem((100,60), (60,10))
         # self.legend.setParentItem(self.Graph.graphicsItem())
@@ -140,7 +142,7 @@ class Main(QtGui.QMainWindow):
     def ClearPlot_clicked(self):
         self.Graph.clear()
         self.UnToggleAll()
-        self.Graph.clear()
+        self.ui.textBrowser_2.clear()
 
     def getNameOfCol(self, checkBoxText):
         s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
@@ -149,79 +151,112 @@ class Main(QtGui.QMainWindow):
         nameOfCol = nameOfCol.replace('.','_').lower()
         return nameOfCol
 
+    def PrintCheckBox(self, Col):
+        Data2 = []
+        Data3 = []
+
+        s2 = "SELECT description from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+        s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+
+        self.curr.execute(s2)
+        row2 = self.curr.fetchall()
+        for i in row2:
+            Data2.append(i[0])
+
+        self.curr.execute(s3)
+        row3 = self.curr.fetchall()
+        for i in row3:
+            Data3.append(i[0])
+
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append(Data3[0] + ': \n')
+        self.ui.textBrowser.append(Data2[0])
+
+    def Plot(self, Col, Country):
+        Data = []
+        Datayear = []
+        nameOfCol = self.getNameOfCol(Col)
+        s = "SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country)
+        self.curr.execute(s)
+        row = self.curr.fetchall()
+        for i in row:
+            Data.append(i[0])
+            Datayear.append(i[1])
+        count = 0
+        for i in Data:
+            if i == None:
+                Data[count] = np.nan
+            count += 1
+        c1 = r.randint(20,255)
+        c2 = r.randint(20,255)
+        c3 = r.randint(20,255)
+        return c1,c2,c3,Data,Datayear
+
     def Plot_clicked(self):
-        # print(self.ListCol)
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append('Choose some data')
         else:
             for Col in self.ListCol:
-                Data = []
-                Datayear = []
-                nameOfCol = self.getNameOfCol(Col)
-                s = "SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country)
-                self.curr.execute(s)
-                row = self.curr.fetchall()
-                for i in row:
-                    Data.append(i[0])
-                    Datayear.append(i[1])
-                # print(Data)
-                # print(Datayear)
-                count = 0
-                for i in Data:
-                    if i == None:
-                        Data[count] = np.nan
-                    count += 1
-                # print(Data)
-                # print(self.list)
-                c1 = r.randint(20,255)
-                c2 = r.randint(20,255)
-                c3 = r.randint(20,255)
-
+                c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
                 s = self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
-                s2 = "SELECT distinct description from notes where country_code = '{}' and series_code = '{}';".format(Country, nameOfCol)
-                self.curr.execute(s2)
-                row2 = self.curr.fetchall()
-                self.ui.textBrowser.clear()
-                self.ui.textBrowser.append(row2[0])
-
+                self.Add_legend(c1,c2,c3,Country,Col)
+                self.PrintCheckBox(Col)
 
 
     def ScatterPlot_clicked(self):
-        # print(dir(self.Graph))
-        # print(self.ListCol)
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append('Choose some data')
         else:
             for Col in self.ListCol:
-                Data = []
-                Datayear = []
-                nameOfCol = self.getNameOfCol(Col)
-                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country))
-                row = self.curr.fetchall()
-                for i in row:
-                    Data.append(i[0])
-                    Datayear.append(i[1])
-                # print(Data)
-                # print(Datayear)
-                count = 0
-                for i in Data:
-                    if i == None:
-                        Data[count] = np.nan
-                    count += 1
-                # print(Data)
-                # print(self.list)
-                c1 = r.randint(20,255)
-                c2 = r.randint(20,255)
-                c3 = r.randint(20,255)
-
+                c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
                 s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.addItem(s)
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+                self.Add_legend(c1,c2,c3,Country,Col)
+                self.PrintCheckBox(Col)
+
+    def Trendline_clicked(self):
+        Country = str(self.ui.CountryBox.currentText())
+        if not self.ListCol:
+            self.ui.textBrowser.clear()
+            self.ui.textBrowser.append('Choose some data')
+        else:
+            for Col in self.ListCol:
+                c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
+                def Least_Squares(Datayear,Data):
+                    Yearsfixed = []
+                    Datafixed = []
+                    s=0
+                    for i in Data:
+                        if not math.isnan(i):
+                            Yearsfixed.append(Datayear[s])
+                            Datafixed.append(i)
+                            s+=1
+                        if math.isnan(i):
+                            s+=1
+                #print(Yearsfixed)
+                #print(Datafixed)
+                    A = np.vstack([Yearsfixed, np.ones(len(Yearsfixed))]).T
+                    w = np.linalg.lstsq(A,Datafixed)[0]
+                    year_np = np.array(Yearsfixed)
+                    line = w[0]*year_np + w[1]
+                    return Yearsfixed,line,w
+                Yearsfixed,line,w = Least_Squares(Datayear,Data)
+                s = self.Graph.plot(Yearsfixed,line, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
+                self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+                self.Add_legend(c1,c2,c3,Country,Col)
+                self.PrintCheckBox(Col)
+
+    def Add_legend(self, c1,c2,c3,Country, Col):
+        Legend = Country + "," + Col
+        Color = QtGui.QColor(c1,c2,c3)
+        self.ui.textBrowser_2.setTextColor(Color)
+        self.ui.textBrowser_2.append(Legend)
 
     def print_stats(self):
         print('yoyo')

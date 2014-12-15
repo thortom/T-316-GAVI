@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1114</width>
+    <width>1283</width>
     <height>694</height>
    </rect>
   </property>
@@ -480,8 +480,8 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
      <rect>
       <x>300</x>
       <y>60</y>
-      <width>621</width>
-      <height>381</height>
+      <width>691</width>
+      <height>431</height>
      </rect>
     </property>
    </widget>
@@ -489,9 +489,9 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>60</y>
+      <y>50</y>
       <width>251</width>
-      <height>381</height>
+      <height>471</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -520,6 +520,13 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="Trendline">
+       <property name="text">
+        <string>Add trendline</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="ClearPlot">
        <property name="text">
         <string>Clear Plot</string>
@@ -531,8 +538,8 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>450</y>
+      <x>340</x>
+      <y>520</y>
       <width>621</width>
       <height>111</height>
      </rect>
@@ -804,18 +811,28 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
      <string>stats</string>
     </property>
    </widget>
+   <widget class="QTextBrowser" name="textBrowser_2">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>60</y>
+      <width>201</width>
+      <height>381</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1114</width>
+     <width>1283</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
   <customwidget>
