@@ -226,12 +226,14 @@ class Main(QtGui.QMainWindow):
         self.ui.textBrowser_2.append(Legend)
 
     def print_stats(self):
-        print('yoyo')
-        command = "Select %s from world_info where %s = '%s'"
-        cat = 'SP.DYN.LE00.MA.IN'.replace('.','_')
-        print(cat)
+        print('yoyo', self.lastChecked)
+        nameOfCol = self.getNameOfCol(self.lastChecked)
+        print('nameOfCol', nameOfCol)
+        command = "Select %s from world_info where contry = '%s'" %(nameOfCol,str(self.ui.CountryBox.currentText()))
+        # cat = 'SP.DYN.LE00.MA.IN'.replace('.','_')
+        # print(cat)
         print(command)
-        self.curr.execute(command %(cat,"country",str(self.ui.CountryBox.currentText())))
+        self.curr.execute(command )
         rows = self.curr.fetchall()
         #print(rows)
         data = []
