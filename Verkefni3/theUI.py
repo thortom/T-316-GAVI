@@ -166,6 +166,12 @@ class Main(QtGui.QMainWindow):
 
                 s = self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+                s2 = "SELECT distinct description from notes where country_code = '{}' and series_code = '{}';".format(Country, nameOfCol)
+                self.curr.execute(s2)
+                row2 = self.curr.fetchall()
+                self.ui.textBrowser.clear()
+                self.ui.textBrowser.append(row2[0])
+
 
 
     def ScatterPlot_clicked(self):
