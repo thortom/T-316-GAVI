@@ -63,12 +63,9 @@ class Main(QtGui.QMainWindow):
         columns = []
         self.curr.execute("Select * from world_info LIMIT 0")
         for idx, col in enumerate(self.curr.description):
-            # print('col', col)
-            # print('col[0]', col[0])
             if col[0] != 'country' and col[0] != 'year':
                 self.curr.execute("Select count(%s) from world_info where country = '%s'" %(col[0],self.ui.CountryBox.currentText()))
                 rows = self.curr.fetchall()
-                # print('rows', rows)
                 # Use only data when 3 or more data points are available
                 if rows[0][0] >= 3:
                     columns.append(col[0])
@@ -138,7 +135,7 @@ class Main(QtGui.QMainWindow):
         self.Graph.clear()
 
     def getNameOfCol(self, checkBoxText):
-        s = "select series_code from lable where series_code_text='%s'" %checkBoxText
+        s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
         self.curr.execute(s)
         nameOfCol = self.curr.fetchone()[0]
         nameOfCol = nameOfCol.replace('.','_').lower()
