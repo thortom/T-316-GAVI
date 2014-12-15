@@ -41,6 +41,8 @@ class Main(QtGui.QMainWindow):
         
         self.ui.beer_btn.clicked.connect(self.print_stats)
 
+        self.lastChecked = None
+
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
         row = self.curr.fetchall()
@@ -115,12 +117,18 @@ class Main(QtGui.QMainWindow):
 
     def CheckBox_changed(self, item):
         i = 0
-        self.ListCol = []
+        
+        newListCol = []
         while self.model.item(i):
             state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(i).checkState()]
             if state == "CHECKED":
-                self.ListCol.append(self.model.item(i).text())
+                newListCol.append(self.model.item(i).text())
+                if self.model.item(i).text() not in self.ListCol:
+                    self.lastChecked = self.model.item(i).text()
             i += 1
+
+        self.ListCol = newListCol
+
 
     def UnToggleAll(self):
         i = 0
@@ -133,7 +141,7 @@ class Main(QtGui.QMainWindow):
     def ClearPlot_clicked(self):
         self.Graph.clear()
         self.UnToggleAll()
-        self.Graph.clear()
+        self.ui.textBrowser_2.clear()
 
     def getNameOfCol(self, checkBoxText):
         s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
@@ -142,73 +150,80 @@ class Main(QtGui.QMainWindow):
         nameOfCol = nameOfCol.replace('.','_').lower()
         return nameOfCol
 
+    def PrintCheckBox(self, Col):
+        Data2 = []
+        Data3 = []
+
+        s2 = "SELECT description from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+        s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+
+        self.curr.execute(s2)
+        row2 = self.curr.fetchall()
+        for i in row2:
+            Data2.append(i[0])
+
+        self.curr.execute(s3)
+        row3 = self.curr.fetchall()
+        for i in row3:
+            Data3.append(i[0])
+
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append(Data3[0] + ': \n')
+        self.ui.textBrowser.append(Data2[0])
+
+    def Plot(self, Col, Country):
+        Data = []
+        Datayear = []
+        nameOfCol = self.getNameOfCol(Col)
+        s = "SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country)
+        self.curr.execute(s)
+        row = self.curr.fetchall()
+        for i in row:
+            Data.append(i[0])
+            Datayear.append(i[1])
+        count = 0
+        for i in Data:
+            if i == None:
+                Data[count] = np.nan
+            count += 1
+        c1 = r.randint(20,255)
+        c2 = r.randint(20,255)
+        c3 = r.randint(20,255)
+        return c1,c2,c3,Data,Datayear
+
     def Plot_clicked(self):
-        # print(self.ListCol)
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append('Choose some data')
         else:
             for Col in self.ListCol:
-                Data = []
-                Datayear = []
-                nameOfCol = self.getNameOfCol(Col)
-                s = "SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country)
-                self.curr.execute(s)
-                row = self.curr.fetchall()
-                for i in row:
-                    Data.append(i[0])
-                    Datayear.append(i[1])
-                # print(Data)
-                # print(Datayear)
-                count = 0
-                for i in Data:
-                    if i == None:
-                        Data[count] = np.nan
-                    count += 1
-                # print(Data)
-                # print(self.list)
-                c1 = r.randint(20,255)
-                c2 = r.randint(20,255)
-                c3 = r.randint(20,255)
-
+                c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
                 s = self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+                self.Add_legend(c1,c2,c3,Country,Col)
+                self.PrintCheckBox(Col)
 
 
     def ScatterPlot_clicked(self):
-        # print(dir(self.Graph))
-        # print(self.ListCol)
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append('Choose some data')
         else:
             for Col in self.ListCol:
-                Data = []
-                Datayear = []
-                nameOfCol = self.getNameOfCol(Col)
-                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country))
-                row = self.curr.fetchall()
-                for i in row:
-                    Data.append(i[0])
-                    Datayear.append(i[1])
-                # print(Data)
-                # print(Datayear)
-                count = 0
-                for i in Data:
-                    if i == None:
-                        Data[count] = np.nan
-                    count += 1
-                # print(Data)
-                # print(self.list)
-                c1 = r.randint(20,255)
-                c2 = r.randint(20,255)
-                c3 = r.randint(20,255)
-
+                c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
                 s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.addItem(s)
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+                self.Add_legend(c1,c2,c3,Country,Col)
+                self.PrintCheckBox(Col)
+
+    def Add_legend(self, c1,c2,c3,Country, Col):
+        Legend = Country + "," + Col
+        Color = QtGui.QColor(c1,c2,c3)
+        self.ui.textBrowser_2.setTextColor(Color)
+        self.ui.textBrowser_2.append(Legend)
 
     def print_stats(self):
         print('yoyo')
