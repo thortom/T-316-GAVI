@@ -19,7 +19,6 @@ def loadUI(mydb):
 
 class Main(QtGui.QMainWindow):
     def __init__(self,mydb):
-        #pyqtgraph.examples.run()    
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -31,8 +30,6 @@ class Main(QtGui.QMainWindow):
         self.ui.Plot.clicked.connect(self.Plot_clicked)
         self.ui.Trendline.clicked.connect(self.Trendline_clicked)
         self.ListCol = []
-        # self.legend = pg.LegendItem((100,60), (60,10))
-        # self.legend.setParentItem(self.Graph.graphicsItem())
         self.list = self.ui.listView
         self.initializeDropdowns()
         self.initializeTopList()
@@ -123,7 +120,6 @@ class Main(QtGui.QMainWindow):
         self.Graph.setLabel('left', left)
         self.Graph.setLabel('bottom', bottom)
         self.Graph.setXRange(x1, x2)
-        #self.Graph.setYRange(0, 100)
 
     def CheckBox_changed(self, item):
         i = 0
@@ -205,8 +201,7 @@ class Main(QtGui.QMainWindow):
     def Plot_clicked(self):
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
-            self.ui.textBrowser.clear()
-            self.ui.textBrowser.append('Choose some data')
+            self.No_Data()
         else:
             for Col in self.ListCol:
                 c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
@@ -219,8 +214,7 @@ class Main(QtGui.QMainWindow):
     def ScatterPlot_clicked(self):
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
-            self.ui.textBrowser.clear()
-            self.ui.textBrowser.append('Choose some data')
+            self.No_Data()
         else:
             for Col in self.ListCol:
                 c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
@@ -233,8 +227,7 @@ class Main(QtGui.QMainWindow):
     def Trendline_clicked(self):
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
-            self.ui.textBrowser.clear()
-            self.ui.textBrowser.append('Choose some data')
+            self.No_Data()
         else:
             for Col in self.ListCol:
                 c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
@@ -257,7 +250,7 @@ class Main(QtGui.QMainWindow):
                     line = w[0]*year_np + w[1]
                     return Yearsfixed,line,w
                 Yearsfixed,line,w = Least_Squares(Datayear,Data)
-                s = self.Graph.plot(Yearsfixed,line, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
+                s = self.Graph.plot(Yearsfixed,line, pen = pg.mkPen(color = (c1,c2,c3), width = 1, style = QtCore.Qt.DashLine))
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
                 self.Add_legend(c1,c2,c3,Country,Col)
                 self.PrintCheckBox(Col)
@@ -288,6 +281,8 @@ class Main(QtGui.QMainWindow):
                 yearBefore = row
             data = pd.DataFrame(data, columns=['DataValue', 'IncrEachYear%'], index=years)
             print(data)
+        else:
+            self.No_Data()
 
     def rank(self):
         if self.lastChecked is not None:
@@ -350,4 +345,10 @@ class Main(QtGui.QMainWindow):
             print(string)
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append(string)
+        else:
+            self.No_Data()
+
+    def No_Data(self):
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append('Choose some data')
             
