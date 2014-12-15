@@ -44,6 +44,10 @@ class Main(QtGui.QMainWindow):
 
         self.lastChecked = None
 
+        self.gradingItems = []
+        self.getGradingItems()
+        self.getTopCountryList()
+
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
         row = self.curr.fetchall()
@@ -299,3 +303,11 @@ class Main(QtGui.QMainWindow):
             for row in rows:
                 print(row[0])
             #print('number of countries:',x)
+
+    def getTopCountryList(self):
+
+        pass
+
+    def getGradingItems(self):
+        self.gradingItems = ['', '', '', '', '', '', '', '', '', '']
+        
