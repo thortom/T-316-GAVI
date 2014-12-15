@@ -259,27 +259,28 @@ class Main(QtGui.QMainWindow):
         self.ui.textBrowser_2.append(Legend)
 
     def print_stats(self):
-        nameOfCol = self.getNameOfCol(self.lastChecked)
-        command = "Select %s from world_info where country = '%s'" %(nameOfCol,str(self.ui.CountryBox.currentText()))
-        self.curr.execute(command)
-        rows = self.curr.fetchall()
-        
-        data = []
-        years = []
-        yearBefore = None
-        for i, row in enumerate(rows):
-            row = row[0]
-            if yearBefore is None:
+        if self.lastChecked is not None:
+            nameOfCol = self.getNameOfCol(self.lastChecked)
+            command = "Select %s from world_info where country = '%s'" %(nameOfCol,str(self.ui.CountryBox.currentText()))
+            self.curr.execute(command)
+            rows = self.curr.fetchall()
+            
+            data = []
+            years = []
+            yearBefore = None
+            for i, row in enumerate(rows):
+                row = row[0]
+                if yearBefore is None:
+                    yearBefore = row
+                if row is not None:
+                    data.append([row, round((row/yearBefore-1)*100,2)])
+                    years.append(1960+i)
                 yearBefore = row
-            if row is not None:
-                data.append([row, round((row/yearBefore-1)*100,2)])
-                years.append(1960+i)
-            yearBefore = row
-        data = pd.DataFrame(data, columns=['DataValue', 'IncrEachYear%'], index=years)
-        print(data)
+            data = pd.DataFrame(data, columns=['DataValue', 'IncrEachYear%'], index=years)
+            print(data)
 
     def rank(self):
-        if self.lastChecked != None:
+        if self.lastChecked is not None:
             selectedCountry = str(self.ui.CountryBox.currentText())
             col = self.lastChecked
             code = self.getNameOfCol(col)
