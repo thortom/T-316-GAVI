@@ -219,6 +219,38 @@ class Main(QtGui.QMainWindow):
                 self.Add_legend(c1,c2,c3,Country,Col)
                 self.PrintCheckBox(Col)
 
+    def Trendline_clicked(self):
+        Country = str(self.ui.CountryBox.currentText())
+        if not self.ListCol:
+            self.ui.textBrowser.clear()
+            self.ui.textBrowser.append('Choose some data')
+        else:
+            for Col in self.ListCol:
+                c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
+                def Least_Squares(Datayear,Data):
+                    Yearsfixed = []
+                    Datafixed = []
+                    s=0
+                    for i in Data:
+                        if not math.isnan(i):
+                            Yearsfixed.append(Datayear[s])
+                            Datafixed.append(i)
+                            s+=1
+                        if math.isnan(i):
+                            s+=1
+                #print(Yearsfixed)
+                #print(Datafixed)
+                    A = np.vstack([Yearsfixed, np.ones(len(Yearsfixed))]).T
+                    w = np.linalg.lstsq(A,Datafixed)[0]
+                    year_np = np.array(Yearsfixed)
+                    line = w[0]*year_np + w[1]
+                    return Yearsfixed,line,w
+                Yearsfixed,line,w = Least_Squares(Datayear,Data)
+                s = self.Graph.plot(Yearsfixed,line, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
+                self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+                self.Add_legend(c1,c2,c3,Country,Col)
+                self.PrintCheckBox(Col)
+
     def Add_legend(self, c1,c2,c3,Country, Col):
         Legend = Country + "," + Col
         Color = QtGui.QColor(c1,c2,c3)
