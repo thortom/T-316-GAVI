@@ -149,6 +149,27 @@ class Main(QtGui.QMainWindow):
         nameOfCol = nameOfCol.replace('.','_').lower()
         return nameOfCol
 
+    def PrintCheckBox(self, Col):
+        Data2 = []
+        Data3 = []
+
+        s2 = "SELECT description from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+        s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+
+        self.curr.execute(s2)
+        row2 = self.curr.fetchall()
+        for i in row2:
+            Data2.append(i[0])
+
+        self.curr.execute(s3)
+        row3 = self.curr.fetchall()
+        for i in row3:
+            Data3.append(i[0])
+
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append(Data3[0] + ': \n')
+        self.ui.textBrowser.append(Data2[0])
+
     def Plot_clicked(self):
         # print(self.ListCol)
         Country = str(self.ui.CountryBox.currentText())
@@ -182,23 +203,7 @@ class Main(QtGui.QMainWindow):
                 s = self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
 
-
-                Data2 = []
-                Data3 = []
-                s2 = "SELECT description from lable where series_code_text = '{}';".format(Col.replace("'","''"))
-                s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
-                self.curr.execute(s2)
-                row2 = self.curr.fetchall()
-                for i in row2:
-                    Data2.append(i[0])
-                self.curr.execute(s3)
-                row3 = self.curr.fetchall()
-                for i in row3:
-                    Data3.append(i[0])
-                self.ui.textBrowser.clear()
-                self.ui.textBrowser.append(Data3[0] + ': \n')
-                self.ui.textBrowser.append(Data2[0])
-
+                self.PrintCheckBox(Col)
 
 
     def ScatterPlot_clicked(self):
@@ -235,21 +240,8 @@ class Main(QtGui.QMainWindow):
                 self.Graph.addItem(s)
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
 
-                Data2 = []
-                Data3 = []
-                s2 = "SELECT description from lable where series_code_text = '{}';".format(Col.replace("'","''"))
-                s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
-                self.curr.execute(s2)
-                row2 = self.curr.fetchall()
-                for i in row2:
-                    Data2.append(i[0])
-                self.curr.execute(s3)
-                row3 = self.curr.fetchall()
-                for i in row3:
-                    Data3.append(i[0])
-                self.ui.textBrowser.clear()
-                self.ui.textBrowser.append(Data3[0] + ': \n')
-                self.ui.textBrowser.append(Data2[0])
+                self.PrintCheckBox(Col)
+
 
     def print_stats(self):
         print('yoyo')
