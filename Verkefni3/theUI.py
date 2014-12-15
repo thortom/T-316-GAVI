@@ -179,7 +179,8 @@ class Main(QtGui.QMainWindow):
             for Col in self.ListCol:
                 Data = []
                 Datayear = []
-                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(Col, Country))
+                nameOfCol = self.getNameOfCol(Col)
+                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country))
                 row = self.curr.fetchall()
                 for i in row:
                     Data.append(i[0])
