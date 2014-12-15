@@ -9,6 +9,7 @@ from ui.window import Ui_MainWindow
 import pyqtgraph.examples
 import re
 import math
+from collections import Counter
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -46,18 +47,16 @@ class Main(QtGui.QMainWindow):
 
         self.lastChecked = None
 
-<<<<<<< HEAD
         self.gradingItems = []
         self.getGradingItems()
-        self.getTopCountryList()
-=======
+        # print(self.getTopCountryList(2011))
+
     def initializeTopList(self):
         self.curr.execute("Select distinct year from world_info order by year desc")
         rows = self.curr.fetchall()
         for row in rows:
             #print('year:',row[0])
             self.ui.toplist_cb.addItem(str(row[0]))
->>>>>>> d3f142513e9325f56e3e28939d370b9248d2c1b7
 
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
@@ -315,16 +314,7 @@ class Main(QtGui.QMainWindow):
             for row in rows:
                 print(row[0])
             #print('number of countries:',x)
-
-<<<<<<< HEAD
-    def getTopCountryList(self):
-
-        pass
-
-    def getGradingItems(self):
-        self.gradingItems = ['', '', '', '', '', '', '', '', '', '']
         
-=======
     def topList(self):
         print('awwyeah')
         if self.lastChecked != None:
@@ -364,5 +354,91 @@ class Main(QtGui.QMainWindow):
             print(string)
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append(string)
-            
->>>>>>> d3f142513e9325f56e3e28939d370b9248d2c1b7
+
+    def getRatingListForCountry(self, key, year):
+        # TODO: fix for years
+        # self.curr.execute('''Create view tempYearStat as (select country, sum("%s") as sumStat FROM world_info group by country)
+        #                     order by sumStat desc''' %key)
+        # self.curr.execute('''create view tempTopList as (select country, sumStat/(select max(sumStat) from tempYearStat) as grade
+        #                     from tempYearStat)''')
+        # self.curr.execute('''select * from tempTopList order by grade desc''')
+        self.curr.execute('''select * from
+                                (select country, "%s"/(SELECT max(ta."%s")
+                                                                            FROM world_info as ta
+                                                                            where ta.year=tb.year
+                                                                    ) as grade
+                                    from world_info as tb
+                                    where tb.year=%s
+                                    order by "%s" desc
+                                ) as temp
+                            order by grade desc''' %(key, key, year, key))
+        rows = self.curr.fetchall()
+        # print('rows', rows)
+        ratingList = {}
+        for row in rows:
+            # print('row', row)
+            country = row[0]
+            grade = row[1]
+            # TODO..
+            # print('country', country)
+            # print('grade', grade)
+            try:
+                ratingList[country] = float(grade)
+            except TypeError:
+                ratingList[country] = 0.0                           # TODO: maybe not use half rating
+
+        # TODO: delete
+        # sys.exit(app.exec_())
+        return ratingList
+
+    def getTopCountryList(self, year):
+        self.getGradingItems()
+
+        countryList = {}
+        for key, value in self.gradingItems.items():
+            # print('key, value', key, value)
+            # if countryListStart:
+            # TODO: value*list..
+            tempCountryList = self.getRatingListForCountry(key, year)
+            for key2, value2 in tempCountryList.items():
+                tempCountryList[key2] = tempCountryList.get(key2)*value2*0.1
+                countryList[key2] = countryList.get(key2, 0)+tempCountryList[key2]
+
+        # print('countryList', countryList)
+        countryList = Counter(countryList)
+        top = countryList.most_common(10)
+
+        # TODO: return top 10
+        return top
+
+
+    def getGradingItems(self):
+        '''
+        "CO2 emissions (metric tons per capita)";"EN.ATM.CO2E.PC"
+        "Electricity production from renewable sources (kWh)";"EG.ELC.RNEW.KH"
+        "GDP (current US$)";"NY.GDP.MKTP.CD"
+        "Health expenditure, total (% of GDP)";"SH.XPD.TOTL.ZS"
+        "Long-term unemployment (% of total unemployment)";"SL.UEM.LTRM.ZS"
+        "Mortality rate, infant (per 1,000 live births)";"SP.DYN.IMRT.IN"
+        "Public spending on education, total (% of GDP)";"SE.XPD.TOTL.GD.ZS"
+        "Strength of legal rights index (0=weak to 12=strong)";"IC.LGL.CRED.XQ"
+        "Tax revenue (% of GDP)";"GC.TAX.TOTL.GD.ZS"
+        "Unemployment, total (% of total labor force) (national estimate)";"SL.UEM.TOTL.NE.ZS"
+
+        "Electric power consumption (kWh per capita)";"EG.USE.ELEC.KH.PC"
+        "Motor vehicles (per 1,000 people)";"IS.VEH.NVEH.P3"
+        "Life expectancy at birth, total (years)";"SP.DYN.LE00.IN"
+        "Internet users (per 100 people)";"IT.NET.USER.P2"
+        '''
+
+        # self.gradingItems = {"EN.ATM.CO2E.PC".replace(".","_").lower(): -1, "EG.ELC.RNEW.KH".replace(".","_").lower(): 1, "NY.GDP.MKTP.CD".replace(".","_").lower(): 1, "SH.XPD.TOTL.ZS".replace(".","_").lower(): 1,
+        #                     "SL.UEM.LTRM.ZS".replace(".","_").lower(): -1, "SP.DYN.IMRT.IN".replace(".","_").lower(): -1, "SE.XPD.TOTL.GD.ZS".replace(".","_").lower(): 1, "IC.LGL.CRED.XQ".replace(".","_").lower(): 1,
+        #                     "GC.TAX.TOTL.GD.ZS".replace(".","_").lower(): 1, "SL.UEM.TOTL.NE.ZS".replace(".","_").lower(): -1}
+
+        self.gradingItems = {"EG.USE.ELEC.KH.PC".replace(".","_").lower(): 1, "IS.VEH.NVEH.P3".replace(".","_").lower(): 1, "SP.DYN.LE00.IN".replace(".","_").lower(): 1,"EN.ATM.CO2E.PC".replace(".","_").lower(): -1, "SH.XPD.TOTL.ZS".replace(".","_").lower(): 1,
+                            "SL.UEM.LTRM.ZS".replace(".","_").lower(): -1, "SP.DYN.IMRT.IN".replace(".","_").lower(): -1, "SE.XPD.TOTL.GD.ZS".replace(".","_").lower(): 1, "IC.LGL.CRED.XQ".replace(".","_").lower(): 1,
+                            "GC.TAX.TOTL.GD.ZS".replace(".","_").lower(): 1, "SL.UEM.TOTL.NE.ZS".replace(".","_").lower(): -1, "IT.NET.USER.P2".replace(".","_").lower(): 1}
+        # for key, value in self.gradingItems.items():
+
+
+
