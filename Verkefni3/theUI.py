@@ -296,9 +296,9 @@ class Main(QtGui.QMainWindow):
             code = self.getNameOfCol(col)
             year = self.ui.toplist_cb.currentText()
             #command = "Select %s from world_info where %s = '%s'"
-            print('selectedCountry',selectedCountry)
-            print('lastChecked',col)
-            print('code', code)
+            #print('selectedCountry',selectedCountry)
+            #print('lastChecked',col)
+            #print('code', code)
 
             ##Get 2014 life expects
 
@@ -317,18 +317,19 @@ class Main(QtGui.QMainWindow):
             col = self.lastChecked
             code = self.getNameOfCol(col)
             year = str(self.ui.toplist_cb.currentText())
+            order = str(self.ui.toplist_cb2.currentText())
 
-            print('selectedCountry',selectedCountry)
-            print('lastChecked',col)
-            print('code', code)
-            print('year', year)
+            #print('selectedCountry',selectedCountry)
+            #print('lastChecked',col)
+            #print('code', code)
+            #print('year', year)
             
             command ="""
             Create view tempTopList as (select rank() over (order by %s desc) as rank, country, %s
             from world_info
             where year = %s
             and %s is not null
-            order by %s desc);
+            order by %s %s);
 
             (select rank, country, %s
             from tempTopList
@@ -337,7 +338,7 @@ class Main(QtGui.QMainWindow):
             (select rank, country, %s
             from tempTopList
             where country = '%s')
-            order by %s desc""" %(code,code,year,code,code,code,code,selectedCountry,code)
+            order by %s %s""" %(code,code,year,code,code,order,code,code,selectedCountry,code,order)
 
             self.curr.execute(command)
             rows = self.curr.fetchall()
