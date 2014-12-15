@@ -40,6 +40,8 @@ class Main(QtGui.QMainWindow):
         
         self.ui.beer_btn.clicked.connect(self.print_stats)
 
+        self.lastChecked = None
+
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
         row = self.curr.fetchall()
@@ -63,11 +65,11 @@ class Main(QtGui.QMainWindow):
         columns = []
         self.curr.execute("Select * from world_info LIMIT 0")
         for idx, col in enumerate(self.curr.description):
-            # print(col[0])
             if col[0] != 'country' and col[0] != 'year':
                 self.curr.execute("Select count(%s) from world_info where country = '%s'" %(col[0],self.ui.CountryBox.currentText()))
                 rows = self.curr.fetchall()
-                if rows[0][0] != 0:
+                # Use only data when 3 or more data points are available
+                if rows[0][0] >= 3:
                     columns.append(col[0])
         return columns
 
@@ -114,12 +116,18 @@ class Main(QtGui.QMainWindow):
 
     def CheckBox_changed(self, item):
         i = 0
-        self.ListCol = []
+        
+        newListCol = []
         while self.model.item(i):
             state = ['UNCHECKED', 'TRISTATE',  'CHECKED'][self.model.item(i).checkState()]
             if state == "CHECKED":
-                self.ListCol.append(self.model.item(i).text())
+                newListCol.append(self.model.item(i).text())
+                if self.model.item(i).text() not in self.ListCol:
+                    self.lastChecked = self.model.item(i).text()
             i += 1
+
+        self.ListCol = newListCol
+
 
     def UnToggleAll(self):
         i = 0
@@ -135,7 +143,7 @@ class Main(QtGui.QMainWindow):
         self.Graph.clear()
 
     def getNameOfCol(self, checkBoxText):
-        s = "select series_code from lable where series_code_text='%s'" %checkBoxText
+        s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
         self.curr.execute(s)
         nameOfCol = self.curr.fetchone()[0]
         nameOfCol = nameOfCol.replace('.','_').lower()
@@ -175,6 +183,24 @@ class Main(QtGui.QMainWindow):
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
 
 
+                Data2 = []
+                Data3 = []
+                s2 = "SELECT description from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+                s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+                self.curr.execute(s2)
+                row2 = self.curr.fetchall()
+                for i in row2:
+                    Data2.append(i[0])
+                self.curr.execute(s3)
+                row3 = self.curr.fetchall()
+                for i in row3:
+                    Data3.append(i[0])
+                self.ui.textBrowser.clear()
+                self.ui.textBrowser.append(Data3[0] + ': \n')
+                self.ui.textBrowser.append(Data2[0])
+
+
+
     def ScatterPlot_clicked(self):
         # print(dir(self.Graph))
         # print(self.ListCol)
@@ -208,6 +234,22 @@ class Main(QtGui.QMainWindow):
                 s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.addItem(s)
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+
+                Data2 = []
+                Data3 = []
+                s2 = "SELECT description from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+                s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+                self.curr.execute(s2)
+                row2 = self.curr.fetchall()
+                for i in row2:
+                    Data2.append(i[0])
+                self.curr.execute(s3)
+                row3 = self.curr.fetchall()
+                for i in row3:
+                    Data3.append(i[0])
+                self.ui.textBrowser.clear()
+                self.ui.textBrowser.append(Data3[0] + ': \n')
+                self.ui.textBrowser.append(Data2[0])
 
     def print_stats(self):
         print('yoyo')
