@@ -8,6 +8,7 @@ import pyqtgraph as pg
 from ui.window import Ui_MainWindow
 import pyqtgraph.examples
 import re
+import math
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -218,10 +219,17 @@ class Main(QtGui.QMainWindow):
         self.curr.execute(command %(cat,"country",str(self.ui.CountryBox.currentText())))
         rows = self.curr.fetchall()
         #print(rows)
-        avIncr = []
-        for i in np.arange(len(rows)):
-            #print(1960+i,': ',rows[i][0])
-            try:
-                print(1960+i,': ',round((rows[i][0]/rows[i-1][0]-1)*100,2))
-            except:
-                pass
+        data = []
+        years = []
+        yearBefore = None
+        for i, row in enumerate(rows):
+            row = row[0]
+            if yearBefore is None:
+                yearBefore = row
+            if row is not None:
+                data.append([row, round((row/yearBefore-1)*100,2)])
+                years.append(1960+i)
+            yearBefore = row
+        print('data', data)
+        data = pd.DataFrame(data, columns=['DataValue', 'IncrEachYear%'], index=years)
+        print(data)
