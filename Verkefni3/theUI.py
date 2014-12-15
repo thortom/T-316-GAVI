@@ -82,7 +82,7 @@ class Main(QtGui.QMainWindow):
         self.model.itemChanged.connect(self.CheckBox_changed)
 
 
-    def setInfo(self,left='Value',bottom='Years',x1=1960,x2=2020):
+    def setInfo(self,left='Value',bottom='Years',x1=1930,x2=2020):
         self.Graph.setLabel('left', left)
         self.Graph.setLabel('bottom', bottom)
         self.Graph.setXRange(x1, x2)
