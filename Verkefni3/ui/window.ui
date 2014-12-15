@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>989</width>
-    <height>674</height>
+    <width>1114</width>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -478,9 +478,9 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
    <widget class="PlotWidget" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>300</x>
       <y>60</y>
-      <width>731</width>
+      <width>621</width>
       <height>381</height>
      </rect>
     </property>
@@ -490,7 +490,7 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
      <rect>
       <x>20</x>
       <y>60</y>
-      <width>160</width>
+      <width>251</width>
       <height>381</height>
      </rect>
     </property>
@@ -531,9 +531,9 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>300</x>
       <y>450</y>
-      <width>731</width>
+      <width>621</width>
       <height>111</height>
      </rect>
     </property>
@@ -794,14 +794,14 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
    <widget class="QPushButton" name="beer_btn">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>490</y>
+      <x>40</x>
+      <y>600</y>
       <width>158</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>beer_btn</string>
+     <string>stats</string>
     </property>
    </widget>
   </widget>
@@ -810,7 +810,7 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>989</width>
+     <width>1114</width>
      <height>21</height>
     </rect>
    </property>
