@@ -69,11 +69,28 @@ class Main(QtGui.QMainWindow):
                     columns.append(col[0])
         return columns
 
+    def getLabelForCheck(self, checkItem):
+        # TODO:
+        s = "select series_code_text from lable where series_code='%s'" %checkItem.replace('_','.').upper()
+        # print('s',s)
+        self.curr.execute(s)
+        text = self.curr.fetchone()
+        ret = 'none'
+        for item in text:
+            ret = item
+        return ret
+
+
     def setCheckBoxes(self):
         self.model = QtGui.QStandardItemModel(self.list)
         self.foods = self.findColumns()
+        # print('foods: ', self.foods)
         for food in self.foods:
-            self.item = QtGui.QStandardItem(food)
+            checkBox = self.getLabelForCheck(food)
+            # TODO:
+            # if checkBox == 'none':
+            #     continue
+            self.item = QtGui.QStandardItem(checkBox)
             self.item.setCheckable(True)
             self.model.appendRow(self.item)
         self.list.setModel(self.model)
@@ -87,19 +104,6 @@ class Main(QtGui.QMainWindow):
         self.Graph.setLabel('bottom', bottom)
         self.Graph.setXRange(x1, x2)
         #self.Graph.setYRange(0, 100)
-
-
-    def chb1_clicked(self):
-        print('clickkk')
-        print(self.ui.checkBox.checkState())
-
-    def chb2_clicked(self):
-        print('clickkk')
-        print(self.ui.checkBox_2.checkState())
-
-    def chb3_clicked(self):
-        print('clickkk')
-        print(self.ui.checkBox_3.checkState())
 
     def CheckBox_changed(self, item):
         i = 0
@@ -123,9 +127,15 @@ class Main(QtGui.QMainWindow):
         self.UnToggleAll()
         self.Graph.clear()
 
+    def getNameOfCol(self, checkBoxText):
+        s = "select series_code from lable where series_code_text='%s'" %checkBoxText
+        self.curr.execute(s)
+        nameOfCol = self.curr.fetchone()[0]
+        nameOfCol = nameOfCol.replace('.','_').lower()
+        return nameOfCol
 
     def Plot_clicked(self):
-        print(self.ListCol)
+        # print(self.ListCol)
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
             self.ui.textBrowser.clear()
@@ -134,20 +144,22 @@ class Main(QtGui.QMainWindow):
             for Col in self.ListCol:
                 Data = []
                 Datayear = []
-                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(Col, Country))
+                nameOfCol = self.getNameOfCol(Col)
+                s = "SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country)
+                self.curr.execute(s)
                 row = self.curr.fetchall()
                 for i in row:
                     Data.append(i[0])
                     Datayear.append(i[1])
-                print(Data)
-                print(Datayear)
+                # print(Data)
+                # print(Datayear)
                 count = 0
                 for i in Data:
                     if i == None:
                         Data[count] = np.nan
                     count += 1
-                print(Data)
-                print(self.list)
+                # print(Data)
+                # print(self.list)
                 c1 = r.randint(20,255)
                 c2 = r.randint(20,255)
                 c3 = r.randint(20,255)
@@ -157,8 +169,8 @@ class Main(QtGui.QMainWindow):
 
 
     def ScatterPlot_clicked(self):
-        print(dir(self.Graph))
-        print(self.ListCol)
+        # print(dir(self.Graph))
+        # print(self.ListCol)
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
             self.ui.textBrowser.clear()
@@ -167,20 +179,21 @@ class Main(QtGui.QMainWindow):
             for Col in self.ListCol:
                 Data = []
                 Datayear = []
-                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(Col, Country))
+                nameOfCol = self.getNameOfCol(Col)
+                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country))
                 row = self.curr.fetchall()
                 for i in row:
                     Data.append(i[0])
                     Datayear.append(i[1])
-                print(Data)
-                print(Datayear)
+                # print(Data)
+                # print(Datayear)
                 count = 0
                 for i in Data:
                     if i == None:
                         Data[count] = np.nan
                     count += 1
-                print(Data)
-                print(self.list)
+                # print(Data)
+                # print(self.list)
                 c1 = r.randint(20,255)
                 c2 = r.randint(20,255)
                 c3 = r.randint(20,255)
