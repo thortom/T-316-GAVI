@@ -258,16 +258,11 @@ class Main(QtGui.QMainWindow):
         self.ui.textBrowser_2.append(Legend)
 
     def print_stats(self):
-        print('yoyo', self.lastChecked)
         nameOfCol = self.getNameOfCol(self.lastChecked)
-        print('nameOfCol', nameOfCol)
-        command = "Select %s from world_info where contry = '%s'" %(nameOfCol,str(self.ui.CountryBox.currentText()))
-        # cat = 'SP.DYN.LE00.MA.IN'.replace('.','_')
-        # print(cat)
-        print(command)
-        self.curr.execute(command )
+        command = "Select %s from world_info where country = '%s'" %(nameOfCol,str(self.ui.CountryBox.currentText()))
+        self.curr.execute(command)
         rows = self.curr.fetchall()
-        #print(rows)
+        
         data = []
         years = []
         yearBefore = None
@@ -279,6 +274,5 @@ class Main(QtGui.QMainWindow):
                 data.append([row, round((row/yearBefore-1)*100,2)])
                 years.append(1960+i)
             yearBefore = row
-        print('data', data)
         data = pd.DataFrame(data, columns=['DataValue', 'IncrEachYear%'], index=years)
         print(data)
