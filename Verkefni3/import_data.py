@@ -33,6 +33,54 @@ class import_data():
 
     def createNoteTable(self, noteFile, wdiDataFile):
         tempFile = 'C:/test.csv'
+
+        lableTable = 'lable'
+        shutil.copyfile(wdiDataFile, tempFile)
+        wdiDataFile = tempFile
+
+        # Country Name  Country Code    Indicator Name  Indicator Code
+        self.mydb.cursor.execute("SET CLIENT_ENCODING TO 'LATIN1';")
+        self.mydb.cursor.execute("DROP TABLE IF EXISTS %s" %lableTable)
+        columns = '(country TEXT, country_code TEXT , series_code_text TEXT, series_code TEXT, '
+        for year in range(1960, 2015):
+            columns += '_' + str(year) + ' real, '
+        columns = columns[:-2] + ')'
+
+        self.mydb.cursor.execute("CREATE TABLE %s %s" %(lableTable, columns))
+        # # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
+        self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(lableTable, wdiDataFile))
+
+        for year in range(1960, 2015):
+            self.mydb.cursor.execute("ALTER TABLE %s DROP COLUMN %s" %(lableTable, '_'+str(year)))
+        self.mydb.cursor.execute("ALTER TABLE %s DROP COLUMN country" %lableTable)
+        self.mydb.cursor.execute("ALTER TABLE %s DROP COLUMN country_code" %lableTable)      
+
+        self.mydb.cursor.execute('''CREATE TABLE tmp (series_code_text TEXT, series_code TEXT);
+        INSERT INTO tmp SELECT DISTINCT lable.series_code_text, lable.series_code FROM lable;
+        DROP TABLE lable;
+        ALTER TABLE tmp RENAME TO lable;''')
+
+        self.mydb.cursor.execute("ALTER TABLE %s ADD COLUMN description TEXT" %lableTable)
+
+        noteTable = 'notes'
+        shutil.copyfile(noteFile, tempFile)
+        noteFile = tempFile
+
+        self.mydb.cursor.execute("DROP TABLE IF EXISTS %s" %noteTable)
+        columns = '(country_code TEXT, series_code TEXT ,description TEXT)'
+        self.mydb.cursor.execute("CREATE TABLE %s %s" %(noteTable, columns))
+        # # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
+        self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(noteTable, noteFile))
+
+
+        self.mydb.cursor.execute('''UPDATE lable SET description=notes.description from notes
+                                WHERE lable.series_code=notes.series_code;''')
+
+        os.remove(tempFile)
+
+
+    def createNoteTable2(self, noteFile, wdiDataFile):
+        tempFile = 'C:/test.csv'
         noteTable = 'notes'
         shutil.copyfile(noteFile, tempFile)
         noteFile = tempFile
@@ -64,10 +112,13 @@ class import_data():
 
         self.mydb.cursor.execute("ALTER TABLE %s ADD COLUMN series_code_text TEXT" %noteTable)
 
+        # TODO: fix this execute duplicates
         self.mydb.cursor.execute('''INSERT INTO %s (series_code_text, country_code, series_code, description)
             SELECT DISTINCT l.series_code_text, n.country_code, n.series_code, n.description
             FROM %s n, %s l
             WHERE n.series_code = l.series_code'''  %(noteTable, noteTable, lableTable))
+
+        self.mydb.cursor.execute("DELETE FROM notes WHERE series_code_text IS NULL")
 
         os.remove(tempFile)
 
