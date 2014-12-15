@@ -529,7 +529,7 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
      <item>
       <widget class="QPushButton" name="ClearPlot">
        <property name="text">
-        <string>Clear Plot</string>
+        <string>Clear</string>
        </property>
       </widget>
      </item>
@@ -801,8 +801,8 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
    <widget class="QPushButton" name="beer_btn">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>600</y>
+      <x>70</x>
+      <y>550</y>
       <width>158</width>
       <height>22</height>
      </rect>
@@ -821,28 +821,44 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="toplist_cb">
+   <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>630</y>
-      <width>69</width>
-      <height>22</height>
+      <x>70</x>
+      <y>610</y>
+      <width>160</width>
+      <height>80</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QPushButton" name="toplist_pb">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>630</y>
-      <width>158</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Top list</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QPushButton" name="toplist_pb">
+       <property name="text">
+        <string>Top list</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="toplist_cb"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="toplist_cb2">
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>desc</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>asc</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

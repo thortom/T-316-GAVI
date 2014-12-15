@@ -63,17 +63,19 @@
 \input{titlepage3}
 
 \section{Aðferð/Niðurstaða}
-Í þessu verkefni náðum við í mikið af gögnum frá  \href{http://www.worldbank.org/}{World Bank.} Til þess að finna út hvaða land í heimi væri best að búa í. Við settum .csv skrár frá World Bank og settum gögnin inn í gagnagrunn með python kóða. Út frá þeim gagnagrunni náum við í þau gögn sem við vildum vinna með. Við settum upp einning notendaviðmót þar sem notendaninn getur valið land og svo ákveðið efni og teiknað upp þau gögn á móti svo öðru landi.
+Í þessu verkefni skoðum við gagnasöfn frá \href{http://data.worldbank.org/data-catalog/world-development-indicators}{World Bank}. Eitt af markmiðum okkar var að skoða hvaða landa væri best að búa í miðað við gögn frá World Bank. Við fengum gagnasöfnin á .csv formi frá World Bank. Gögnin eru lesin inn í python með pandas sem við notum til að eiga við gögnin, næst eru gögnin vistuð í tímabundinni skrá og lesin inn í sql gagnagrunn með því að keyra copy skipun í gegnum psycopg2 sem er tengingin okkar frá python við postgresql gagnagrunninn. Út frá þeim gagnagrunni náum við í þau gögn sem við viljum vinna með. Við settum einning upp notendaviðmót þar sem notandaninn getur valið land og ákveðið efni eins og t.d. Fertility rate. Þessi gögn er hægt að teikna. Einnig er hægt að velja sömu gögn fyrir annað land eða önnur gögn fyrir sama land og teikna upp samhliða fyrri gögnum. Viðmótið og viðeigandi sql skipanir eru hannaðar með því markmiði að styðja einnig önnur gögn ef bætt er við seinna.
 
 
 \subsection{Besta land í heimi}
-
+blablabla Þór og Dóri blablablabla.
 
 \subsection{Top tíu listi}
+Þegar viðfangsefni er valið er hægt að fá top 10 lista yfir þau lönd sem eru annaðhvort verst eða best í þeim flokk. Staða landsins sem er valið kemur einnig inn á listan til samanburðar við top 10 listan. Listinn er útbúinn fyrir það ár sem er valið og einnig hvort notandinn vill fá efstu sætin eða neðstu sætin.
 
 
-
-\subsection{BÓNUS - Mynd af handahófi}
+\subsection{Uppsetning}
+Forritið er keyrt með run.py skipuninni. Fyrst er náð tengingu við gagnagrunninn. Næst athugar það hvort notandinn hafi nú þegar lesið gögnin inn í gagnagrunninn og flytur þau inn ef það á eftir. Þá virkjar hann import\_data.py en þar finnast helstu skipanir sem við notum til að lesa gögn inn í python og koma þeim yfir í gagnagrunninn. Þar finnst skipunin addData sem gerir það lítið mál að bæta við öðrum utanaðkomandi gagnasöfnum við gagnasafnið okkar.\\
+Ef gagnasafnið er til nú þegar eða eftir að það hefur verið lesið inn er notandaviðmótið theUI.py keyrt upp. Þar finnast helstu skipanir þar sem við náum í gögn úr gagnagrunninum. Viðmótið er hannað í Qt designer og keyrt með pyqt pakkanum.
 
 \newpage
 
