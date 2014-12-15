@@ -7,6 +7,7 @@ from PyQt4 import QtGui, QtCore
 import pyqtgraph as pg
 from ui.window import Ui_MainWindow
 import pyqtgraph.examples
+import re
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -37,6 +38,7 @@ class Main(QtGui.QMainWindow):
 
         self.ui.CountryBox.currentIndexChanged.connect(self.setCheckBoxes)
         
+        self.ui.beer_btn.clicked.connect(self.print_stats)
 
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
@@ -61,11 +63,11 @@ class Main(QtGui.QMainWindow):
         columns = []
         self.curr.execute("Select * from world_info LIMIT 0")
         for idx, col in enumerate(self.curr.description):
-            # print(col[0])
             if col[0] != 'country' and col[0] != 'year':
                 self.curr.execute("Select count(%s) from world_info where country = '%s'" %(col[0],self.ui.CountryBox.currentText()))
                 rows = self.curr.fetchall()
-                if rows[0][0] != 0:
+                # Use only data when 3 or more data points are available
+                if rows[0][0] >= 3:
                     columns.append(col[0])
         return columns
 
@@ -85,11 +87,16 @@ class Main(QtGui.QMainWindow):
         self.model = QtGui.QStandardItemModel(self.list)
         self.foods = self.findColumns()
         # print('foods: ', self.foods)
+        checkBoxText = []
         for food in self.foods:
             checkBox = self.getLabelForCheck(food)
-            # TODO:
+            # TODO: check if text was found
             # if checkBox == 'none':
             #     continue
+            checkBoxText.append(checkBox)
+        # Sort in alphabetical order
+        checkBoxText.sort()
+        for checkBox in checkBoxText:
             self.item = QtGui.QStandardItem(checkBox)
             self.item.setCheckable(True)
             self.model.appendRow(self.item)
@@ -99,7 +106,7 @@ class Main(QtGui.QMainWindow):
         self.model.itemChanged.connect(self.CheckBox_changed)
 
 
-    def setInfo(self,left='Value',bottom='Years',x1=1960,x2=2020):
+    def setInfo(self,left='Value',bottom='Years',x1=1930,x2=2020):
         self.Graph.setLabel('left', left)
         self.Graph.setLabel('bottom', bottom)
         self.Graph.setXRange(x1, x2)
@@ -128,7 +135,7 @@ class Main(QtGui.QMainWindow):
         self.Graph.clear()
 
     def getNameOfCol(self, checkBoxText):
-        s = "select series_code from lable where series_code_text='%s'" %checkBoxText
+        s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
         self.curr.execute(s)
         nameOfCol = self.curr.fetchone()[0]
         nameOfCol = nameOfCol.replace('.','_').lower()
@@ -185,7 +192,8 @@ class Main(QtGui.QMainWindow):
             for Col in self.ListCol:
                 Data = []
                 Datayear = []
-                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(Col, Country))
+                nameOfCol = self.getNameOfCol(Col)
+                self.curr.execute("SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country))
                 row = self.curr.fetchall()
                 for i in row:
                     Data.append(i[0])
@@ -202,6 +210,24 @@ class Main(QtGui.QMainWindow):
                 c1 = r.randint(20,255)
                 c2 = r.randint(20,255)
                 c3 = r.randint(20,255)
+
                 s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.addItem(s)
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+
+    def print_stats(self):
+        print('yoyo')
+        command = "Select %s from world_info where %s = '%s'"
+        cat = 'SP.DYN.LE00.MA.IN'.replace('.','_')
+        print(cat)
+        print(command)
+        self.curr.execute(command %(cat,"country",str(self.ui.CountryBox.currentText())))
+        rows = self.curr.fetchall()
+        #print(rows)
+        avIncr = []
+        for i in np.arange(len(rows)):
+            #print(1960+i,': ',rows[i][0])
+            try:
+                print(1960+i,': ',round((rows[i][0]/rows[i-1][0]-1)*100,2))
+            except:
+                pass
