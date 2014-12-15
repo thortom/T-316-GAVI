@@ -28,8 +28,18 @@ class import_data():
 
         self.createTable(self.worldBankDev)
         self.createNoteTable('data/WDI_CS_Notes.csv', 'data/WDI_Data.csv')
+        self.createWorldTable('C:/country.txt')
 
         # self.addData(self.usEconomicConstant)
+
+    def createWorldTable(self,fileName):
+        lableTable = 'Country'
+
+        self.mydb.cursor.execute("SET CLIENT_ENCODING TO 'LATIN1';")
+        self.mydb.cursor.execute("DROP TABLE IF EXISTS %s" %lableTable)
+        self.mydb.cursor.execute("CREATE TABLE %s (name varchar(50));" %(lableTable))
+        self.mydb.cursor.execute("COPY Country from 'C:/country.txt';")
+
 
     def createNoteTable(self, noteFile, wdiDataFile):
         tempFile = 'C:/test.csv'
