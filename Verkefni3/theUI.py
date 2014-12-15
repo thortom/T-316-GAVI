@@ -20,7 +20,6 @@ def loadUI(mydb):
 
 class Main(QtGui.QMainWindow):
     def __init__(self,mydb):
-        #pyqtgraph.examples.run()    
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -32,8 +31,6 @@ class Main(QtGui.QMainWindow):
         self.ui.Plot.clicked.connect(self.Plot_clicked)
         self.ui.Trendline.clicked.connect(self.Trendline_clicked)
         self.ListCol = []
-        # self.legend = pg.LegendItem((100,60), (60,10))
-        # self.legend.setParentItem(self.Graph.graphicsItem())
         self.list = self.ui.listView
         self.initializeDropdowns()
         self.initializeTopList()
@@ -44,12 +41,9 @@ class Main(QtGui.QMainWindow):
         
         self.ui.beer_btn.clicked.connect(self.print_stats)
         self.ui.toplist_pb.clicked.connect(self.topList)
+        self.ui.toplist_pb_2.clicked.connect(self.getTopCountryList)
 
         self.lastChecked = None
-
-        self.gradingItems = []
-        self.getGradingItems()
-        # print(self.getTopCountryList(2011))
 
     def initializeTopList(self):
         self.curr.execute("Select distinct year from world_info order by year desc")
@@ -128,7 +122,6 @@ class Main(QtGui.QMainWindow):
         self.Graph.setLabel('left', left)
         self.Graph.setLabel('bottom', bottom)
         self.Graph.setXRange(x1, x2)
-        #self.Graph.setYRange(0, 100)
 
     def CheckBox_changed(self, item):
         i = 0
@@ -157,6 +150,7 @@ class Main(QtGui.QMainWindow):
         self.Graph.clear()
         self.UnToggleAll()
         self.ui.textBrowser_2.clear()
+        self.ui.textBrowser.clear()
 
     def getNameOfCol(self, checkBoxText):
         s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
@@ -209,8 +203,7 @@ class Main(QtGui.QMainWindow):
     def Plot_clicked(self):
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
-            self.ui.textBrowser.clear()
-            self.ui.textBrowser.append('Choose some data')
+            self.No_Data()
         else:
             for Col in self.ListCol:
                 c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
@@ -223,8 +216,7 @@ class Main(QtGui.QMainWindow):
     def ScatterPlot_clicked(self):
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
-            self.ui.textBrowser.clear()
-            self.ui.textBrowser.append('Choose some data')
+            self.No_Data()
         else:
             for Col in self.ListCol:
                 c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
@@ -237,8 +229,7 @@ class Main(QtGui.QMainWindow):
     def Trendline_clicked(self):
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
-            self.ui.textBrowser.clear()
-            self.ui.textBrowser.append('Choose some data')
+            self.No_Data()
         else:
             for Col in self.ListCol:
                 c1,c2,c3,Data,Datayear = self.Plot(Col,Country)
@@ -261,7 +252,7 @@ class Main(QtGui.QMainWindow):
                     line = w[0]*year_np + w[1]
                     return Yearsfixed,line,w
                 Yearsfixed,line,w = Least_Squares(Datayear,Data)
-                s = self.Graph.plot(Yearsfixed,line, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
+                s = self.Graph.plot(Yearsfixed,line, pen = pg.mkPen(color = (c1,c2,c3), width = 1, style = QtCore.Qt.DashLine))
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
                 self.Add_legend(c1,c2,c3,Country,Col)
                 self.PrintCheckBox(Col)
@@ -292,6 +283,8 @@ class Main(QtGui.QMainWindow):
                 yearBefore = row
             data = pd.DataFrame(data, columns=['DataValue', 'IncrEachYear%'], index=years)
             print(data)
+        else:
+            self.No_Data()
 
     def rank(self):
         if self.lastChecked is not None:
@@ -300,9 +293,9 @@ class Main(QtGui.QMainWindow):
             code = self.getNameOfCol(col)
             year = self.ui.toplist_cb.currentText()
             #command = "Select %s from world_info where %s = '%s'"
-            print('selectedCountry',selectedCountry)
-            print('lastChecked',col)
-            print('code', code)
+            #print('selectedCountry',selectedCountry)
+            #print('lastChecked',col)
+            #print('code', code)
 
             ##Get 2014 life expects
 
@@ -316,24 +309,24 @@ class Main(QtGui.QMainWindow):
             #print('number of countries:',x)
         
     def topList(self):
-        print('awwyeah')
         if self.lastChecked != None:
             selectedCountry = str(self.ui.CountryBox.currentText())
             col = self.lastChecked
             code = self.getNameOfCol(col)
             year = str(self.ui.toplist_cb.currentText())
+            order = str(self.ui.toplist_cb2.currentText())
 
-            print('selectedCountry',selectedCountry)
-            print('lastChecked',col)
-            print('code', code)
-            print('year', year)
+            #print('selectedCountry',selectedCountry)
+            #print('lastChecked',col)
+            #print('code', code)
+            #print('year', year)
             
             command ="""
             Create view tempTopList as (select rank() over (order by %s desc) as rank, country, %s
             from world_info
             where year = %s
             and %s is not null
-            order by %s desc);
+            order by %s %s);
 
             (select rank, country, %s
             from tempTopList
@@ -342,7 +335,7 @@ class Main(QtGui.QMainWindow):
             (select rank, country, %s
             from tempTopList
             where country = '%s')
-            order by %s desc""" %(code,code,year,code,code,code,code,selectedCountry,code)
+            order by %s %s""" %(code,code,year,code,code,order,code,code,selectedCountry,code,order)
 
             self.curr.execute(command)
             rows = self.curr.fetchall()
@@ -354,6 +347,44 @@ class Main(QtGui.QMainWindow):
             print(string)
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append(string)
+        else:
+            self.No_Data()
+
+    def No_Data(self):
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append('Choose some data')
+
+    def getTopCountryList(self, year):
+        self.getGradingItems()
+        year = str(self.ui.toplist_cb.currentText())
+        print('year', year)
+
+        countryList = {}
+        for key, value in self.gradingItems.items():
+            # print('key, value', key, value)
+            # if countryListStart:
+            # TODO: value*list..
+            tempCountryList = self.getRatingListForCountry(key, year)
+            for key2, value2 in tempCountryList.items():
+                tempCountryList[key2] = tempCountryList.get(key2)*value2*0.1
+                countryList[key2] = countryList.get(key2, 0)+tempCountryList[key2]
+
+        # print('countryList', countryList)
+        countryList = Counter(countryList)
+        top = countryList.most_common(10)
+
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append('Country:\t\tRating:')
+        self.ui.textBrowser.append('-------------------------------------------------')
+        for country in top:
+            tab = 20 - len(country[0])
+            text = country[0] + '\t\t' + str(round(country[1], 4))
+
+            # print('country', country)
+            # print('len(country[0])',len(country[0]))
+            # print('tab', tab)
+            # print('text', text)
+            self.ui.textBrowser.append(text)
 
     def getRatingListForCountry(self, key, year):
         # TODO: fix for years
@@ -391,26 +422,6 @@ class Main(QtGui.QMainWindow):
         # sys.exit(app.exec_())
         return ratingList
 
-    def getTopCountryList(self, year):
-        self.getGradingItems()
-
-        countryList = {}
-        for key, value in self.gradingItems.items():
-            # print('key, value', key, value)
-            # if countryListStart:
-            # TODO: value*list..
-            tempCountryList = self.getRatingListForCountry(key, year)
-            for key2, value2 in tempCountryList.items():
-                tempCountryList[key2] = tempCountryList.get(key2)*value2*0.1
-                countryList[key2] = countryList.get(key2, 0)+tempCountryList[key2]
-
-        # print('countryList', countryList)
-        countryList = Counter(countryList)
-        top = countryList.most_common(10)
-
-        # TODO: return top 10
-        return top
-
 
     def getGradingItems(self):
         '''
@@ -440,5 +451,5 @@ class Main(QtGui.QMainWindow):
                             "GC.TAX.TOTL.GD.ZS".replace(".","_").lower(): 1, "SL.UEM.TOTL.NE.ZS".replace(".","_").lower(): -1, "IT.NET.USER.P2".replace(".","_").lower(): 1}
         # for key, value in self.gradingItems.items():
 
-
+    
 
