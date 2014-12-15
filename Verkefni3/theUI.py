@@ -21,20 +21,22 @@ class Main(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.Graph = self.ui.graphicsView.getPlotItem()
+        self.Graph = self.ui.graphicsView
         self.mydb = mydb
         self.curr = self.mydb.cursor
         self.ui.ClearPlot.clicked.connect(self.ClearPlot_clicked)
         self.ui.ScatterPlot.clicked.connect(self.ScatterPlot_clicked)
         self.ui.Plot.clicked.connect(self.Plot_clicked)
         self.ListCol = []
-
+        # self.legend = pg.LegendItem((100,60), (60,10))
+        # self.legend.setParentItem(self.Graph.graphicsItem())
         self.list = self.ui.listView
         self.initializeDropdowns()
         self.setCheckBoxes()
         self.setInfo()
 
         self.ui.CountryBox.currentIndexChanged.connect(self.setCheckBoxes)
+        
 
     def initializeDropdowns(self):
         self.curr.execute("SELECT Distinct country from world_info")
@@ -97,7 +99,7 @@ class Main(QtGui.QMainWindow):
         self.model.itemChanged.connect(self.CheckBox_changed)
 
 
-    def setInfo(self,left='Value',bottom='Years',x1=1930,x2=2020):
+    def setInfo(self,left='Value',bottom='Years',x1=1960,x2=2020):
         self.Graph.setLabel('left', left)
         self.Graph.setLabel('bottom', bottom)
         self.Graph.setXRange(x1, x2)
@@ -123,6 +125,7 @@ class Main(QtGui.QMainWindow):
     def ClearPlot_clicked(self):
         self.Graph.clear()
         self.UnToggleAll()
+        self.Graph.clear()
 
     def getNameOfCol(self, checkBoxText):
         s = "select series_code from lable where series_code_text='%s'" %checkBoxText
@@ -160,10 +163,10 @@ class Main(QtGui.QMainWindow):
                 c1 = r.randint(20,255)
                 c2 = r.randint(20,255)
                 c3 = r.randint(20,255)
-                s = self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3), legend = 'red')
-                l = pg.LegendItem((100,60), (60,10))  # args are (size, position)
-                l.setParentItem(self.Graph.graphicsItem())
+
+                s = self.Graph.plot(Datayear,Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
+
 
     def ScatterPlot_clicked(self):
         # print(dir(self.Graph))
@@ -193,9 +196,6 @@ class Main(QtGui.QMainWindow):
                 c1 = r.randint(20,255)
                 c2 = r.randint(20,255)
                 c3 = r.randint(20,255)
-                self.Graph.Addlegend()
-                s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3), name = 'Arnar')
-                l = pg.LegendItem((100,60), (60,10))  # args are (size, position)
-                l.setParentItem(self.Graph.graphicsItem())
-                self.Graph.addItem(s, 'Arnar')
+                s = pg.ScatterPlotItem(Datayear, Data, pen = pg.mkPen(color = (c1,c2,c3),width = 3))
+                self.Graph.addItem(s)
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
