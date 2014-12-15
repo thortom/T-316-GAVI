@@ -152,6 +152,7 @@ class Main(QtGui.QMainWindow):
         self.Graph.clear()
         self.UnToggleAll()
         self.ui.textBrowser_2.clear()
+        self.ui.textBrowser.clear()
 
     def getNameOfCol(self, checkBoxText):
         s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
@@ -311,7 +312,6 @@ class Main(QtGui.QMainWindow):
             #print('number of countries:',x)
 
     def topList(self):
-        print('awwyeah')
         if self.lastChecked != None:
             selectedCountry = str(self.ui.CountryBox.currentText())
             col = self.lastChecked
