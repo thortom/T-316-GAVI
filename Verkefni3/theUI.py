@@ -271,7 +271,7 @@ class Main(QtGui.QMainWindow):
     def print_stats(self):
         if self.lastChecked is not None:
             nameOfCol = self.getNameOfCol(self.lastChecked)
-            command = "Select %s from world_info where country = '%s'" %(nameOfCol,str(self.ui.CountryBox.currentText()))
+            command = "Select value from world_info where series='%s' and country = '%s'" %(nameOfCol,str(self.ui.CountryBox.currentText()))
             self.curr.execute(command)
             rows = self.curr.fetchall()
             
@@ -326,7 +326,7 @@ class Main(QtGui.QMainWindow):
             print('code', code)
             print('year', year)
             
-            command ="""select *
+            command ="""select country, value
                         from world_info
                         where series='%s' and year=%s
                         order by value %s limit 10
@@ -336,10 +336,10 @@ class Main(QtGui.QMainWindow):
             self.curr.execute(command)
             rows = self.curr.fetchall()
 
-            string ="Rank\t%s\tCountry\n"%(col)
+            string ="Rank\tCountry\t%s\n"%(col)
             for idx, row in enumerate(rows):
                 print('row', row)
-                string += str(idx+1)+'\t'+str(round(float(row[2]),1))+'\t\t\t'+str(row[1])+'\n'
+                string += str(idx+1)+'\t'+str(row[0])+'\t\t\t'+str(round(float(row[1]),1))+'\n'
             print(string)
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append(string)
