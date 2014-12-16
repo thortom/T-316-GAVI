@@ -105,13 +105,19 @@ class import_data():
         os.remove(fileName)
 
     # TODO: refactor this function
-    def addData(self,dataFrame):
-        print(dataFrame)
+    def addData(self, fileName):
+        dataFrame = self.getNewData(fileName)
+        tmpfile = 'C:/temp.csv'
+        dataFrame.to_csv(tmpfile)
+        self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(self.mainTable, tmpfile))
+        os.remove(tmpfile)
 
     def getNewData(self, fileName):
-        data = pd.read_csv(fileName, delimiter=',', encoding='UTF-8-SIG',index_col=[0,1])
+        dialect = self.sniffDialect(fileName)
+        data = pd.read_csv(fileName, dialect=dialect, encoding='ISO-8859-1', skiprows=6, thousands=',', header=0, index_col=[0, 1])
         data.dropna(axis=0, how='all', inplace=True)
-        stacked = data.stack()
+        data.columns = [re.sub('\D','',x) for x in data.columns]
+        data = data.stack()
         return data
 
     def getWorldBankDev(self, fileName):
