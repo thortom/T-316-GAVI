@@ -13,10 +13,6 @@ class import_data():
     def __init__(self, mydb):
         self.mydb = mydb
 
-        print("Looking for data")
-        self.findData()
-        print("Got the data")
-
     def findData(self):
         # This should collect panda DataFrames
         # self.usEconomicConstant = self.getUsEconomicConstant("data/us_economic_constant.csv")
@@ -109,9 +105,14 @@ class import_data():
         os.remove(fileName)
 
     # TODO: refactor this function
-    def addData(self, dataFrame, category=None):
-        # TODO:
-        pass
+    def addData(self,dataFrame):
+        print(dataFrame)
+
+    def getNewData(self, fileName):
+        data = pd.read_csv(fileName, delimiter=',', encoding='UTF-8-SIG',index_col=[0,1])
+        data.dropna(axis=0, how='all', inplace=True)
+        stacked = data.stack()
+        return data
 
     def getWorldBankDev(self, fileName):
         # dialect = self.sniffDialect(fileName)
