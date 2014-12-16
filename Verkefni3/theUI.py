@@ -434,7 +434,7 @@ class Main(QtGui.QMainWindow):
         '''
 
         self.gradingItems = {}
-        if len(self.ListCol) > 4:
+        if len(self.ListCol) > 0:
             for item in self.ListCol:
                 column = self.getNameOfCol(item)
                 self.gradingItems[column.replace(".","_").lower()] = 1                           # TODO: get true value from user +/-
