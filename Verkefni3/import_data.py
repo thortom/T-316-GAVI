@@ -91,99 +91,27 @@ class import_data():
 
         os.remove(tempFile)
 
-
-    def createNoteTable2(self, noteFile, wdiDataFile):
-        tempFile = 'C:/test.csv'
-        noteTable = 'notes'
-        shutil.copyfile(noteFile, tempFile)
-        noteFile = tempFile
-
-        self.mydb.cursor.execute("SET CLIENT_ENCODING TO 'LATIN1';")
-        self.mydb.cursor.execute("DROP TABLE IF EXISTS %s" %noteTable)
-        columns = '(country_code TEXT, series_code TEXT ,description TEXT)'
-        self.mydb.cursor.execute("CREATE TABLE %s %s" %(noteTable, columns))
-        # # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
-        self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(noteTable, noteFile))
-
-        lableTable = 'lable'
-        shutil.copyfile(wdiDataFile, tempFile)
-        wdiDataFile = tempFile
-
-        # Country Name  Country Code    Indicator Name  Indicator Code
-        self.mydb.cursor.execute("DROP TABLE IF EXISTS %s" %lableTable)
-        columns = '(country TEXT, country_code TEXT , series_code_text TEXT, series_code TEXT, '
-        for year in range(1960, 2015):
-            columns += '_' + str(year) + ' real, '
-        columns = columns[:-2] + ')'
-
-        self.mydb.cursor.execute("CREATE TABLE %s %s" %(lableTable, columns))
-        # # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
-        self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(lableTable, wdiDataFile))
-
-        for year in range(1960, 2015):
-            self.mydb.cursor.execute("ALTER TABLE %s DROP COLUMN %s" %(lableTable, '_'+str(year)))
-
-        self.mydb.cursor.execute("ALTER TABLE %s ADD COLUMN series_code_text TEXT" %noteTable)
-
-        # TODO: fix this execute duplicates
-        self.mydb.cursor.execute('''INSERT INTO %s (series_code_text, country_code, series_code, description)
-            SELECT DISTINCT l.series_code_text, n.country_code, n.series_code, n.description
-            FROM %s n, %s l
-            WHERE n.series_code = l.series_code'''  %(noteTable, noteTable, lableTable))
-
-        self.mydb.cursor.execute("DELETE FROM notes WHERE series_code_text IS NULL")
-
-        os.remove(tempFile)
-
     def createTable(self, dataFrame):
         fileName = 'C:/temp.csv'
         stacked = dataFrame.stack()
-        data = stacked.unstack(1)
+        data = stacked
+        print('data', data)
         data.to_csv(fileName)
 
         self.mydb.cursor.execute("DROP TABLE IF EXISTS %s" %self.mainTable)
-        columns = '(country TEXT, year INT, '
-        for column in data.columns:
-            columns += str(column).replace(".","_") + ' real, '
-        columns = columns[:-2] + ')'
+        columns = '(country TEXT, series TEXT, year INT, value real)'
         self.mydb.cursor.execute("CREATE TABLE %s %s" %(self.mainTable, columns))
         # # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
         self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(self.mainTable, fileName))
-        self.mydb.cursor.execute("CREATE INDEX country_idx ON %s (country);" %self.mainTable)
-        self.mydb.cursor.execute("CREATE INDEX year_idx ON %s (year);" %self.mainTable)
+        # TODO: index
+        self.mydb.cursor.execute("CREATE INDEX world_idx ON %s (country, series, year);" %self.mainTable)
 
         os.remove(fileName)
 
     # TODO: refactor this function
     def addData(self, dataFrame, category=None):
-        parentIndex = dataFrame.index[0]
-
-        sizeOfIndex = len(dataFrame.index)
-        for index in dataFrame.index:
-            # There is not always subIndex
-            if len(index) == 2:
-                parentIndex, subIndex = index[0], index[1]
-
-                fixedParentIndex = parentIndex.replace("'","''")
-                # print("Add this to table ->", dataFrame.T[parentIndex][subIndex])
-                columnName = re.sub('\W', '_', subIndex).lower()
-                for year, data in dataFrame.T[parentIndex][subIndex].T.iteritems():
-                    # print('Add this year data: ', year, data)
-                    if np.isnan(data):
-                        data = 'NULL'                            # Put SQL Null value
-                    s = '''UPDATE %s SET %s=%s WHERE country='%s' and year=%s;
-                                INSERT INTO %s (country, year, %s)
-                                   SELECT '%s', %s, %s
-                                   WHERE NOT EXISTS (SELECT 1 FROM %s WHERE country='%s' and year=%s);''' %(self.mainTable, columnName, data, fixedParentIndex, year, self.mainTable, columnName, fixedParentIndex, year, data, self.mainTable, fixedParentIndex, year)
-                    # print('s', s)
-                    try:
-                        self.mydb.cursor.execute(s)
-                    except psycopg2.ProgrammingError:
-                        self.mydb.cursor.execute("ALTER TABLE %s ADD column %s real" %(self.mainTable, columnName))
-                        self.mydb.cursor.execute(s)
-            else:
-                # TODO: use the category as added column
-                print('Error: in addData() this function is not correctly used or unfinished')
+        # TODO:
+        pass
 
     def getWorldBankDev(self, fileName):
         # dialect = self.sniffDialect(fileName)

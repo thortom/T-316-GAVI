@@ -867,6 +867,42 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>480</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enter path to new data</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Filepath">
+    <property name="geometry">
+     <rect>
+      <x>1130</x>
+      <y>500</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Add_data_btn">
+    <property name="geometry">
+     <rect>
+      <x>1150</x>
+      <y>530</y>
+      <width>158</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add data</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
@@ -878,6 +914,12 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuQuickplot_V1_0">
+    <property name="title">
+     <string>Quickplot V1.0</string>
+    </property>
+   </widget>
+   <addaction name="menuQuickplot_V1_0"/>
   </widget>
  </widget>
  <customwidgets>
