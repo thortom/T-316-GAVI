@@ -137,7 +137,6 @@ class Main(QtGui.QMainWindow):
 
         self.ListCol = newListCol
 
-
     def UnToggleAll(self):
         i = 0
         while self.model.item(i):
@@ -357,69 +356,61 @@ class Main(QtGui.QMainWindow):
     def getTopCountryList(self, year):
         self.getGradingItems()
         year = str(self.ui.toplist_cb.currentText())
-        print('year', year)
 
         countryList = {}
         for key, value in self.gradingItems.items():
-            # print('key, value', key, value)
-            # if countryListStart:
-            # TODO: value*list..
             tempCountryList = self.getRatingListForCountry(key, year)
+            if tempCountryList is None:
+                # Skip this catagory if data is missing
+                continue
             for key2, value2 in tempCountryList.items():
                 tempCountryList[key2] = tempCountryList.get(key2)*value2*0.1
                 countryList[key2] = countryList.get(key2, 0)+tempCountryList[key2]
 
-        # print('countryList', countryList)
-        countryList = Counter(countryList)
-        top = countryList.most_common(10)
+        listToCount = Counter(countryList)
+        top = listToCount.most_common(10)
 
         self.ui.textBrowser.clear()
+        self.ui.textBrowser.append('---------------------'+year+'----------------------')
         self.ui.textBrowser.append('Country:\t\tRating:')
         self.ui.textBrowser.append('-------------------------------------------------')
         for country in top:
             tab = 20 - len(country[0])
             text = country[0] + '\t\t' + str(round(country[1], 4))
-
-            # print('country', country)
-            # print('len(country[0])',len(country[0]))
-            # print('tab', tab)
-            # print('text', text)
             self.ui.textBrowser.append(text)
 
+        self.ui.textBrowser.append('\n\nThis list was rated by:')
+        for key, value in self.gradingItems.items():
+            keyText = self.getLabelForCheck(key)
+            self.ui.textBrowser.append(keyText)
+
+
     def getRatingListForCountry(self, key, year):
-        # TODO: fix for years
-        # self.curr.execute('''Create view tempYearStat as (select country, sum("%s") as sumStat FROM world_info group by country)
-        #                     order by sumStat desc''' %key)
-        # self.curr.execute('''create view tempTopList as (select country, sumStat/(select max(sumStat) from tempYearStat) as grade
-        #                     from tempYearStat)''')
-        # self.curr.execute('''select * from tempTopList order by grade desc''')
-        self.curr.execute('''select * from
-                                (select country, "%s"/(SELECT max(ta."%s")
-                                                                            FROM world_info as ta
-                                                                            where ta.year=tb.year
-                                                                    ) as grade
-                                    from world_info as tb
-                                    where tb.year=%s
-                                    order by "%s" desc
-                                ) as temp
-                            order by grade desc''' %(key, key, year, key))
+        try:
+            self.curr.execute('''select * from
+                                    (select country, "%s"/(SELECT max(ta."%s")
+                                                                                FROM world_info as ta
+                                                                                where ta.year=tb.year
+                                                                        ) as grade
+                                        from world_info as tb
+                                        where tb.year=%s
+                                        order by "%s" desc
+                                    ) as temp
+                                order by grade desc''' %(key, key, year, key))
+        except:
+            print('Missing data for: ', self.getLabelForCheck(key))
+            # self.ui.textBrowser.append('Missing data for data: ' + self.getLabelForCheck(key))
+            return None
         rows = self.curr.fetchall()
-        # print('rows', rows)
         ratingList = {}
         for row in rows:
-            # print('row', row)
             country = row[0]
             grade = row[1]
-            # TODO..
-            # print('country', country)
-            # print('grade', grade)
             try:
                 ratingList[country] = float(grade)
             except TypeError:
                 ratingList[country] = 0.0                           # TODO: maybe not use half rating
 
-        # TODO: delete
-        # sys.exit(app.exec_())
         return ratingList
 
 
@@ -442,14 +433,15 @@ class Main(QtGui.QMainWindow):
         "Internet users (per 100 people)";"IT.NET.USER.P2"
         '''
 
-        # self.gradingItems = {"EN.ATM.CO2E.PC".replace(".","_").lower(): -1, "EG.ELC.RNEW.KH".replace(".","_").lower(): 1, "NY.GDP.MKTP.CD".replace(".","_").lower(): 1, "SH.XPD.TOTL.ZS".replace(".","_").lower(): 1,
-        #                     "SL.UEM.LTRM.ZS".replace(".","_").lower(): -1, "SP.DYN.IMRT.IN".replace(".","_").lower(): -1, "SE.XPD.TOTL.GD.ZS".replace(".","_").lower(): 1, "IC.LGL.CRED.XQ".replace(".","_").lower(): 1,
-        #                     "GC.TAX.TOTL.GD.ZS".replace(".","_").lower(): 1, "SL.UEM.TOTL.NE.ZS".replace(".","_").lower(): -1}
-
-        self.gradingItems = {"EG.USE.ELEC.KH.PC".replace(".","_").lower(): 1, "IS.VEH.NVEH.P3".replace(".","_").lower(): 1, "SP.DYN.LE00.IN".replace(".","_").lower(): 1,"EN.ATM.CO2E.PC".replace(".","_").lower(): -1, "SH.XPD.TOTL.ZS".replace(".","_").lower(): 1,
-                            "SL.UEM.LTRM.ZS".replace(".","_").lower(): -1, "SP.DYN.IMRT.IN".replace(".","_").lower(): -1, "SE.XPD.TOTL.GD.ZS".replace(".","_").lower(): 1, "IC.LGL.CRED.XQ".replace(".","_").lower(): 1,
-                            "GC.TAX.TOTL.GD.ZS".replace(".","_").lower(): 1, "SL.UEM.TOTL.NE.ZS".replace(".","_").lower(): -1, "IT.NET.USER.P2".replace(".","_").lower(): 1}
+        self.gradingItems = {}
+        if len(self.ListCol) > 4:
+            for item in self.ListCol:
+                column = self.getNameOfCol(item)
+                self.gradingItems[column.replace(".","_").lower()] = 1                           # TODO: get true value from user +/-
+        else:
+            self.gradingItems = {"EG.USE.ELEC.KH.PC".replace(".","_").lower(): 1, "IS.VEH.NVEH.P3".replace(".","_").lower(): 1, "SP.DYN.LE00.IN".replace(".","_").lower(): 1,"EN.ATM.CO2E.PC".replace(".","_").lower(): -1, "SH.XPD.TOTL.ZS".replace(".","_").lower(): 1,
+                                "SL.UEM.LTRM.ZS".replace(".","_").lower(): -1, "SP.DYN.IMRT.IN".replace(".","_").lower(): -1, "SE.XPD.TOTL.GD.ZS".replace(".","_").lower(): 1, "IC.LGL.CRED.XQ".replace(".","_").lower(): 1,
+                                "GC.TAX.TOTL.GD.ZS".replace(".","_").lower(): 1, "SL.UEM.TOTL.NE.ZS".replace(".","_").lower(): -1, "IT.NET.USER.P2".replace(".","_").lower(): 1}
         # for key, value in self.gradingItems.items():
 
-    
-
+        
