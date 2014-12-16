@@ -26,8 +26,8 @@ class import_data():
 
         self.worldBankDev = self.getWorldBankDev("data/WDI_Data.csv")
 
-        # self.createTable(self.worldBankDev)
-        # self.createNoteTable('data/WDI_CS_Notes.csv', 'data/WDI_Data.csv')
+        self.createTable(self.worldBankDev)
+        self.createNoteTable('data/WDI_CS_Notes.csv', 'data/WDI_Data.csv')
         self.createWorldTable('data/country.txt')
 
         # self.addData(self.usEconomicConstant)
