@@ -416,7 +416,7 @@ class Main(QtGui.QMainWindow):
 
     def getGradingItems(self):
         '''
-        "CO2 emissions (metric tons per capita)";"EN.ATM.CO2E.PC"
+        # "CO2 emissions (metric tons per capita)";"EN.ATM.CO2E.PC"
         "Electricity production from renewable sources (kWh)";"EG.ELC.RNEW.KH"
         "GDP (current US$)";"NY.GDP.MKTP.CD"
         "Health expenditure, total (% of GDP)";"SH.XPD.TOTL.ZS"
@@ -428,7 +428,7 @@ class Main(QtGui.QMainWindow):
         "Unemployment, total (% of total labor force) (national estimate)";"SL.UEM.TOTL.NE.ZS"
 
         "Electric power consumption (kWh per capita)";"EG.USE.ELEC.KH.PC"
-        "Motor vehicles (per 1,000 people)";"IS.VEH.NVEH.P3"
+        # "Motor vehicles (per 1,000 people)";"IS.VEH.NVEH.P3"
         "Life expectancy at birth, total (years)";"SP.DYN.LE00.IN"
         "Internet users (per 100 people)";"IT.NET.USER.P2"
         '''
@@ -439,7 +439,7 @@ class Main(QtGui.QMainWindow):
                 column = self.getNameOfCol(item)
                 self.gradingItems[column.replace(".","_").lower()] = 1                           # TODO: get true value from user +/-
         else:
-            self.gradingItems = {"EG.USE.ELEC.KH.PC".replace(".","_").lower(): 1, "IS.VEH.NVEH.P3".replace(".","_").lower(): 1, "SP.DYN.LE00.IN".replace(".","_").lower(): 1,"EN.ATM.CO2E.PC".replace(".","_").lower(): -1, "SH.XPD.TOTL.ZS".replace(".","_").lower(): 1,
+            self.gradingItems = {"EG.USE.ELEC.KH.PC".replace(".","_").lower(): 1, "SP.DYN.LE00.IN".replace(".","_").lower(): 1, "SH.XPD.TOTL.ZS".replace(".","_").lower(): 1,
                                 "SL.UEM.LTRM.ZS".replace(".","_").lower(): -1, "SP.DYN.IMRT.IN".replace(".","_").lower(): -1, "SE.XPD.TOTL.GD.ZS".replace(".","_").lower(): 1, "IC.LGL.CRED.XQ".replace(".","_").lower(): 1,
                                 "GC.TAX.TOTL.GD.ZS".replace(".","_").lower(): 1, "SL.UEM.TOTL.NE.ZS".replace(".","_").lower(): -1, "IT.NET.USER.P2".replace(".","_").lower(): 1}
 
