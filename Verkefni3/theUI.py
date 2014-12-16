@@ -321,34 +321,25 @@ class Main(QtGui.QMainWindow):
             year = str(self.ui.toplist_cb.currentText())
             order = str(self.ui.toplist_cb2.currentText())
 
-            #print('selectedCountry',selectedCountry)
-            #print('lastChecked',col)
-            #print('code', code)
-            #print('year', year)
+            print('selectedCountry',selectedCountry)
+            print('lastChecked',col)
+            print('code', code)
+            print('year', year)
             
-            command ="""
-            Create view tempTopList as (select rank() over (order by %s desc) as rank, country, %s
-            from world_info
-            where year = %s
-            and %s is not null
-            order by %s %s);
-
-            (select rank, country, %s
-            from tempTopList
-            limit 10)
-            union
-            (select rank, country, %s
-            from tempTopList
-            where country = '%s')
-            order by %s %s""" %(code,code,year,code,code,order,code,code,selectedCountry,code,order)
+            command ="""select *
+                        from world_info
+                        where series='%s' and year=%s
+                        order by value %s limit 10
+                        """ %(code, year, order)
+            print('command', command)
 
             self.curr.execute(command)
             rows = self.curr.fetchall()
-            self.curr.execute("drop view tempTopList")
 
             string ="Rank\t%s\tCountry\n"%(col)
-            for row in rows:
-                string += str(row[0])+'\t'+str(round(float(row[2]),1))+'\t\t\t'+str(row[1])+'\n'
+            for idx, row in enumerate(rows):
+                print('row', row)
+                string += str(idx+1)+'\t'+str(round(float(row[2]),1))+'\t\t\t'+str(row[1])+'\n'
             print(string)
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append(string)
@@ -393,16 +384,13 @@ class Main(QtGui.QMainWindow):
 
     def getRatingListForCountry(self, key, year):
         try:
-            self.curr.execute('''select * from
-                                    (select country, "%s"/(SELECT max(ta."%s")
-                                                                                FROM world_info as ta
-                                                                                where ta.year=tb.year
-                                                                        ) as grade
-                                        from world_info as tb
-                                        where tb.year=%s
-                                        order by "%s" desc
-                                    ) as temp
-                                order by grade desc''' %(key, key, year, key))
+            self.curr.execute('''select country, value/(
+                                                        select max(value)
+                                                        from world_info
+                                                        where series='%s' and year=%s) as grade
+                                from world_info
+                                where series='%s' and year=%s
+                                order by grade''' %(key, year, key, year))
         except:
             print('Missing data for: ', self.getLabelForCheck(key))
             # self.ui.textBrowser.append('Missing data for data: ' + self.getLabelForCheck(key))
@@ -410,6 +398,7 @@ class Main(QtGui.QMainWindow):
         rows = self.curr.fetchall()
         ratingList = {}
         for row in rows:
+            # print('row', row)
             country = row[0]
             grade = row[1]
             try:
