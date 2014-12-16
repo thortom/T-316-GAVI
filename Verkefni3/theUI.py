@@ -442,6 +442,5 @@ class Main(QtGui.QMainWindow):
             self.gradingItems = {"EG.USE.ELEC.KH.PC".replace(".","_").lower(): 1, "IS.VEH.NVEH.P3".replace(".","_").lower(): 1, "SP.DYN.LE00.IN".replace(".","_").lower(): 1,"EN.ATM.CO2E.PC".replace(".","_").lower(): -1, "SH.XPD.TOTL.ZS".replace(".","_").lower(): 1,
                                 "SL.UEM.LTRM.ZS".replace(".","_").lower(): -1, "SP.DYN.IMRT.IN".replace(".","_").lower(): -1, "SE.XPD.TOTL.GD.ZS".replace(".","_").lower(): 1, "IC.LGL.CRED.XQ".replace(".","_").lower(): 1,
                                 "GC.TAX.TOTL.GD.ZS".replace(".","_").lower(): 1, "SL.UEM.TOTL.NE.ZS".replace(".","_").lower(): -1, "IT.NET.USER.P2".replace(".","_").lower(): 1}
-        # for key, value in self.gradingItems.items():
 
         
