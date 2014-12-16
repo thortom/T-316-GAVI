@@ -30,6 +30,7 @@ class Main(QtGui.QMainWindow):
         self.ui.ScatterPlot.clicked.connect(self.ScatterPlot_clicked)
         self.ui.Plot.clicked.connect(self.Plot_clicked)
         self.ui.Trendline.clicked.connect(self.Trendline_clicked)
+        self.ui.Add_data_btn.clicked.connect(self.Add_data_btn_clicked)
         self.ListCol = []
         self.list = self.ui.listView
         self.initializeDropdowns()
@@ -255,6 +256,9 @@ class Main(QtGui.QMainWindow):
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
                 self.Add_legend(c1,c2,c3,Country,Col)
                 self.PrintCheckBox(Col)
+    def Add_data_btn_clicked(self):
+        path = self.ui.Filepath.text()
+        print(path)
 
     def Add_legend(self, c1,c2,c3,Country, Col):
         Legend = Country + "," + Col
