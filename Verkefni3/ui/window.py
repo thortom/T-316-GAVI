@@ -1,9 +1,8 @@
-
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'window.ui'
 #
-# Created: Tue Dec 16 12:00:07 2014
+# Created: Tue Dec 16 16:48:05 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -630,6 +629,15 @@ class Ui_MainWindow(object):
         self.toplist_cb2.addItem(_fromUtf8(""))
         self.toplist_cb2.addItem(_fromUtf8(""))
         self.verticalLayout_2.addWidget(self.toplist_cb2)
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(1170, 480, 121, 16))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(1130, 500, 201, 20))
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.beer_btn_2 = QtGui.QPushButton(self.centralwidget)
+        self.beer_btn_2.setGeometry(QtCore.QRect(1150, 530, 158, 22))
+        self.beer_btn_2.setObjectName(_fromUtf8("beer_btn_2"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -637,7 +645,10 @@ class Ui_MainWindow(object):
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1388, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
+        self.menuQuickplot_V1_0 = QtGui.QMenu(self.menubar)
+        self.menuQuickplot_V1_0.setObjectName(_fromUtf8("menuQuickplot_V1_0"))
         MainWindow.setMenuBar(self.menubar)
+        self.menubar.addAction(self.menuQuickplot_V1_0.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -653,6 +664,9 @@ class Ui_MainWindow(object):
         self.toplist_pb.setText(_translate("MainWindow", "Top list", None))
         self.toplist_cb2.setItemText(0, _translate("MainWindow", "desc", None))
         self.toplist_cb2.setItemText(1, _translate("MainWindow", "asc", None))
+        self.label.setText(_translate("MainWindow", "Enter path to new data", None))
+        self.beer_btn_2.setText(_translate("MainWindow", "Add data", None))
+        self.menuQuickplot_V1_0.setTitle(_translate("MainWindow", "Quickplot V1.0", None))
 
 from pyqtgraph import PlotWidget
 import filletmignon_rc
