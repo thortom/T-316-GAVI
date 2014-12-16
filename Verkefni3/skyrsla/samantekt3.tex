@@ -63,19 +63,30 @@
 \input{titlepage3}
 
 \section{Aðferð/Niðurstaða}
-Í þessu verkefni skoðum við gagnasöfn frá \href{http://data.worldbank.org/data-catalog/world-development-indicators}{World Bank}. Eitt af markmiðum okkar var að skoða hvaða landa væri best að búa í miðað við gögn frá World Bank. Við fengum gagnasöfnin á .csv formi frá World Bank. Gögnin eru lesin inn í python með pandas sem við notum til að eiga við gögnin, næst eru gögnin vistuð í tímabundinni skrá og lesin inn í sql gagnagrunn með því að keyra copy skipun í gegnum psycopg2 sem er tengingin okkar frá python við postgresql gagnagrunninn. Út frá þeim gagnagrunni náum við í þau gögn sem við viljum vinna með. Við settum einning upp notendaviðmót þar sem notandaninn getur valið land og ákveðið efni eins og t.d. Fertility rate. Þessi gögn er hægt að teikna. Einnig er hægt að velja sömu gögn fyrir annað land eða önnur gögn fyrir sama land og teikna upp samhliða fyrri gögnum. Viðmótið og viðeigandi sql skipanir eru hannaðar með því markmiði að styðja einnig önnur gögn ef bætt er við seinna.
+Í þessu verkefni skoðum við gagnasöfn frá \href{http://data.worldbank.org/data-catalog/world-development-indicators}{World Bank}. Eitt af markmiðum okkar var að skoða hvaða landa væri best að búa í miðað við gögn frá World Bank. Við fengum gagnasöfnin á .csv formi frá World Bank. Gögnin eru lesin inn í Python með 'pandas' sem við notum til að eiga við gögnin, næst eru gögnin vistuð í tímabundinni skrá og lesin inn í 'SQL' gagnagrunn með því að keyra 'COPY' skipun í gegnum 'psycopg2' pakka í Python sem er tengingin okkar frá Python við Postgresql gagnagrunninn. Út frá þeim gagnagrunni náum við í þau gögn sem við viljum vinna með. Við settum einning upp notendaviðmót þar sem notandaninn getur valið land og ákveðið efni eins og t.d. 'Fertility rate'. Þessi gögn er hægt að teikna. Einnig er hægt að velja sömu gögn fyrir annað land eða önnur gögn fyrir sama land og teikna upp samhliða fyrri gögnum. Viðmótið og viðeigandi SQL skipanir eru hannaðar með því markmiði að styðja einnig önnur gögn ef bætt er við seinna.
 
 
 \subsection{Besta land í heimi}
-blablabla Þór og Dóri blablablabla.
+Hér vildum við komast að því hvar væri best að búa miðað við þau gögn sem við höfðum í höndunum. Við völdum 10 atriði sem við notum til byggja okkar niðurstöður á:
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+Þegar við metum einkunn landa í hverju atriði, fær efsta landið 1 í einkunn og síðan fá löndin einkunn í hlutfalli við
 
 \subsection{Top tíu listi}
 Þegar viðfangsefni er valið er hægt að fá top 10 lista yfir þau lönd sem eru annaðhvort verst eða best í þeim flokk. Staða landsins sem er valið kemur einnig inn á listan til samanburðar við top 10 listan. Listinn er útbúinn fyrir það ár sem er valið og einnig hvort notandinn vill fá efstu sætin eða neðstu sætin.
 
 
 \subsection{Uppsetning}
-Forritið er keyrt með run.py skipuninni. Fyrst er náð tengingu við gagnagrunninn. Næst athugar það hvort notandinn hafi nú þegar lesið gögnin inn í gagnagrunninn og flytur þau inn ef það á eftir. Þá virkjar hann import\_data.py en þar finnast helstu skipanir sem við notum til að lesa gögn inn í python og koma þeim yfir í gagnagrunninn. Þar finnst skipunin addData sem gerir það lítið mál að bæta við öðrum utanaðkomandi gagnasöfnum við gagnasafnið okkar.\\
-Ef gagnasafnið er til nú þegar eða eftir að það hefur verið lesið inn er notandaviðmótið theUI.py keyrt upp. Þar finnast helstu skipanir þar sem við náum í gögn úr gagnagrunninum. Viðmótið er hannað í Qt designer og keyrt með pyqt pakkanum.
+Forritið er keyrt með 'run.py' skipuninni. Fyrst er náð tengingu við gagnagrunninn. Næst athugar það hvort notandinn hafi nú þegar lesið gögnin inn í gagnagrunninn og flytur þau inn ef það á eftir. Þá virkjar hann 'import\_data.py' en þar finnast helstu skipanir sem við notum til að lesa gögn inn í Python og koma þeim yfir í gagnagrunninn. Þar finnst skipunin 'addData' sem gerir það lítið mál að bæta við öðrum utanaðkomandi gagnasöfnum við gagnasafnið okkar.\\\par
+Ef gagnasafnið er til nú þegar eða eftir að það hefur verið lesið inn er notandaviðmótið 'theUI.py' keyrt upp. Þar finnast helstu skipanir þar sem við náum í gögn úr gagnagrunninum. Viðmótið er hannað í Qt designer og keyrt með 'pyqt' pakkanum.
 
 \newpage
 
