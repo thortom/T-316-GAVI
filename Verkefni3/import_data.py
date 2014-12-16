@@ -138,21 +138,23 @@ class import_data():
     def createTable(self, dataFrame):
         fileName = 'C:/temp.csv'
         stacked = dataFrame.stack()
+        # data = stacked
+        # print('data', data)
         data = stacked.unstack(1)
         data.to_csv(fileName)
 
         self.mydb.cursor.execute("DROP TABLE IF EXISTS %s" %self.mainTable)
-        columns = '(country TEXT, year INT, '
-        for column in data.columns:
-            columns += str(column).replace(".","_") + ' real, '
-        columns = columns[:-2] + ')'
+        columns = '(country TEXT, series TEXT, year INT, value real)'
+        # for column in data.columns:
+        #     columns += str(column).replace(".","_") + ' real, '
+        # columns = columns[:-2] + ')'
         self.mydb.cursor.execute("CREATE TABLE %s %s" %(self.mainTable, columns))
         # # file þarf helst að ver í C:\ möppunni vegna permission sem COPY þarf að hafa
         self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(self.mainTable, fileName))
-        self.mydb.cursor.execute("CREATE INDEX country_idx ON %s (country);" %self.mainTable)
-        self.mydb.cursor.execute("CREATE INDEX year_idx ON %s (year);" %self.mainTable)
+        # self.mydb.cursor.execute("CREATE INDEX country_idx ON %s (country);" %self.mainTable)
+        # self.mydb.cursor.execute("CREATE INDEX year_idx ON %s (year);" %self.mainTable)
 
-        os.remove(fileName)
+        # os.remove(fileName)
 
     # TODO: refactor this function
     def addData(self, dataFrame, category=None):
