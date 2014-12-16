@@ -10,6 +10,7 @@ import pyqtgraph.examples
 import re
 import math
 from collections import Counter
+import os.path
 
 def loadUI(mydb):
     app = QtGui.QApplication(sys.argv)  
@@ -248,8 +249,18 @@ class Main(QtGui.QMainWindow):
                 self.Add_legend(c1,c2,c3,Country,Col)
                 self.PrintCheckBox(Col)
     def Add_data_btn_clicked(self):
-        path = self.ui.Filepath.text()
-        print(path)
+        fileName = self.ui.Filepath.text()
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append('Locating new data')
+        if not os.path.exists(fileName):
+            self.ui.textBrowser.append('Invalid filepath')
+        elif os.path.exists(fileName):
+            self.ui.textBrowser.append('Data located')
+            data = pd.read_csv(fileName, delimiter=',', encoding='UTF-8-SIG',index_col=[0,1])
+            data.dropna(axis=0, how='all', inplace=True)
+            #print(data)
+
+
 
     def Add_legend(self, c1,c2,c3,Country, Col):
         Legend = Country + "," + Col
