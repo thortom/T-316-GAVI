@@ -52,7 +52,6 @@ class Main(QtGui.QMainWindow):
         self.curr.execute("Select distinct year from world_info order by year desc")
         rows = self.curr.fetchall()
         for row in rows:
-            #print('year:',row[0])
             self.ui.toplist_cb.addItem(str(row[0]))
 
     def initializeDropdowns(self):
@@ -87,20 +86,16 @@ class Main(QtGui.QMainWindow):
 
     def setCheckBoxes(self):
         self.model = QtGui.QStandardItemModel(self.list)
-        # self.foods = self.findColumns()
         s = '''select series, count(value)
                 from world_info
                 where country='%s'
                 group by series''' %self.ui.CountryBox.currentText()
-        # print('s',s)
         self.curr.execute(s)
         rows = self.curr.fetchall()
         checkBoxText = []
         for row in rows:
-            # print('row', row)
             series = row[0]
             value = row[1]
-            # print('series, value', series, value)
             if value >= 3:
                 checkBox = self.getLabelForCheck(series)
                 checkBoxText.append(checkBox)
@@ -205,7 +200,6 @@ class Main(QtGui.QMainWindow):
                 self.Add_legend(c1,c2,c3,Country,Col)
                 self.PrintCheckBox(Col)
 
-
     def ScatterPlot_clicked(self):
         Country = str(self.ui.CountryBox.currentText())
         if not self.ListCol:
@@ -237,8 +231,6 @@ class Main(QtGui.QMainWindow):
                             s+=1
                         if math.isnan(i):
                             s+=1
-                #print(Yearsfixed)
-                #print(Datafixed)
                     A = np.vstack([Yearsfixed, np.ones(len(Yearsfixed))]).T
                     w = np.linalg.lstsq(A,Datafixed)[0]
                     year_np = np.array(Yearsfixed)
@@ -249,6 +241,7 @@ class Main(QtGui.QMainWindow):
                 self.Graph.enableAutoRange(axis = None, enable = True, x = None, y = None)
                 self.Add_legend(c1,c2,c3,Country,Col)
                 self.PrintCheckBox(Col)
+
     def Add_data_btn_clicked(self):
         fileName = self.ui.Filepath.text()
         self.ui.textBrowser.clear()
@@ -258,8 +251,6 @@ class Main(QtGui.QMainWindow):
         elif os.path.exists(fileName):
             self.ui.textBrowser.append('Data located')
             self.importer.addData(fileName)
-
-
 
     def Add_legend(self, c1,c2,c3,Country, Col):
         Legend = Country + "," + Col
@@ -289,28 +280,6 @@ class Main(QtGui.QMainWindow):
             print(data)
         else:
             self.No_Data()
-
-    def rank(self):
-        if self.lastChecked is not None:
-            selectedCountry = str(self.ui.CountryBox.currentText())
-            col = self.lastChecked
-            code = self.getNameOfCol(col)
-            year = self.ui.toplist_cb.currentText()
-            #command = "Select %s from world_info where %s = '%s'"
-            #print('selectedCountry',selectedCountry)
-            #print('lastChecked',col)
-            #print('code', code)
-
-            ##Get 2014 life expects
-
-            valueOfSelected = 70
-
-            command = "SELECT DISTINCT country from world_info where country != '%s' and %s > %s and year = 2014" %(selectedCountry,code,valueOfSelected)
-            self.curr.execute(command)
-            rows = self.curr.fetchall()
-            for row in rows:
-                print(row[0])
-            #print('number of countries:',x)
         
     def topList(self):
         if self.lastChecked != None:
@@ -319,27 +288,24 @@ class Main(QtGui.QMainWindow):
             code = self.getNameOfCol(col)
             year = str(self.ui.toplist_cb.currentText())
             order = str(self.ui.toplist_cb2.currentText())
-
-            print('selectedCountry',selectedCountry)
-            print('lastChecked',col)
-            print('code', code)
-            print('year', year)
             
             command ="""select country, value
                         from world_info
                         where series='%s' and year=%s
-                        order by value %s limit 10
+                        order by value %s
                         """ %(code, year, order)
-            print('command', command)
 
             self.curr.execute(command)
             rows = self.curr.fetchall()
 
             string ="Rank\tCountry\t%s\n"%(col)
             for idx, row in enumerate(rows):
-                print('row', row)
-                string += str(idx+1)+'\t'+str(row[0])+'\t\t\t'+str(round(float(row[1]),1))+'\n'
-            print(string)
+                # print('row', row)
+                country = row[0]
+                value = round(float(row[1]),1)
+                if idx < 10 or country == selectedCountry:
+                    string += str(idx+1)+'\t'+str(country)+'\t\t\t'+str(value)+'\n'
+            # print(string)
             self.ui.textBrowser.clear()
             self.ui.textBrowser.append(string)
         else:
