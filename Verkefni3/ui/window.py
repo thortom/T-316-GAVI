@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'window.ui'
 #
-# Created: Tue Dec 16 16:48:05 2014
+# Created: Tue Dec 16 16:55:38 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -632,12 +632,12 @@ class Ui_MainWindow(object):
         self.label = QtGui.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(1170, 480, 121, 16))
         self.label.setObjectName(_fromUtf8("label"))
-        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(1130, 500, 201, 20))
-        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
-        self.beer_btn_2 = QtGui.QPushButton(self.centralwidget)
-        self.beer_btn_2.setGeometry(QtCore.QRect(1150, 530, 158, 22))
-        self.beer_btn_2.setObjectName(_fromUtf8("beer_btn_2"))
+        self.Filepath = QtGui.QLineEdit(self.centralwidget)
+        self.Filepath.setGeometry(QtCore.QRect(1130, 500, 201, 20))
+        self.Filepath.setObjectName(_fromUtf8("Filepath"))
+        self.Add_data_btn = QtGui.QPushButton(self.centralwidget)
+        self.Add_data_btn.setGeometry(QtCore.QRect(1150, 530, 158, 22))
+        self.Add_data_btn.setObjectName(_fromUtf8("Add_data_btn"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -665,7 +665,7 @@ class Ui_MainWindow(object):
         self.toplist_cb2.setItemText(0, _translate("MainWindow", "desc", None))
         self.toplist_cb2.setItemText(1, _translate("MainWindow", "asc", None))
         self.label.setText(_translate("MainWindow", "Enter path to new data", None))
-        self.beer_btn_2.setText(_translate("MainWindow", "Add data", None))
+        self.Add_data_btn.setText(_translate("MainWindow", "Add data", None))
         self.menuQuickplot_V1_0.setTitle(_translate("MainWindow", "Quickplot V1.0", None))
 
 from pyqtgraph import PlotWidget
