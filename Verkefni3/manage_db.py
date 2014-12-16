@@ -1,10 +1,5 @@
 import psycopg2
 import sys
-from import_data import import_data
-import pandas as pd
-import sqlalchemy as sqlc 
-from pandas.io import sql
-import random
 
 class manage_db():
     def __init__(self,host,database, user, password):
