@@ -12,16 +12,17 @@ import math
 from collections import Counter
 import os.path
 
-def loadUI(mydb):
+def loadUI(mydb, importer):
     app = QtGui.QApplication(sys.argv)  
-    window = Main(mydb)
+    window = Main(mydb,importer)
     window.show()
     sys.exit(app.exec_())
     return window
 
 class Main(QtGui.QMainWindow):
-    def __init__(self,mydb):
+    def __init__(self,mydb, importer):
         QtGui.QMainWindow.__init__(self)
+        self.importer = importer
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.Graph = self.ui.graphicsView
@@ -256,9 +257,8 @@ class Main(QtGui.QMainWindow):
             self.ui.textBrowser.append('Invalid filepath')
         elif os.path.exists(fileName):
             self.ui.textBrowser.append('Data located')
-            data = pd.read_csv(fileName, delimiter=',', encoding='UTF-8-SIG',index_col=[0,1])
-            data.dropna(axis=0, how='all', inplace=True)
-            #print(data)
+            data = self.importer.getNewData(fileName)
+            self.importer.addData(data)
 
 
 
