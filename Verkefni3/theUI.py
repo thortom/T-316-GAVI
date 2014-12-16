@@ -69,45 +69,37 @@ class Main(QtGui.QMainWindow):
         self.dropdowns = [self.ui.CountryBox]
 
         for dropdown in self.dropdowns:
-            for catagorie in catagories:
-                dropdown.addItem(catagorie)
-
-    def findColumns(self):
-        columns = []
-        self.curr.execute("Select * from world_info LIMIT 0")
-        for idx, col in enumerate(self.curr.description):
-            if col[0] != 'country' and col[0] != 'year':
-                self.curr.execute("Select count(%s) from world_info where country = '%s'" %(col[0],self.ui.CountryBox.currentText()))
-                rows = self.curr.fetchall()
-                # Use only data when 3 or more data points are available
-                if rows[0][0] >= 3:
-                    columns.append(col[0])
-        return columns
+            for catagory in catagories:
+                dropdown.addItem(catagory)
 
     def getLabelForCheck(self, checkItem):
-        # TODO:
-        s = "select series_code_text from lable where series_code='%s'" %checkItem.replace('_','.').upper()
-        # print('s',s)
+        s = "select series_code_text from lable where series_code='%s'" %checkItem
         self.curr.execute(s)
         text = self.curr.fetchone()
-        ret = 'none'
-        for item in text:
-            ret = item
-        return ret
+        text = text[0]
+        return text
 
 
     def setCheckBoxes(self):
         self.model = QtGui.QStandardItemModel(self.list)
-        self.foods = self.findColumns()
-        # print('foods: ', self.foods)
+        # self.foods = self.findColumns()
+        s = '''select series, count(value)
+                from world_info
+                where country='%s'
+                group by series''' %self.ui.CountryBox.currentText()
+        # print('s',s)
+        self.curr.execute(s)
+        rows = self.curr.fetchall()
         checkBoxText = []
-        for food in self.foods:
-            checkBox = self.getLabelForCheck(food)
-            # TODO: check if text was found
-            # if checkBox == 'none':
-            #     continue
-            checkBoxText.append(checkBox)
-        # Sort in alphabetical order
+        for row in rows:
+            # print('row', row)
+            series = row[0]
+            value = row[1]
+            # print('series, value', series, value)
+            if value >= 3:
+                checkBox = self.getLabelForCheck(series)
+                checkBoxText.append(checkBox)
+
         checkBoxText.sort()
         for checkBox in checkBoxText:
             self.item = QtGui.QStandardItem(checkBox)
@@ -156,7 +148,6 @@ class Main(QtGui.QMainWindow):
         s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
         self.curr.execute(s)
         nameOfCol = self.curr.fetchone()[0]
-        nameOfCol = nameOfCol.replace('.','_').lower()
         return nameOfCol
 
     def PrintCheckBox(self, Col):
@@ -184,7 +175,7 @@ class Main(QtGui.QMainWindow):
         Data = []
         Datayear = []
         nameOfCol = self.getNameOfCol(Col)
-        s = "SELECT {}, year from world_info where country = '{}' ORDER BY year".format(nameOfCol, Country)
+        s = "SELECT value, year from world_info where series = '{}' and country = '{}' ORDER BY year".format(nameOfCol, Country)
         self.curr.execute(s)
         row = self.curr.fetchall()
         for i in row:
@@ -420,9 +411,6 @@ class Main(QtGui.QMainWindow):
 
     def getGradingItems(self):
         '''
-        # "CO2 emissions (metric tons per capita)";"EN.ATM.CO2E.PC"
-        "Electricity production from renewable sources (kWh)";"EG.ELC.RNEW.KH"
-        "GDP (current US$)";"NY.GDP.MKTP.CD"
         "Health expenditure, total (% of GDP)";"SH.XPD.TOTL.ZS"
         "Long-term unemployment (% of total unemployment)";"SL.UEM.LTRM.ZS"
         "Mortality rate, infant (per 1,000 live births)";"SP.DYN.IMRT.IN"
@@ -430,9 +418,7 @@ class Main(QtGui.QMainWindow):
         "Strength of legal rights index (0=weak to 12=strong)";"IC.LGL.CRED.XQ"
         "Tax revenue (% of GDP)";"GC.TAX.TOTL.GD.ZS"
         "Unemployment, total (% of total labor force) (national estimate)";"SL.UEM.TOTL.NE.ZS"
-
         "Electric power consumption (kWh per capita)";"EG.USE.ELEC.KH.PC"
-        # "Motor vehicles (per 1,000 people)";"IS.VEH.NVEH.P3"
         "Life expectancy at birth, total (years)";"SP.DYN.LE00.IN"
         "Internet users (per 100 people)";"IT.NET.USER.P2"
         '''
@@ -441,10 +427,10 @@ class Main(QtGui.QMainWindow):
         if len(self.ListCol) > 0:
             for item in self.ListCol:
                 column = self.getNameOfCol(item)
-                self.gradingItems[column.replace(".","_").lower()] = 1                           # TODO: get true value from user +/-
+                self.gradingItems[column] = 1                           # TODO: get true value from user +/-
         else:
-            self.gradingItems = {"EG.USE.ELEC.KH.PC".replace(".","_").lower(): 1, "SP.DYN.LE00.IN".replace(".","_").lower(): 1, "SH.XPD.TOTL.ZS".replace(".","_").lower(): 1,
-                                "SL.UEM.LTRM.ZS".replace(".","_").lower(): -1, "SP.DYN.IMRT.IN".replace(".","_").lower(): -1, "SE.XPD.TOTL.GD.ZS".replace(".","_").lower(): 1, "IC.LGL.CRED.XQ".replace(".","_").lower(): 1,
-                                "GC.TAX.TOTL.GD.ZS".replace(".","_").lower(): 1, "SL.UEM.TOTL.NE.ZS".replace(".","_").lower(): -1, "IT.NET.USER.P2".replace(".","_").lower(): 1}
+            self.gradingItems = {"EG.USE.ELEC.KH.PC": 1, "SP.DYN.LE00.IN": 1, "SH.XPD.TOTL.ZS": 1,
+                                "SL.UEM.LTRM.ZS": -1, "SP.DYN.IMRT.IN": -1, "SE.XPD.TOTL.GD.ZS": 1, "IC.LGL.CRED.XQ": 1,
+                                "GC.TAX.TOTL.GD.ZS": 1, "SL.UEM.TOTL.NE.ZS": -1, "IT.NET.USER.P2": 1}
 
         
