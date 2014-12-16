@@ -74,7 +74,7 @@ class Main(QtGui.QMainWindow):
                 dropdown.addItem(catagory)
 
     def getLabelForCheck(self, checkItem):
-        s = "select series_code_text from lable where series_code='%s'" %checkItem
+        s = "select series_code_text from notes where series_code='%s'" %checkItem
         self.curr.execute(s)
         text = self.curr.fetchone()
         if text is None:
@@ -145,7 +145,7 @@ class Main(QtGui.QMainWindow):
         self.ui.textBrowser.clear()
 
     def getNameOfCol(self, checkBoxText):
-        s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
+        s = "select series_code from notes where series_code_text='%s'" %checkBoxText.replace("'","''")
         self.curr.execute(s)
         try:
             nameOfCol = self.curr.fetchone()[0]
@@ -157,8 +157,7 @@ class Main(QtGui.QMainWindow):
         Data2 = []
         Data3 = []
 
-        s2 = "SELECT description from lable where series_code_text = '{}';".format(Col.replace("'","''"))
-        #s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+        s2 = "SELECT description from notes where series_code_text = '{}';".format(Col.replace("'","''"))
 
         self.ui.textBrowser.clear()
         self.ui.textBrowser.append(Col + ': \n')
