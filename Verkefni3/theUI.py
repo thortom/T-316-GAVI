@@ -77,7 +77,10 @@ class Main(QtGui.QMainWindow):
         s = "select series_code_text from lable where series_code='%s'" %checkItem
         self.curr.execute(s)
         text = self.curr.fetchone()
-        text = text[0]
+        if text is None:
+            text = checkItem
+        elif text is not None:
+            text = text[0]
         return text
 
 
@@ -144,7 +147,10 @@ class Main(QtGui.QMainWindow):
     def getNameOfCol(self, checkBoxText):
         s = "select series_code from lable where series_code_text='%s'" %checkBoxText.replace("'","''")
         self.curr.execute(s)
-        nameOfCol = self.curr.fetchone()[0]
+        try:
+            nameOfCol = self.curr.fetchone()[0]
+        except:
+            nameOfCol = checkBoxText
         return nameOfCol
 
     def PrintCheckBox(self, Col):
@@ -152,21 +158,15 @@ class Main(QtGui.QMainWindow):
         Data3 = []
 
         s2 = "SELECT description from lable where series_code_text = '{}';".format(Col.replace("'","''"))
-        s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+        #s3 = "SELECT series_code_text from lable where series_code_text = '{}';".format(Col.replace("'","''"))
+
+        self.ui.textBrowser.clear()
+        self.ui.textBrowser.append(Col + ': \n')
 
         self.curr.execute(s2)
         row2 = self.curr.fetchall()
         for i in row2:
-            Data2.append(i[0])
-
-        self.curr.execute(s3)
-        row3 = self.curr.fetchall()
-        for i in row3:
-            Data3.append(i[0])
-
-        self.ui.textBrowser.clear()
-        self.ui.textBrowser.append(Data3[0] + ': \n')
-        self.ui.textBrowser.append(Data2[0])
+            self.ui.textBrowser.append(i[0])
 
     def Plot(self, Col, Country):
         Data = []
@@ -250,8 +250,7 @@ class Main(QtGui.QMainWindow):
             self.ui.textBrowser.append('Invalid filepath')
         elif os.path.exists(fileName):
             self.ui.textBrowser.append('Data located')
-            data = self.importer.getNewData(fileName)
-            self.importer.addData(data)
+            self.importer.addData(fileName)
 
     def Add_legend(self, c1,c2,c3,Country, Col):
         Legend = Country + "," + Col
