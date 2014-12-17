@@ -101,7 +101,7 @@ class import_data():
         # # file þarf að vera í C:\ möppunni vegna permission sem psycopg2 COPY þarf að hafa
         self.mydb.cursor.execute("COPY %s FROM '%s' WITH CSV HEADER Delimiter as ','" %(self.mainTable, fileName))
         self.mydb.cursor.execute("CREATE INDEX world_idx ON %s (country, series, year)" %self.mainTable)
-        self.mydb.cursor.execute("ALTER TABLE %s ADD PRIMARY KEY (country, series, year)" %self.mainTable)
+        #self.mydb.cursor.execute("ALTER TABLE %s ADD PRIMARY KEY (country, series, year)" %self.mainTable)
 
         os.remove(fileName)
 
